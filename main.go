@@ -1,12 +1,10 @@
 package main
 
 import (
-	"mypropertyqr-landsurvey/Events"
-)
-
-import (
+	"encoding/json"
 	"fmt"
 	"net/http"
+	"mypropertyqr-landsurvey/Events"
 )
 
 func main() {
@@ -15,7 +13,20 @@ func main() {
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 			return
 		}
-		fmt.Fprintln(w, "extractdata")
+	
+		var body map[string]interface{}
+		err := json.NewDecoder(r.Body).Decode(&body)
+		if err != nil {
+			http.Error(w, "Invalid JSON", http.StatusBadRequest)
+			return
+		}
+	
+		id, _ := body["id"].(string)
+		memberId, _ := body["memberId"].(string)
+	
+		w.Header().Set("Content-Type", "application/json")
+		data := Events.Extractdata(id, memberId)
+		json.NewEncoder(w).Encode(data)
 	})
 
 	http.HandleFunc("/get_data/", func(w http.ResponseWriter, r *http.Request) {
@@ -41,6 +52,9 @@ func main() {
 		fmt.Fprintf(w, "get_data: %s", dataID)
 	})
 
-	fmt.Println("Server started at :8080")
-	http.ListenAndServe(":8080", nil)
+	fmt.Println("Server started at :5001")
+	err := http.ListenAndServe(":5001", nil)
+	if err != nil {
+		fmt.Println("Server error:", err)
+	}
 }
