@@ -1,0 +1,148 @@
+package Algs
+
+import (
+	"encoding/json"
+	"fmt"
+	"math"
+	"os/exec"
+	"sort"
+	"strings"
+)
+
+
+type PyParam struct {
+	Mod string `json:"mod"`
+	Arg []any  `json:"arg"`
+}
+func Pycess(det PyParam) string {
+
+	jsonBytes, err := json.Marshal(det)
+	if err != nil {
+		panic(err)
+	}
+	jsonStr := strings.ReplaceAll(string(jsonBytes), `"`, `\"`)
+	var pythonCode = `
+import pymodule
+import sys
+res = pymodule.process("` + jsonStr + `")
+sys.stdout.write(str(res))
+	`
+	cmd := exec.Command("python3", "-c", pythonCode)
+	// output, err := cmd.Output()
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Printf("Error running Python code: %v\nOutput:\n%s\n", err, string(output))
+		return ""
+	}
+
+	// fmt.Println(string(output))
+
+	result := strings.TrimSpace(string(output))
+	return result
+}
+
+type Point struct {
+	X, Y float32
+}
+type Label struct {
+	Text string
+	Bbox []float32
+}
+type PyRes struct {
+	Line1   [][][]float32 `json:"line1"`
+	Line1_  [][][]float32 `json:"line1_"`
+	Line3   [][][]float32 `json:"line3"` // polygon
+	R       []Label       `json:"r"`     // labels
+	B       []Label       `json:"b"`
+}
+
+func RemoveFloatingLines(lines [][][]float32) [][][]float32 {
+	type Point struct {
+		X float32
+		Y float32
+	}
+
+	pointCount := make(map[Point]int)
+	for _, line := range lines {
+		a := Point{line[0][0], line[0][1]}
+		b := Point{line[1][0], line[1][1]}
+		pointCount[a]++
+		pointCount[b]++
+	}
+
+	var result [][][]float32
+	for _, line := range lines {
+		a := Point{line[0][0], line[0][1]}
+		b := Point{line[1][0], line[1][1]}
+
+		if pointCount[a] > 1 && pointCount[b] > 1 {
+			result = append(result, line)
+		}
+	}
+
+	return result
+}
+
+type MatchCandidate struct {
+	Point  Point
+	Label  string
+	Center Point
+	Dist   float32
+}
+
+func Center(bbox []float32) Point {
+	return Point{
+		X: (bbox[0] + bbox[2]) / 2,
+		Y: (bbox[1] + bbox[3]) / 2,
+	}
+}
+
+func Distance(a, b Point) float32 {
+	dx := a.X - b.X
+	dy := a.Y - b.Y
+	return float32(math.Sqrt(float64(dx*dx + dy*dy)))
+}
+
+func RankBasedAssignment(points []Point, labels []Label) map[Point]string {
+	// Step 1: Create all (point, label, distance) tuples
+	var candidates []MatchCandidate
+
+	for _, pt := range points {
+		for _, lbl := range labels {
+			center := Center(lbl.Bbox)
+			candidates = append(candidates, MatchCandidate{
+				Point:  pt,
+				Label:  lbl.Text,
+				Center: center,
+				Dist:   Distance(pt, center),
+			})
+		}
+	}
+
+	// Step 2: Sort by distance (ascending)
+	sort.Slice(candidates, func(i, j int) bool {
+		return candidates[i].Dist < candidates[j].Dist
+	})
+
+	// Step 3: Assign unique labels to points
+	assignedPoints := make(map[string]bool)
+	usedLabels := make(map[string]bool)
+	finalMatches := make(map[Point]string)
+
+	for _, c := range candidates {
+		pkey := fmt.Sprintf("%.2f_%.2f", c.Point.X, c.Point.Y)
+
+		if !assignedPoints[pkey] && !usedLabels[c.Label] {
+			finalMatches[c.Point] = c.Label
+			assignedPoints[pkey] = true
+			usedLabels[c.Label] = true
+		}
+	}
+
+	return finalMatches
+}
+
+
+func Gh() {
+	fmt.Println("Hello, World!")
+}

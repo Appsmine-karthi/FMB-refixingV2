@@ -1,0 +1,10 @@
+cairosvg
+opencv-python
+PyMuPDF
+svgpathtools
+fastapi
+uvicorn[standard]
+python-multipart
+easyocr
+torch
+torchvision
