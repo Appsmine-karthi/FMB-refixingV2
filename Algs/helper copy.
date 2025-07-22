@@ -3,16 +3,16 @@ package Algs
 /*
 #cgo CFLAGS: -I/usr/include/python3.12
 #cgo LDFLAGS: -lpython3.12
-#include "pyembed.h"
-#include <stdlib.h>
+
 */
 import "C"
 import (
 	"encoding/json"
 	"fmt"
 	"math"
-	"unsafe"
+	"os/exec"
 	"sort"
+	"strings"
 )
 
 
@@ -20,25 +20,31 @@ type PyParam struct {
 	Mod string `json:"mod"`
 	Arg []any  `json:"arg"`
 }
-
-func InitPy(){
-	if C.InitPython() == 0 {
-		fmt.Println("Failed to initialize Python or load module")
-		return
-	}
-}
-
 func Pycess(det PyParam) string {
 
 	jsonBytes, err := json.Marshal(det)
 	if err != nil {
 		panic(err)
 	}
+	jsonStr := strings.ReplaceAll(string(jsonBytes), `"`, `\"`)
+	var pythonCode = `
+import pymodule
+import sys
+res = pymodule.process("` + jsonStr + `")
+sys.stdout.write(str(res))
+	`
+	cmd := exec.Command("python3", "-c", pythonCode)
+	// output, err := cmd.Output()
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Printf("Error running Python code: %v\nOutput:\n%s\n", err, string(output))
+		return ""
+	}
 
-	input := C.CString(string(jsonBytes))
-    defer C.free(unsafe.Pointer(input))
-    result := C.CallProcess(input)
-    return C.GoString(result)
+	// fmt.Println(string(output))
+
+	result := strings.TrimSpace(string(output))
+	return result
 }
 
 type Point struct {

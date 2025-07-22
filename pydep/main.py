@@ -158,3 +158,7 @@ def ExtractPdf(path):
 
 if __name__ == "__main__":
     print(ExtractPdf("source.pdf"))
+
+
+def test(h):
+    return str(h) + " test"

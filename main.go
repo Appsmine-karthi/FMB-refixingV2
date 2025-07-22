@@ -1,60 +1,56 @@
 package main
 
+
 import (
-	"encoding/json"
-	"fmt"
-	"net/http"
-	"mypropertyqr-landsurvey/Events"
+    "fmt"
+    "encoding/json"
+	"mypropertyqr-landsurvey/Algs"
 )
 
+
+
 func main() {
-	http.HandleFunc("/extractdata", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != http.MethodPost {
-			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-			return
-		}
-	
-		var body map[string]interface{}
-		err := json.NewDecoder(r.Body).Decode(&body)
-		if err != nil {
-			http.Error(w, "Invalid JSON", http.StatusBadRequest)
-			return
-		}
-	
-		id, _ := body["id"].(string)
-		memberId, _ := body["memberId"].(string)
-	
-		w.Header().Set("Content-Type", "application/json")
-		data := Events.Extractdata(id, memberId)
-		json.NewEncoder(w).Encode(data)
+	Algs.InitPy()
+
+
+	response := Algs.Pycess(Algs.PyParam{
+		Mod: "ExtractPdf",
+		Arg: []any{"source.pdf"},
 	})
 
-	http.HandleFunc("/get_data/", func(w http.ResponseWriter, r *http.Request) {
-		// Only allow GET method
-		if r.Method != http.MethodGet {
-			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-			return
-		}
-		// Extract data_id from URL path
-		// URL: /get_data/<data_id>
-		path := r.URL.Path
-		prefix := "/get_data/"
-		if len(path) <= len(prefix) {
-			http.Error(w, "Missing data_id", http.StatusBadRequest)
-			return
-		}
-		dataID := path[len(prefix):]
-		if dataID == "" {
-			http.Error(w, "Missing data_id", http.StatusBadRequest)
-			return
-		}
-		// For demonstration, just echo the data_id
-		fmt.Fprintf(w, "get_data: %s", dataID)
-	})
-
-	fmt.Println("Server started at :5001")
-	err := http.ListenAndServe(":5001", nil)
+	var res Algs.PyRes
+	err := json.Unmarshal([]byte(response), &res)
 	if err != nil {
-		fmt.Println("Server error:", err)
+		fmt.Println("JSON error:", err)
+		return
 	}
+
+	res.Line3 = Algs.RemoveFloatingLines(res.Line3)
+
+	seen := make(map[string]bool)
+	var points []Algs.Point
+
+	for _, seg := range res.Line3 {
+		for _, p := range seg {
+			key := fmt.Sprintf("%.2f_%.2f", p[0], p[1])
+			if !seen[key] {
+				seen[key] = true
+				points = append(points, Algs.Point{p[0], p[1]})
+			}
+		}
+	}
+	for _, seg := range res.Line1 {
+		for _, p := range seg {
+			key := fmt.Sprintf("%.2f_%.2f", p[0], p[1])
+			if !seen[key] {
+				seen[key] = true
+				points = append(points, Algs.Point{p[0], p[1]})
+			}
+		}
+	}
+    //all red text with coordinates ((x,y):text)    
+	CoordRed := Algs.RankBasedAssignment(points, res.R)
+	fmt.Println(CoordRed)
+
+
 }
