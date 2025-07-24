@@ -3,18 +3,29 @@ import numpy as np
 
 # Define the line segments
 segments = [
-    [[29, 78], [941, 48]],
-    [[941, 48], [895, 125]],
-    [[866, 1052], [133, 1053]],
-    [[133, 1053], [133, 660]],
-    [[133, 660], [78, 657]],
-    [[895, 125], [914, 412]],
-    [[914, 412], [914, 423]],
-    [[914, 423], [900, 617]],
-    [[900, 617], [866, 1052]],
-    [[78, 657], [72, 592]],
-    [[72, 592], [52, 347]],
-    [[52, 347], [29, 78]],
+    [[1191, 1886], [798, 1908]],
+    [[798, 1908], [791, 1913]],
+    [[791, 1913], [712, 1911]],
+    [[712, 1911], [560, 1907]],
+    [[560, 1907], [476, 1905]],
+    [[476, 1905], [514, 1774]],
+    [[514, 1774], [555, 1636]],
+    [[555, 1636], [642, 1383]],
+    [[642, 1383], [802, 1374]],
+    [[802, 1374], [919, 1368]],
+    [[919, 1368], [1571, 1394]],
+    [[1571, 1394], [1589, 1424]],
+    [[1589, 1424], [1848, 1435]],
+    [[1848, 1435], [1847, 1556]],
+    [[1847, 1556], [1883, 1560]],
+    [[1883, 1560], [1880, 1663]],
+    [[1880, 1663], [1813, 1660]],
+    [[1813, 1660], [1799, 1878]],
+    [[1799, 1878], [1780, 1882]],
+    [[1780, 1882], [1449, 1874]],
+    [[1449, 1874], [1450, 1885]],
+    [[1450, 1885], [1219, 1884]],
+    [[1219, 1884], [1191, 1886]],  # Closing the polygon
 ]
 
 # Draw the coordinate text for each unique point
@@ -52,22 +63,22 @@ canvas = np.ones((2500, 2000, 3), dtype=np.uint8) * 255
 #         lineType=cv2.LINE_AA
 #     )
 
-drawn_points = set()
-for seg in segments:
-    for pt in seg:
-        pt_tuple = tuple(pt)
-        if pt_tuple not in drawn_points:
-            cv2.putText(
-                canvas,
-                f"{pt_tuple}",
-                pt_tuple,
-                fontFace=cv2.FONT_HERSHEY_SIMPLEX,
-                fontScale=1.2,
-                color=(0, 128, 0),
-                thickness=3,
-                lineType=cv2.LINE_AA
-            )
-            drawn_points.add(pt_tuple)
+# drawn_points = set()
+# for seg in segments:
+#     for pt in seg:
+#         pt_tuple = tuple(pt)
+#         if pt_tuple not in drawn_points:
+#             cv2.putText(
+#                 canvas,
+#                 f"{pt_tuple}",
+#                 pt_tuple,
+#                 fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+#                 fontScale=1.2,
+#                 color=(0, 128, 0),
+#                 thickness=3,
+#                 lineType=cv2.LINE_AA
+#             )
+#             drawn_points.add(pt_tuple)
 
 
 # Draw the lines

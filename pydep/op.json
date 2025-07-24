@@ -1,218 +1,1643 @@
-[
-    {
-        "coordinates": [
-            "A",
-            "B"
+{
+    "coordinates": {
+        "1": [
+            [
+                802538.387,
+                1299033.648
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
         ],
-        "dashes": "[ 9 0 ] 1",
-        "length": 912.4933,
-        "strokewidth": "2"
+        "10": [
+            [
+                802531.825,
+                1298969.674
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "11": [
+            [
+                802530.704,
+                1299010.269
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "12": [
+            [
+                802491.875,
+                1298997.001
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "13": [
+            [
+                802484.816,
+                1298994.779
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "14": [
+            [
+                802489.483,
+                1298974.248
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "15": [
+            [
+                802502.797,
+                1298977.494
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "16": [
+            [
+                802584.45,
+                1298946.716
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "17": [
+            [
+                802584.216,
+                1298948.961
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "18": [
+            [
+                802664.006,
+                1299018.606
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "19": [
+            [
+                802664.361,
+                1299016.802
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "2": [
+            [
+                802540.812,
+                1299040.372
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "20": [
+            [
+                802754.046,
+                1299031.961
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "3": [
+            [
+                802550.749,
+                1299026.919
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "4": [
+            [
+                802561.985,
+                1299032.255
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "5": [
+            [
+                802564.879,
+                1299021.788
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "51": [
+            [
+                802694.187,
+                1299074.736
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "513": [
+            [
+                802630.285,
+                1298984.687
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "514": [
+            [
+                802636.412,
+                1298956.739
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "52": [
+            [
+                802763.74,
+                1298977.435
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "53": [
+            [
+                802733.426,
+                1298970.634
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "54": [
+            [
+                802767.712,
+                1299005.914
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "55": [
+            [
+                802702.852,
+                1299024.381
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "56": [
+            [
+                802726.945,
+                1299027.875
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "57": [
+            [
+                802536.4,
+                1298985.568
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "58": [
+            [
+                802574.737,
+                1298994.991
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "59": [
+            [
+                802589.854,
+                1298998.592
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "6": [
+            [
+                802579.068,
+                1299036.451
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "60": [
+            [
+                802613.674,
+                1299004.531
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "61": [
+            [
+                802572.676,
+                1298975.843
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "62": [
+            [
+                802612.886,
+                1298982.094
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "63": [
+            [
+                802665.644,
+                1298990.191
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "64": [
+            [
+                802725.497,
+                1298999.268
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "65": [
+            [
+                802756.407,
+                1299004.105
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "66": [
+            [
+                802581.275,
+                1299024.183
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "7": [
+            [
+                802584.523,
+                1299024.614
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "8": [
+            [
+                802670.495,
+                1299071.321
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "9": [
+            [
+                802716.067,
+                1298967.841
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "A": [
+            [
+                802726.618,
+                1299079.247
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "B": [
+            [
+                802486.899,
+                1299021.219
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "C": [
+            [
+                802514.208,
+                1298934.343
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "D": [
+            [
+                802518.175,
+                1298934.292
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "E": [
+            [
+                802630.72,
+                1298956.034
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "F": [
+            [
+                802717.668,
+                1298967.115
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ],
+        "G": [
+            [
+                802783.193,
+                1298981.216
+            ],
+            "main",
+            [
+                "notmodified",
+                "notmodified"
+            ]
+        ]
     },
-    {
-        "coordinates": [
-            "B",
-            "3"
+    "lines": [
+        {
+            "coordinates": [
+                "A",
+                "51"
+            ],
+            "dashes": "[ 9 0 ] 1",
+            "length": 160.25293,
+            "strokewidth": "2"
+        },
+        {
+            "coordinates": [
+                "51",
+                "8"
+            ],
+            "dashes": "[ 9 0 ] 1",
+            "length": 117.15375,
+            "strokewidth": "2"
+        },
+        {
+            "coordinates": [
+                "8",
+                "2"
+            ],
+            "dashes": "[ 9 0 ] 1",
+            "length": 652.5182,
+            "strokewidth": "2"
+        },
+        {
+            "coordinates": [
+                "2",
+                "1"
+            ],
+            "dashes": "[ 9 0 ] 1",
+            "length": 34.98571,
+            "strokewidth": "2"
+        },
+        {
+            "coordinates": [
+                "1",
+                "B"
+            ],
+            "dashes": "[ 9 0 ] 1",
+            "length": 259.2335,
+            "strokewidth": "2"
+        },
+        {
+            "coordinates": [
+                "B",
+                "12"
+            ],
+            "dashes": "[ 9 0 ] 1",
+            "length": 121.004135,
+            "strokewidth": "2"
+        },
+        {
+            "coordinates": [
+                "12",
+                "13"
+            ],
+            "dashes": "[ 9 0 ] 1",
+            "length": 36.221542,
+            "strokewidth": "2"
+        },
+        {
+            "coordinates": [
+                "13",
+                "14"
+            ],
+            "dashes": "[ 9 0 ] 1",
+            "length": 103.04368,
+            "strokewidth": "2"
+        },
+        {
+            "coordinates": [
+                "14",
+                "15"
+            ],
+            "dashes": "[ 9 0 ] 1",
+            "length": 67.06713,
+            "strokewidth": "2"
+        },
+        {
+            "coordinates": [
+                "15",
+                "C"
+            ],
+            "dashes": "[ 9 0 ] 1",
+            "length": 218.44908,
+            "strokewidth": "2"
+        },
+        {
+            "coordinates": [
+                "C",
+                "D"
+            ],
+            "dashes": "[ 9 0 ] 1",
+            "length": 19.416489,
+            "strokewidth": "2"
+        },
+        {
+            "coordinates": [
+                "D",
+                "17"
+            ],
+            "dashes": "[ 9 0 ] 1",
+            "length": 331.09665,
+            "strokewidth": "2"
+        },
+        {
+            "coordinates": [
+                "17",
+                "16"
+            ],
+            "dashes": "[ 9 0 ] 1",
+            "length": 11.045361,
+            "strokewidth": "2"
+        },
+        {
+            "coordinates": [
+                "16",
+                "E"
+            ],
+            "dashes": "[ 9 0 ] 1",
+            "length": 231.00217,
+            "strokewidth": "2"
+        },
+        {
+            "coordinates": [
+                "9",
+                "F"
+            ],
+            "dashes": "[ 9 0 ] 1",
+            "length": 8.602325,
+            "strokewidth": "2"
+        },
+        {
+            "coordinates": [
+                "F",
+                "53"
+            ],
+            "dashes": "[ 9 0 ] 1",
+            "length": 79.025314,
+            "strokewidth": "2"
+        },
+        {
+            "coordinates": [
+                "53",
+                "52"
+            ],
+            "dashes": "[ 9 0 ] 1",
+            "length": 152.05263,
+            "strokewidth": "2"
+        },
+        {
+            "coordinates": [
+                "52",
+                "G"
+            ],
+            "dashes": "[ 9 0 ] 1",
+            "length": 84.0238,
+            "strokewidth": "2"
+        },
+        {
+            "coordinates": [
+                "G",
+                "54"
+            ],
+            "dashes": "[ 9 0 ] 1",
+            "length": 136.40015,
+            "strokewidth": "2"
+        },
+        {
+            "coordinates": [
+                "54",
+                "20"
+            ],
+            "dashes": "[ 9 0 ] 1",
+            "length": 143.9618,
+            "strokewidth": "2"
+        },
+        {
+            "coordinates": [
+                "20",
+                "A"
+            ],
+            "dashes": "[ 9 0 ] 1",
+            "length": 267.54065,
+            "strokewidth": "2"
+        },
+        {
+            "coordinates": [
+                "E",
+                "514"
+            ],
+            "dashes": "[ 9 0 ] 1",
+            "length": 28.071337,
+            "strokewidth": "2"
+        },
+        {
+            "coordinates": [
+                "514",
+                "9"
+            ],
+            "dashes": "[ 9 0 ] 1",
+            "length": 393.6153,
+            "strokewidth": "2"
+        },
+        {
+            "coordinates": [
+                "60",
+                "62"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 109.88175,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "62",
+                "513"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 86.09297,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "513",
+                "63"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 175.13994,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "63",
+                "19"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 130.39172,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "19",
+                "59"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 375.38513,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "58",
+                "61"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 94.254974,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "61",
+                "62"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 199.16074,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "62",
+                "60"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 109.88175,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "60",
+                "58"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 196.20653,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "58",
+                "59"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 76.05919,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "59",
+                "19"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 375.38513,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "18",
+                "55"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 192.21082,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "55",
+                "51"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 250.07199,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "51",
+                "8"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 117.15375,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "8",
+                "2"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 652.5182,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "2",
+                "1"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 34.98571,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "1",
+                "B"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 259.2335,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "B",
+                "12"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 121.004135,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "12",
+                "13"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 36.221542,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "13",
+                "14"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 103.04368,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "14",
+                "15"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 67.06713,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "15",
+                "57"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 169.14491,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "57",
+                "11"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 124.0645,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "5",
+                "4"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 53.15073,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "4",
+                "6"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 86.09297,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "6",
+                "66"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 61.008198,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "66",
+                "7"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 16.03122,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "7",
+                "59"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 130.00385,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "59",
+                "19"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 375.38513,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "19",
+                "60"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 255.23715,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "60",
+                "58"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 196.20653,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "20",
+                "A"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 267.54065,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "A",
+                "51"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 160.25293,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "51",
+                "55"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 250.07199,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "55",
+                "20"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 253.28442,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "20",
+                "56"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 134.13426,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "56",
+                "18"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 311.3615,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "17",
+                "61"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 143.1782,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "61",
+                "62"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 199.16074,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "62",
+                "513"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 86.09297,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "513",
+                "514"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 140.03214,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "514",
+                "E"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 28.071337,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "E",
+                "16"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 231.00217,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "16",
+                "17"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 11.045361,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "15",
+                "C"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 218.44908,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "C",
+                "D"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 19.416489,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "D",
+                "17"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 331.09665,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "17",
+                "61"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 143.1782,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "61",
+                "10"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 202.2004,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "10",
+                "57"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 80.9506,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "57",
+                "15"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 169.14491,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "64",
+                "53"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 145.41664,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "53",
+                "52"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 152.05263,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "52",
+                "65"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 135.36986,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "65",
+                "64"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 153.1176,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "19",
+                "63"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 130.39172,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "63",
+                "64"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 296.28534,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "64",
+                "56"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 140.1856,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "56",
+                "18"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 311.3615,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "18",
+                "55"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 192.21082,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "60",
+                "58"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 196.20653,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "58",
+                "57"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 193.20973,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "57",
+                "11"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 124.0645,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "5",
+                "66"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 81.09871,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "66",
+                "7"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 16.03122,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "7",
+                "59"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 130.00385,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "57",
+                "10"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 80.9506,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "10",
+                "61"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 202.2004,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "61",
+                "58"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 94.254974,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "58",
+                "57"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 193.20973,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "F",
+                "53"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 79.025314,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "53",
+                "64"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 145.41664,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "64",
+                "63"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 296.28534,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "63",
+                "513"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 175.13994,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "513",
+                "514"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 140.03214,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "514",
+                "9"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 393.6153,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "56",
+                "64"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 140.1856,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "64",
+                "65"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 153.1176,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "65",
+                "54"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 56.0357,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "54",
+                "20"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 143.9618,
+            "strokewidth": "1"
+        },
+        {
+            "coordinates": [
+                "20",
+                "56"
+            ],
+            "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
+            "length": 134.13426,
+            "strokewidth": "1"
+        }
+    ],
+    "scale": 578,
+    "subdivision_list": {
+        "1": [
+            [
+                802719.806,
+                1299052.5
+            ],
+            [
+                "20",
+                "A",
+                "51",
+                "55",
+                "20",
+                "56",
+                "18"
+            ],
+            2147.407005922927
         ],
-        "dashes": "[ 9 0 ] 1",
-        "length": 89.693924,
-        "strokewidth": "2"
-    },
-    {
-        "coordinates": [
-            "C",
-            "D"
+        "10": [
+            [
+                802560.346,
+                1299006.734
+            ],
+            [
+                "60",
+                "58",
+                "57",
+                "11",
+                "5",
+                "66",
+                "7",
+                "59"
+            ],
+            1496.7452923713136
         ],
-        "dashes": "[ 9 0 ] 1",
-        "length": 733.0007,
-        "strokewidth": "2"
-    },
-    {
-        "coordinates": [
-            "D",
-            "2"
+        "11": [
+            [
+                802548.947,
+                1298973.67
+            ],
+            [
+                "57",
+                "10",
+                "61",
+                "58",
+                "57"
+            ],
+            667.8618435431272
         ],
-        "dashes": "[ 9 0 ] 1",
-        "length": 393,
-        "strokewidth": "2"
-    },
-    {
-        "coordinates": [
-            "2",
-            "1"
+        "12A": [
+            [
+                802687.19,
+                1298972.776
+            ],
+            [
+                "F",
+                "53",
+                "64",
+                "63",
+                "513",
+                "514",
+                "9"
+            ],
+            2846.8928748752805
         ],
-        "dashes": "[ 9 0 ] 1",
-        "length": 55.081757,
-        "strokewidth": "2"
-    },
-    {
-        "coordinates": [
-            "3",
-            "20"
+        "12B": [
+            [
+                802605.604,
+                1298958.794
+            ],
+            [
+                "17",
+                "61",
+                "62",
+                "513",
+                "514",
+                "E",
+                "16",
+                "17"
+            ],
+            1630.0880476941238
         ],
-        "dashes": "[ 9 0 ] 1",
-        "length": 287.62823,
-        "strokewidth": "2"
-    },
-    {
-        "coordinates": [
-            "20",
-            "4"
+        "13": [
+            [
+                802537.862,
+                1298951.704
+            ],
+            [
+                "15",
+                "C",
+                "D",
+                "17",
+                "61",
+                "10",
+                "57",
+                "15"
+            ],
+            2553.6974551408784
         ],
-        "dashes": "[ 9 0 ] 1",
-        "length": 11,
-        "strokewidth": "2"
-    },
-    {
-        "coordinates": [
-            "4",
-            "21"
+        "2": [
+            [
+                802743.423,
+                1299017.167
+            ],
+            [
+                "56",
+                "64",
+                "65",
+                "54",
+                "20",
+                "56"
+            ],
+            980.4909052949224
         ],
-        "dashes": "[ 9 0 ] 1",
-        "length": 194.5045,
-        "strokewidth": "2"
-    },
-    {
-        "coordinates": [
-            "21",
-            "C"
+        "4": [
+            [
+                802746.771,
+                1298984.298
+            ],
+            [
+                "64",
+                "53",
+                "52",
+                "65",
+                "64"
+            ],
+            890.8790629966825
         ],
-        "dashes": "[ 9 0 ] 1",
-        "length": 436.32672,
-        "strokewidth": "2"
-    },
-    {
-        "coordinates": [
-            "1",
-            "22"
+        "5": [
+            [
+                802697.982,
+                1299003.638
+            ],
+            [
+                "19",
+                "63",
+                "64",
+                "56",
+                "18",
+                "55"
+            ],
+            1711.7051693773828
         ],
-        "dashes": "[ 9 0 ] 1",
-        "length": 65.27634,
-        "strokewidth": "2"
-    },
-    {
-        "coordinates": [
-            "22",
-            "23"
+        "6": [
+            [
+                802639.708,
+                1299000.286
+            ],
+            [
+                "60",
+                "62",
+                "513",
+                "63",
+                "19",
+                "59"
+            ],
+            1268.6348305416177
         ],
-        "dashes": "[ 9 0 ] 1",
-        "length": 245.81497,
-        "strokewidth": "2"
-    },
-    {
-        "coordinates": [
-            "23",
-            "A"
+        "7": [
+            [
+                802603.795,
+                1298983.844
+            ],
+            [
+                "58",
+                "61",
+                "62",
+                "60",
+                "58",
+                "59",
+                "19"
+            ],
+            815.0857717354374
         ],
-        "dashes": "[ 9 0 ] 1",
-        "length": 269.98148,
-        "strokewidth": "2"
-    },
-    {
-        "coordinates": [
-            "3",
-            "20"
-        ],
-        "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
-        "length": 287.62823,
-        "strokewidth": "1"
-    },
-    {
-        "coordinates": [
-            "20",
-            "4"
-        ],
-        "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
-        "length": 11,
-        "strokewidth": "1"
-    },
-    {
-        "coordinates": [
-            "4",
-            "21"
-        ],
-        "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
-        "length": 194.5045,
-        "strokewidth": "1"
-    },
-    {
-        "coordinates": [
-            "21",
-            "C"
-        ],
-        "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
-        "length": 436.32672,
-        "strokewidth": "1"
-    },
-    {
-        "coordinates": [
-            "C",
-            "D"
-        ],
-        "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
-        "length": 733.0007,
-        "strokewidth": "1"
-    },
-    {
-        "coordinates": [
-            "D",
-            "2"
-        ],
-        "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
-        "length": 393,
-        "strokewidth": "1"
-    },
-    {
-        "coordinates": [
-            "2",
-            "1"
-        ],
-        "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
-        "length": 55.081757,
-        "strokewidth": "1"
-    },
-    {
-        "coordinates": [
-            "1",
-            "22"
-        ],
-        "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
-        "length": 65.27634,
-        "strokewidth": "1"
-    },
-    {
-        "coordinates": [
-            "22",
-            "23"
-        ],
-        "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
-        "length": 245.81497,
-        "strokewidth": "1"
-    },
-    {
-        "coordinates": [
-            "23",
-            "A"
-        ],
-        "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
-        "length": 269.98148,
-        "strokewidth": "1"
-    },
-    {
-        "coordinates": [
-            "A",
-            "B"
-        ],
-        "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
-        "length": 912.4933,
-        "strokewidth": "1"
-    },
-    {
-        "coordinates": [
-            "B",
-            "3"
-        ],
-        "dashes": "[ 30 10 1 3 1 3 1 10 ] 1",
-        "length": 89.693924,
-        "strokewidth": "1"
+        "8": [
+            [
+                802600.409,
+                1299030.657
+            ],
+            [
+                "18",
+                "55",
+                "51",
+                "8",
+                "2",
+                "1",
+                "B",
+                "12",
+                "13",
+                "14",
+                "15",
+                "57",
+                "11",
+                "5",
+                "4",
+                "6",
+                "66",
+                "7",
+                "59",
+                "19",
+                "60",
+                "58"
+            ],
+            9083.75602995386
+        ]
     }
-]
+}

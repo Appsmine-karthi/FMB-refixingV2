@@ -58,7 +58,7 @@ type PyRes struct {
 	Ymin    float32       `json:"ymin"`
 	Xmax    float32       `json:"xmax"`
 	Ymax    float32       `json:"ymax"`
-	Area    float32       `json:"area"`
+	Scale    float32       `json:"scale"`
 }
 
 func RemoveFloatingLines(lines [][][]float32) [][][]float32 {

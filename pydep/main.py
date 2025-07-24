@@ -5,8 +5,10 @@ from svgpathtools import parse_path
 from cairosvg import svg2png
 import requests
 import json
+import math
 import customFloodFill
 from collections import Counter
+from pdfGenerator import generatepdf
 
 
 def SvgToD(geometry_data):
@@ -97,18 +99,78 @@ def ExtractTextD(drawings):
                 b.append(drawing)
     return {"r":r,"b":b}
 
-def ExtractArea(drawings):
+def ExtractScale(drawings):
     ind = 0
     svg = ""
     path_data = SvgToD(drawings[len(drawings)-1]["items"])
     path_data = "M" + "M".join(path_data.split('M')[13:])
-    img = MakeSvgImage(path_data)
+    img,height = MakeSvgImage(path_data)
     _, img_encoded = cv2.imencode('.png', img)
     img_bytes = img_encoded.tobytes()
     files = {'image': ('image.png', img_bytes, 'image/png')}
     response = requests.post('http://localhost:5000/ocr', files=files)
     return response.json()['results'][0]['text']
 
+from shapely.geometry import Point, Polygon, LineString
+from collections import defaultdict
+from typing import List
+def remove_floating_lines(lines: List[List[List[float]]]) -> List[List[List[float]]]:
+    class Point:
+        def __init__(self, x: float, y: float):
+            self.x = x
+            self.y = y
+
+        def __eq__(self, other):
+            return isinstance(other, Point) and self.x == other.x and self.y == other.y
+
+        def __hash__(self):
+            return hash((round(self.x, 6), round(self.y, 6)))  # rounding for floating-point stability
+
+    point_count = defaultdict(int)
+
+    for line in lines:
+        a = Point(line[0][0], line[0][1])
+        b = Point(line[1][0], line[1][1])
+        point_count[a] += 1
+        point_count[b] += 1
+
+    result = []
+    for line in lines:
+        a = Point((line[0][0]), line[0][1])
+        b = Point(line[1][0], line[1][1])
+        if point_count[a] > 1 and point_count[b] > 1:
+            result.append(line)
+
+    return result
+def lines_to_ring(lines):
+    # Flatten lines to get all points
+    edges = {(tuple(p1), tuple(p2)) for p1, p2 in lines}
+    
+    # Build connectivity map
+    from collections import defaultdict
+    connections = defaultdict(list)
+    for p1, p2 in edges:
+        connections[p1].append(p2)
+        connections[p2].append(p1)
+
+    # Start at any point
+    start = next(iter(connections))
+    ring = [start]
+    visited = set([start])
+
+    current = start
+    while True:
+        neighbors = connections[current]
+        for neighbor in neighbors:
+            if neighbor not in visited:
+                ring.append(neighbor)
+                visited.add(neighbor)
+                current = neighbor
+                break
+        else:
+            break
+
+    return ring
 def MakeSvgImage(d):
     # Parse the path
     path = parse_path(d)
@@ -134,7 +196,6 @@ def MakeSvgImage(d):
     png_data = svg2png(bytestring=svg_data.encode('utf-8'))
     nparr = np.frombuffer(png_data, np.uint8)
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-    
     # Add padding of 10 pixels on each side
     padding = 30
     padded_img = cv2.copyMakeBorder(img, 
@@ -143,7 +204,7 @@ def MakeSvgImage(d):
                                    value=[255,255,255]) # White padding
     # Resize the padded image to 100x100
     padded_img = cv2.resize(padded_img, (100, 100))
-    return padded_img
+    return padded_img,height
 
 def ExtractPdf(path):
     page = fitz.open(path)[0]
@@ -153,27 +214,49 @@ def ExtractPdf(path):
     canvas_height = int(page_rect.height)
 
     rtn = ExtractLandLines(drawings)
-    rtn["area"] = int(ExtractArea(drawings))
+    rtn["scale"] = int(ExtractScale(drawings))
     textD = ExtractTextD(drawings)
     rtn["r"] = []
     for i in textD["r"]:
-        img = MakeSvgImage(SvgToD(i["items"]))
+        img,height = MakeSvgImage(SvgToD(i["items"]))
         _, img_encoded = cv2.imencode('.png', img)
         img_bytes = img_encoded.tobytes()
         files = {'image': ('image.png', img_bytes, 'image/png')}
         response = requests.post('http://localhost:5000/ocr', files=files)
         bbox = i["rect"]
-        # print(response.json()['results'][0]['text'])
         rtn["r"].append({"text":response.json()['results'][0]['text'],"bbox": [bbox[0],bbox[1],bbox[2],bbox[3]]})
     rtn["b"] = []
+    outer_polygon = remove_floating_lines(rtn["line3"])
+    outer_polygon = lines_to_ring(outer_polygon)
+    polygon = Polygon(outer_polygon)
     for i in textD["b"]:
-        img = MakeSvgImage(SvgToD(i["items"]))
+        img, height = MakeSvgImage(SvgToD(i["items"]))
+        if height > 8:
+            print("height")
+            continue
+        if not polygon.contains(Point(i["rect"][0], i["rect"][1])):
+            print("pol")
+            continue
+        if not polygon.contains(Point(i["rect"][2], i["rect"][3])):
+            print("pol2")
+            continue
         _, img_encoded = cv2.imencode('.png', img)
         img_bytes = img_encoded.tobytes()
         files = {'image': ('image.png', img_bytes, 'image/png')}
         response = requests.post('http://localhost:5000/ocr', files=files)
+        ocr_results = response.json().get('results', [])
+        if not ocr_results or not ocr_results[0].get('text', '').strip():
+            text = ""
+        else:
+            text = ocr_results[0]['text']
+
+        if text == "":
+            continue
+        # print(text)
+        # cv2.imshow("img",img)
+        # cv2.waitKey(0)
         bbox = i["rect"]
-        rtn["b"].append({"text":response.json()['results'][0]['text'],"bbox": [bbox[0],bbox[1],bbox[2],bbox[3]]})
+        rtn["b"].append({"text": text, "bbox": [bbox[0], bbox[1], bbox[2], bbox[3]]})
     return json.dumps(rtn)
 
 def getSubdiv(crd):
@@ -208,7 +291,110 @@ def calculate_distance(x1, y1, x2, y2):
     distance = math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
     return distance
 
-def shrink_or_expand_points(points, subdivision, scale):
+def calculate_area(points):
+        n = len(points)
+        area = 0
+        for i in range(n):
+            x1, y1 = points[i]
+            x2, y2 = points[(i + 1) % n]
+            area += x1 * y2 - y1 * x2
+        return abs(area) / 2
+
+def updateArea(data):
+    for key, value in data['subdivision_list'].items():
+        cycle_points = [data['coordinates'][point][0] for point in value[1]]
+        data['subdivision_list'][key][2] = calculate_area(cycle_points)
+
+from func import *
+import util
+import flipMatch
+def get_relative_points(obj,pix):#endpoints of pdf, endpoint of world
+    bound_rect = pix['bound_rect']
+    box,points,point_ind = get_pdf_box(obj)
+
+    wld_an = compute_angle((bound_rect))
+    pdf_an = compute_angle((box))
+
+    to_back_an = pdf_an-wld_an
+
+    points = points.reshape(-1,2)
+    
+    points = util.rotate_points_clockwise(points , -to_back_an)
+    points = util.offset_points_top(points)
+
+    pix_points = pix['polygon']['pix']
+    pix_points = util.offset_points_top(pix_points)
+
+    w,h = util.get_width_height(pix_points)
+    points = util.transform_points_to_fit(points,w,h)
+
+    pdf_img = util.draw_box_ref(box,points)
+    wld_img = util.draw_box_ref(bound_rect,pix_points)
+
+    normal = flipMatch.process(pdf_img,wld_img)
+
+    # print("normal: ",normal)
+    if(normal != -2):
+        pdf_img = cv2.flip(pdf_img,normal)
+
+
+    # cv2.imshow("pdf",pdf_img)
+    # cv2.imshow("wld",wld_img)
+    # cv2.waitKey(0)
+
+    points = util.flip_points(points,normal==0 or normal==-1,normal==1 or normal==-1)
+    # cv2.imshow("new",util.draw_box_ref(box,points))
+    # cv2.waitKey(0)
+
+    top_right_pdf = util.find_top_right_point_pix(points)
+    for i in range(len(point_ind)):
+        vald = (top_right_pdf == points[i])
+        if vald[0] and vald[1]:
+            top_right_pdf = point_ind[i]
+
+    bottom_left_pdf = util.find_bottom_left_point_pix(points)
+    for i in range(len(point_ind)):
+        vald = (bottom_left_pdf == points[i])
+        if vald[0] and vald[1]:
+            bottom_left_pdf = point_ind[i]
+
+    top_right_wld = util.find_top_right_point_geo(pix['polygon']['geo'])
+    bottom_left_wld = util.find_bottom_left_point_geo(pix['polygon']['geo'])
+    print([[top_right_pdf,{'x':top_right_wld[0],'y':top_right_wld[1]}],[bottom_left_pdf,{'x':bottom_left_wld[0],'y':bottom_left_wld[1]}]])
+
+    return [[top_right_pdf,{'x':top_right_wld[0],'y':top_right_wld[1]}],[bottom_left_pdf,{'x':bottom_left_wld[0],'y':bottom_left_wld[1]}]]
+
+import utm
+def latlog_to_utm(lat, long):
+    easting, northing, zone_number, zone_letter = utm.from_latlon(lat, long)
+    return {"x":easting,"y":northing}
+
+def select_and_rotate_coords(data,coordinates,subdivision_list,rajaresponse):
+
+    ret = get_relative_points(data,rajaresponse)
+
+    new_coord1 = latlog_to_utm(ret[0][1]['x'], ret[0][1]['y'])
+    new_coord2 = latlog_to_utm(ret[1][1]['x'], ret[1][1]['y'])
+
+    selected_point1 = ret[0][0]
+    selected_point2 = ret[1][0]
+    old_coord1 = {'x':coordinates[selected_point1][0][0],'y':coordinates[selected_point1][0][1]}
+    old_coord2 = {'x':coordinates[selected_point2][0][0],'y':coordinates[selected_point2][0][1]}
+    # print("nre ",new_coord1,new_coord2,selected_point1,selected_point2,old_coord1,old_coord2)
+    out = update_lines_with_new_slope_and_length(new_coord1,new_coord2,old_coord1,old_coord2,coordinates,selected_point1,selected_point2,subdivision_list)
+    data['coordinates'] = out['new_coords']
+    data['subdivision_list'] = out['subdivision_list']
+    # print("new requestr ",out)
+    return data
+
+def shrink_or_expand_points(args):
+    args = json.loads(args)
+    points = args["coordinates"]
+    subdivision = args["subdivision_list"]
+    scale = args["scale"]
+
+    # print(subdivision)
+    # return "args"
 
     # Calculate the centroid (center) of the points
     point_keys = list(points.keys())
@@ -263,8 +449,21 @@ def shrink_or_expand_points(points, subdivision, scale):
 
         subdiv_points[key] = [[new_x, new_y], value[1], value[2]]
 
+    args["coordinates"] = scaled_points
+    args["subdivision_list"] = subdiv_points
 
-    return scaled_points,subdiv_points
+    updateArea(args)
+
+    with open("raja.json", "r") as f:
+        raja = json.loads(f.read())
+
+
+    args = select_and_rotate_coords(args,args["coordinates"],args["subdivision_list"],raja)
+
+    print(generatepdf(args,"test"))
+
+    return json.dumps(args)
+
 
 if __name__ == "__main__":
-    print(ExtractPdf("1.pdf"))
+    print('ExtractPdf("source.pdf")')

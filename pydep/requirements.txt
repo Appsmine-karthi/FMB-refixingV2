@@ -8,3 +8,8 @@ python-multipart
 easyocr
 torch
 torchvision
+shapely
+utm
+PyPDF2
+pyproj
+reportlab
