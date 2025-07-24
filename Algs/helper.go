@@ -51,9 +51,14 @@ type Label struct {
 type PyRes struct {
 	Line1   [][][]float32 `json:"line1"`
 	Line1_  [][][]float32 `json:"line1_"`
-	Line3   [][][]float32 `json:"line3"` // polygon
-	R       []Label       `json:"r"`     // labels
+	Line3   [][][]float32 `json:"line3"`
+	R       []Label       `json:"r"`    
 	B       []Label       `json:"b"`
+	Xmin    float32       `json:"xmin"`
+	Ymin    float32       `json:"ymin"`
+	Xmax    float32       `json:"xmax"`
+	Ymax    float32       `json:"ymax"`
+	Area    float32       `json:"area"`
 }
 
 func RemoveFloatingLines(lines [][][]float32) [][][]float32 {
@@ -103,7 +108,7 @@ func Distance(a, b Point) float32 {
 	return float32(math.Sqrt(float64(dx*dx + dy*dy)))
 }
 
-func RankBasedAssignment(points []Point, labels []Label) map[Point]string {
+func RankBasedAssignment(points []Point, labels []Label) map[string]Point {
 	// Step 1: Create all (point, label, distance) tuples
 	var candidates []MatchCandidate
 
@@ -127,17 +132,208 @@ func RankBasedAssignment(points []Point, labels []Label) map[Point]string {
 	// Step 3: Assign unique labels to points
 	assignedPoints := make(map[string]bool)
 	usedLabels := make(map[string]bool)
-	finalMatches := make(map[Point]string)
+	finalMatches := make(map[string]Point)
 
 	for _, c := range candidates {
 		pkey := fmt.Sprintf("%.2f_%.2f", c.Point.X, c.Point.Y)
 
 		if !assignedPoints[pkey] && !usedLabels[c.Label] {
-			finalMatches[c.Point] = c.Label
+			finalMatches[c.Label] = c.Point
 			assignedPoints[pkey] = true
 			usedLabels[c.Label] = true
 		}
 	}
 
 	return finalMatches
+}
+
+func FormatBbox(labels []Label) map[string]Point {
+	rtn := make(map[string]Point)
+	for _, label := range labels {
+		cx := float32(math.Round(float64((label.Bbox[0] + label.Bbox[2]) / 2)))
+		cy := float32(math.Round(float64((label.Bbox[1] + label.Bbox[3]) / 2)))
+		rtn[label.Text] = Point{cx, cy}
+	}
+	return rtn
+}
+
+func OffsetToOrigin(res *PyRes) {
+
+	minX := float32(10000)
+	minY := float32(10000)
+	maxX := float32(0)
+	maxY := float32(0)
+	
+	processLines := func(lines [][][]float32) {
+		for _, line := range lines {
+			for _, point := range line {
+				if len(point) == 2 {
+					x := point[0]
+					y := point[1]
+					if x < minX {
+						minX = x
+					}
+					if y < minY {
+						minY = y
+					}
+					if x > maxX {
+						maxX = x
+					}
+					if y > maxY {
+						maxY = y
+					}
+				}
+			}
+		}
+	}
+
+	processLines(res.Line1)
+	processLines(res.Line1_)
+	processLines(res.Line3)
+
+	for _, label := range append(res.R, res.B...) {
+		if len(label.Bbox) == 4 {
+			x := label.Bbox[0]
+			y := label.Bbox[1]
+			if x < minX {
+				minX = x
+			}
+			if y < minY {
+				minY = y
+			}
+			if x > maxX {
+				maxX = x
+			}
+			if y > maxY {
+				maxY = y
+			}
+
+			x = label.Bbox[2]
+			y = label.Bbox[3]
+			if x < minX {
+				minX = x
+			}
+			if y < minY {
+				minY = y
+			}
+			if x > maxX {
+				maxX = x
+			}
+			if y > maxY {
+				maxY = y
+			}
+		}
+	}
+
+	// Step 2: Offset everything by minX, minY
+	offsetLines := func(lines [][][]float32) {
+		for i := range lines {
+			for j := range lines[i] {
+				lines[i][j][0] -= minX
+				lines[i][j][1] -= minY
+			}
+		}
+	}
+
+	minX = float32(int(minX + 0.999999))
+	minY = float32(int(minY + 0.999999))
+
+	res.Xmin = minX
+	res.Ymin = minY
+	res.Xmax = maxX
+	res.Ymax = maxY
+
+	offsetLines(res.Line1)
+	offsetLines(res.Line1_)
+	offsetLines(res.Line3)
+
+	for i := range res.R {
+		res.R[i].Bbox[0] -= minX
+		res.R[i].Bbox[1] -= minY
+		res.R[i].Bbox[2] -= minX
+		res.R[i].Bbox[3] -= minY
+	}
+	for i := range res.B {
+		res.B[i].Bbox[0] -= minX
+		res.B[i].Bbox[1] -= minY
+		res.B[i].Bbox[2] -= minX
+		res.B[i].Bbox[3] -= minY
+	}
+
+	fmt.Println(minX, minY)
+}
+
+func equal(a, b []float32) bool {
+	return len(a) == 2 && len(b) == 2 && a[0] == b[0] && a[1] == b[1]
+}
+
+func OrderLines(segments [][][]float32) [][][]float32 {
+	var bestChain [][][]float32
+
+	// Try each segment as a starting point
+	for i := range segments {
+		used := make([]bool, len(segments))
+		chain := [][][]float32{segments[i]}
+		used[i] = true
+		last := segments[i][1]
+
+		extended := true
+		for extended {
+			extended = false
+			for j := range segments {
+				if used[j] {
+					continue
+				}
+				start := segments[j][0]
+				end := segments[j][1]
+
+				if start[0] == last[0] && start[1] == last[1] {
+					chain = append(chain, segments[j])
+					last = end
+					used[j] = true
+					extended = true
+					break
+				} else if end[0] == last[0] && end[1] == last[1] {
+					// reverse the segment
+					chain = append(chain, [][]float32{end, start})
+					last = start
+					used[j] = true
+					extended = true
+					break
+				}
+			}
+		}
+
+		if len(chain) > len(bestChain) {
+			bestChain = chain
+		}
+	}
+
+
+
+	return bestChain
+}
+
+func FlattenPoints(segments [][][]float32) [][]float32 {
+	var points [][]float32
+	for _, segment := range segments {
+		if len(segment) != 2 {
+			continue // skip incomplete/unconnected segments
+		}
+		if len(points) == 0 || !equal(points[len(points)-1], segment[0]) {
+			points = append(points, segment[0])
+		}
+		points = append(points, segment[1])
+	}
+	return points
+}
+
+func CalculateArea(points [][]float32) float32 {
+	var area float32
+	for i := 0; i < len(points)-1; i++ {
+		x1, y1 := points[i][0], points[i][1]
+		x2, y2 := points[i+1][0], points[i+1][1]
+		area += (x1 * y2) - (x2 * y1)
+	}
+	return float32(math.Abs(float64(area)) / 2.0)
 }

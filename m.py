@@ -3,51 +3,71 @@ import numpy as np
 
 # Define the line segments
 segments = [
-    [[678, 1251], [1590, 1221]],
-    [[1590, 1221], [1544, 1298]],
-    [[1515, 2225], [782, 2226]],
-    [[782, 2226], [782, 1833]],
-    [[782, 1833], [727, 1830]],
-    [[1544, 1298], [1563, 1585]],
-    [[1563, 1585], [1563, 1596]],
-    [[1563, 1596], [1549, 1790]],
-    [[1549, 1790], [1515, 2225]],
-    [[727, 1830], [721, 1765]],
-    [[721, 1765], [701, 1520]],
-    [[701, 1520], [678, 1251]]
+    [[29, 78], [941, 48]],
+    [[941, 48], [895, 125]],
+    [[866, 1052], [133, 1053]],
+    [[133, 1053], [133, 660]],
+    [[133, 660], [78, 657]],
+    [[895, 125], [914, 412]],
+    [[914, 412], [914, 423]],
+    [[914, 423], [900, 617]],
+    [[900, 617], [866, 1052]],
+    [[78, 657], [72, 592]],
+    [[72, 592], [52, 347]],
+    [[52, 347], [29, 78]],
 ]
+
+# Draw the coordinate text for each unique point
+
+
 # Define the label data as a list of tuples: (position, text)
 labels = [
-    ((678, 1251), "A"),
-    ((701, 1520), "23"),
-    ((721, 1765), "22"),
-    ((727, 1830), "1"),
-    ((782, 1833), "2"),
-    ((782, 2226), "D"),
-    ((1515, 2225), "C"),
-    ((1544, 1298), "3"),
-    ((1549, 1790), "21"),
-    ((1563, 1585), "20"),
-    ((1563, 1596), "4"),
-    ((1590, 1221), "B"),
+    ((29, 78), "A"),
+    ((941, 48), "B"),
+    ((895, 125), "3"),
+    ((133, 660), "2"),
+    ((914, 412), "20"),
+    ((914, 423), "4"),
+    ((900, 617), "21"),
+    ((72, 592), "22"),
+    ((52, 347), "23"),
+    ((90, 631), "1"),
+    ((866, 1052), "C"),
+    ((133, 1053), "D"),
 ]
 
 # Create a blank canvas
 canvas = np.ones((2500, 2000, 3), dtype=np.uint8) * 255
 
 # Draw the text labels on the canvas
-for (x, y), text in labels:
-    cv2.putText(
-        canvas,
-        str(text),
-        (x, y),
-        fontFace=cv2.FONT_HERSHEY_SIMPLEX,
-        fontScale=2,
-        color=(0, 128, 0),
-        thickness=4,
-        lineType=cv2.LINE_AA
-    )
+# for (x, y), text in labels:
+#     cv2.putText(
+#         canvas,
+#         str(text),
+#         (x, y),
+#         fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+#         fontScale=2,
+#         color=(0, 128, 0),
+#         thickness=4,
+#         lineType=cv2.LINE_AA
+#     )
 
+drawn_points = set()
+for seg in segments:
+    for pt in seg:
+        pt_tuple = tuple(pt)
+        if pt_tuple not in drawn_points:
+            cv2.putText(
+                canvas,
+                f"{pt_tuple}",
+                pt_tuple,
+                fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+                fontScale=1.2,
+                color=(0, 128, 0),
+                thickness=3,
+                lineType=cv2.LINE_AA
+            )
+            drawn_points.add(pt_tuple)
 
 
 # Draw the lines

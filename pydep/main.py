@@ -5,6 +5,8 @@ from svgpathtools import parse_path
 from cairosvg import svg2png
 import requests
 import json
+import customFloodFill
+from collections import Counter
 
 
 def SvgToD(geometry_data):
@@ -44,16 +46,21 @@ def ExtractLandLines(drawings):
     line3 = []
     line1 = []
     line1_ = []
-    for drawing in drawings:
-        if(drawing["width"] == 3.0):
-            temp = drawing["items"]
-            line3.append([[temp[0][1][0],temp[0][1][1]], [temp[0][2][0],temp[0][2][1]]])
+
+
+    for drawing in drawings:             
+        temp = drawing["items"]
+        if(drawing["width"] == 3.0):  
+            crd = [[temp[0][1][0],temp[0][1][1]], [temp[0][2][0],temp[0][2][1]]]
+            line3.append(crd)
         if(drawing["width"] == 1.0):
-            temp = drawing["items"]
-            if(drawing["dashes"] == "[ 30 10 1 3 1 3 1 10 ] 1"):             
-                line1_.append([[temp[0][1][0],temp[0][1][1]], [temp[0][2][0],temp[0][2][1]]])
+            crd = [[temp[0][1][0],temp[0][1][1]], [temp[0][2][0],temp[0][2][1]]]
+            if(drawing["dashes"] == "[ 30 10 1 3 1 3 1 10 ] 1"):
+                line1_.append(crd)
             else:
-                line1.append([[temp[0][1][0],temp[0][1][1]], [temp[0][2][0],temp[0][2][1]]])
+                if(1 not in crd[0] and 1 not in crd[1]):
+                    line1.append(crd)
+    
     return {"line3":line3,"line1":line1,"line1_":line1_}
 
 def CheckDot(count):
@@ -66,15 +73,15 @@ def PathHasDot(path):
     for i in range(len(path)):
         seg = path[i]
         if seg[0] == 'l':
-            for j in range(i,i+4):
+            for j in range(i, i + 4):
                 try:
                     seg_ = path[j]
                 except:
                     break
-                if(seg_[0] == 'l'):
+                if seg_[0] == 'l':
                     count.append(seg_)
-            if(len(count) == 4):
-                if(CheckDot(count)):
+            if len(count) == 4:
+                if CheckDot(count):
                     return True
             count = []
     return False
@@ -89,6 +96,18 @@ def ExtractTextD(drawings):
             if(not PathHasDot(drawing["items"])):
                 b.append(drawing)
     return {"r":r,"b":b}
+
+def ExtractArea(drawings):
+    ind = 0
+    svg = ""
+    path_data = SvgToD(drawings[len(drawings)-1]["items"])
+    path_data = "M" + "M".join(path_data.split('M')[13:])
+    img = MakeSvgImage(path_data)
+    _, img_encoded = cv2.imencode('.png', img)
+    img_bytes = img_encoded.tobytes()
+    files = {'image': ('image.png', img_bytes, 'image/png')}
+    response = requests.post('http://localhost:5000/ocr', files=files)
+    return response.json()['results'][0]['text']
 
 def MakeSvgImage(d):
     # Parse the path
@@ -134,6 +153,7 @@ def ExtractPdf(path):
     canvas_height = int(page_rect.height)
 
     rtn = ExtractLandLines(drawings)
+    rtn["area"] = int(ExtractArea(drawings))
     textD = ExtractTextD(drawings)
     rtn["r"] = []
     for i in textD["r"]:
@@ -143,6 +163,7 @@ def ExtractPdf(path):
         files = {'image': ('image.png', img_bytes, 'image/png')}
         response = requests.post('http://localhost:5000/ocr', files=files)
         bbox = i["rect"]
+        # print(response.json()['results'][0]['text'])
         rtn["r"].append({"text":response.json()['results'][0]['text'],"bbox": [bbox[0],bbox[1],bbox[2],bbox[3]]})
     rtn["b"] = []
     for i in textD["b"]:
@@ -155,10 +176,95 @@ def ExtractPdf(path):
         rtn["b"].append({"text":response.json()['results'][0]['text'],"bbox": [bbox[0],bbox[1],bbox[2],bbox[3]]})
     return json.dumps(rtn)
 
+def getSubdiv(crd):
+    crd = json.loads(crd)
+    image = np.zeros((int(crd[4]+1), int(crd[3]+1), 3), dtype=np.uint8)
+    ref_arr=[]
+
+    lines = crd[1] + crd[2]
+    cords = crd[0]
+    ind = 0
+    for i in lines:
+        sp = (int(i[0][0]),int(i[0][1]))
+        ep = (int(i[1][0]),int(i[1][1]))
+        color = (ind,255,255)
+        cv2.line(image, sp, ep, color, 1)
+        ind += 1
+        ref_arr.append(i)
+
+    subdiv = {}
+    for i in cords:
+        line_ind = customFloodFill.process(image,int(cords[i]['X']),int(cords[i]['Y']))
+        buc = Counter(map(str, line_ind))
+        line_ind = [int(key) for key, count in buc.items() if count >= 10]
+
+        subdiv[i] = []
+        for e in line_ind:
+            subdiv[i].append(ref_arr[e])
+
+    return json.dumps(subdiv)
+
+def calculate_distance(x1, y1, x2, y2):
+    distance = math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
+    return distance
+
+def shrink_or_expand_points(points, subdivision, scale):
+
+    # Calculate the centroid (center) of the points
+    point_keys = list(points.keys())
+    subdivision_keys = list(subdivision.keys())
+
+    x1 = points[point_keys[0]][0][0]
+    y1 = points[point_keys[0]][0][1]
+    x2 = points[point_keys[1]][0][0]
+    y2 = points[point_keys[1]][0][1]
+
+    initialdist = calculate_distance(x1, y1, x2, y2)
+    newdist = initialdist * 0.03535 * scale / 100
+    percentage = (newdist - initialdist) / initialdist * 100
+    # print("Percetage: ",percentage)
+
+    n = len(point_keys)
+    n1 = len(subdivision_keys)
+
+    centroid_x = 0
+    centroid_y = 0
+
+    for key in point_keys:
+        centroid_x += points[key][0][0]
+        centroid_y += points[key][0][1]
+
+    for key in subdivision_keys:
+        centroid_x += subdivision[key][0][0]
+        centroid_y += subdivision[key][0][1]
+
+    centroid_x = centroid_x / (n + n1)
+    centroid_y = centroid_y / (n + n1)
+
+    # Calculate the new scaled points
+    scaled_points = {}
+    subdiv_points = {}
+
+    for key, value in points.items():
+        vector_x = value[0][0] - centroid_x
+        vector_y = value[0][1] - centroid_y
+
+        new_x = centroid_x + vector_x * (1 + percentage / 100)
+        new_y = centroid_y + vector_y * (1 + percentage / 100)
+
+        scaled_points[key] = [[new_x, new_y], value[1], value[2]]
+
+    for key, value in subdivision.items():
+        vector_x = value[0][0] - centroid_x
+        vector_y = value[0][1] - centroid_y
+
+        new_x = centroid_x + vector_x * (1 + percentage / 100)
+        new_y = centroid_y + vector_y * (1 + percentage / 100)
+
+        subdiv_points[key] = [[new_x, new_y], value[1], value[2]]
+
+
+    return scaled_points,subdiv_points
 
 if __name__ == "__main__":
-    print(ExtractPdf("source.pdf"))
-
-
-def test(h):
-    return str(h) + " test"
+    print(ExtractPdf("1.pdf"))

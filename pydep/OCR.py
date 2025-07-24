@@ -32,6 +32,7 @@ async def ocr(image: UploadFile = File(...)):
 
         # Perform OCR with GPU acceleration
         results = reader.readtext(image_cv, allowlist="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+
         
         text_results = []
         for result in results:
