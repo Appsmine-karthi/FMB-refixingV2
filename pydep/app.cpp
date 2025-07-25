@@ -82,12 +82,22 @@ PYBIND11_MODULE(customFloodFill, m) {
 /*
 To compile this C++ file with pybind11 and OpenCV, use a command similar to:
 
+python 3.12
 g++ -O3 -Wall -shared -std=c++14 -fPIC \
     $(python3.12-config --includes) \
     -I$(python3.12 -m pybind11 --includes | cut -c3-) \
     $(pkg-config --cflags opencv4) \
     -o customFloodFill$(python3.12-config --extension-suffix) app.cpp \
     $(python3.12-config --ldflags) \
+    $(pkg-config --libs opencv4) -I include
+
+python 3.13
+g++ -O3 -Wall -shared -std=c++14 -fPIC \
+    $(python3.13-config --includes) \
+    -I$(python3.13 -m pybind11 --includes | cut -c3-) \
+    $(pkg-config --cflags opencv4) \
+    -o customFloodFill$(python3.13-config --extension-suffix) app.cpp \
+    $(python3.13-config --ldflags) \
     $(pkg-config --libs opencv4) -I include
 
 Make sure to adjust the paths and Python version if needed.

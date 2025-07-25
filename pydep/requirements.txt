@@ -13,3 +13,5 @@ utm
 PyPDF2
 pyproj
 reportlab
+requests
+pybind11

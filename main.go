@@ -39,8 +39,9 @@ func main() {
 		json.NewEncoder(w).Encode(data)
 	})
 
-	fmt.Println("Server started at :5003")
-	err := http.ListenAndServe(":5003", nil)
+	
+	fmt.Println("Server started at :5001")
+	err := http.ListenAndServe(":5001", nil)
 	if err != nil {
 		fmt.Println("Server error:", err)
 	}

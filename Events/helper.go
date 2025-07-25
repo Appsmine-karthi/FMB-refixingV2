@@ -14,7 +14,7 @@ import (
 var nithishUrl = "https://dev-api.sreeragu.com/api/v2/MobileSurvey/getById"
 var a0Url = "https://a0-fmb.mypropertyqr.in/rurals/"
 var sreeraguUrl = "https://prod-api.sreeragu.com/api/v2/MobileSurvey/update"
-var FileDir = "/home/anand/mypropertyqr-landsurvey/"
+var FileDir = "/home/ubuntu/mypropertyqr-landsurvey/"
 
 func doPost(url string, body map[string]interface{}) (map[string]interface{}, error) {
 

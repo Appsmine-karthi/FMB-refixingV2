@@ -1,0 +1,1 @@
+pm2 start "venv/bin/gunicorn survey_app:app -b 0.0.0.0:5002 -w 2 --timeout 120 --log-level debug" --name get-survey

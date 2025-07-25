@@ -10,6 +10,7 @@ import customFloodFill
 from collections import Counter
 from pdfGenerator import generatepdf
 
+ocr_url = "http://localhost:6001/ocr"
 
 def SvgToD(geometry_data):
     if not geometry_data:
@@ -108,7 +109,7 @@ def ExtractScale(drawings):
     _, img_encoded = cv2.imencode('.png', img)
     img_bytes = img_encoded.tobytes()
     files = {'image': ('image.png', img_bytes, 'image/png')}
-    response = requests.post('http://localhost:5000/ocr', files=files)
+    response = requests.post(ocr_url, files=files)
     return response.json()['results'][0]['text']
 
 from shapely.geometry import Point, Polygon, LineString
@@ -222,7 +223,7 @@ def ExtractPdf(path):
         _, img_encoded = cv2.imencode('.png', img)
         img_bytes = img_encoded.tobytes()
         files = {'image': ('image.png', img_bytes, 'image/png')}
-        response = requests.post('http://localhost:5000/ocr', files=files)
+        response = requests.post(ocr_url, files=files)
         bbox = i["rect"]
         rtn["r"].append({"text":response.json()['results'][0]['text'],"bbox": [bbox[0],bbox[1],bbox[2],bbox[3]]})
     rtn["b"] = []
@@ -243,7 +244,7 @@ def ExtractPdf(path):
         _, img_encoded = cv2.imencode('.png', img)
         img_bytes = img_encoded.tobytes()
         files = {'image': ('image.png', img_bytes, 'image/png')}
-        response = requests.post('http://localhost:5000/ocr', files=files)
+        response = requests.post(ocr_url, files=files)
         ocr_results = response.json().get('results', [])
         if not ocr_results or not ocr_results[0].get('text', '').strip():
             text = ""

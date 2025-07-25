@@ -1,12 +1,12 @@
 package Algs
 
-/*
-#cgo CFLAGS: -I/usr/include/python3.12
-#cgo LDFLAGS: -lpython3.12
-#include "pyembed.h"
-#include <stdlib.h>
-*/
-import "C"
+// /*
+// #cgo CFLAGS: -I/usr/include/python3.12
+// #cgo LDFLAGS: -lpython3.12
+// #include "pyembed.h"
+// #include <stdlib.h>
+// */
+// import "C"
 import (
 	"encoding/json"
 	"fmt"
@@ -60,12 +60,12 @@ type PyParam struct {
 	Arg []any  `json:"arg"`
 }
 
-func InitPy(){
-	if C.InitPython() == 0 {
-		fmt.Println("Failed to initialize Python or load module")
-		return
-	}
-}
+// func InitPy(){
+// 	if C.InitPython() == 0 {
+// 		fmt.Println("Failed to initialize Python or load module")
+// 		return
+// 	}
+// }
 
 func Pycess(det PyParam) (string,error) {
 
@@ -74,7 +74,7 @@ func Pycess(det PyParam) (string,error) {
 		panic(err)
 	}
 
-	response, err := doPost("http://localhost:5002/process", jsonBytes)
+	response, err := doPost("http://localhost:6002/process", jsonBytes)
 	if err != nil {
 		fmt.Println("doPost/process:", err)
 		panic(err)
