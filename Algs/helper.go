@@ -11,9 +11,48 @@ import (
 	"encoding/json"
 	"fmt"
 	"math"
-	"unsafe"
 	"sort"
+	"bytes"
+	"io"
+	"net/http"
 )
+
+func doPost(url string, body []byte) (map[string]interface{}, error) {
+
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(body))
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		response := map[string]interface{}{"error": resp.StatusCode, "link": url, "payload": body}
+		return response, fmt.Errorf("received non-200 response: %d", resp.StatusCode)
+	}
+
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	var result map[string]interface{}
+	err = json.Unmarshal(respBody, &result)
+	if err != nil {
+		fmt.Println(err)
+		response := map[string]interface{}{"error": "error in unmarshalling","link":url,"payload":body}
+		return response, fmt.Errorf("received non-200 response: %d", resp.StatusCode)
+	}
+
+	return result, nil
+
+}
 
 
 type PyParam struct {
@@ -28,17 +67,29 @@ func InitPy(){
 	}
 }
 
-func Pycess(det PyParam) string {
+func Pycess(det PyParam) (string,error) {
 
 	jsonBytes, err := json.Marshal(det)
 	if err != nil {
 		panic(err)
 	}
 
-	input := C.CString(string(jsonBytes))
-    defer C.free(unsafe.Pointer(input))
-    result := C.CallProcess(input)
-    return C.GoString(result)
+	response, err := doPost("http://localhost:5002/process", jsonBytes)
+	if err != nil {
+		fmt.Println("doPost/process:", err)
+		panic(err)
+	}
+
+	rtn := response["received"].(string)	
+	if rtn[0] == '!'{
+		return "",fmt.Errorf(rtn)
+	}
+	return rtn,nil
+
+	// input := C.CString(string(jsonBytes))
+    // defer C.free(unsafe.Pointer(input))
+    // result := C.CallProcess(input)
+    // return C.GoString(result)
 }
 
 type Point struct {
@@ -260,7 +311,6 @@ func OffsetToOrigin(res *PyRes) {
 		res.B[i].Bbox[3] -= minY
 	}
 
-	fmt.Println(minX, minY)
 }
 
 func equal(a, b []float32) bool {

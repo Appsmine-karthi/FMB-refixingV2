@@ -214,7 +214,7 @@ def ExtractPdf(path):
     canvas_height = int(page_rect.height)
 
     rtn = ExtractLandLines(drawings)
-    rtn["scale"] = int(ExtractScale(drawings))
+    rtn["Scale"] = int(ExtractScale(drawings))
     textD = ExtractTextD(drawings)
     rtn["r"] = []
     for i in textD["r"]:
@@ -232,13 +232,13 @@ def ExtractPdf(path):
     for i in textD["b"]:
         img, height = MakeSvgImage(SvgToD(i["items"]))
         if height > 8:
-            print("height")
+            # print("height")
             continue
         if not polygon.contains(Point(i["rect"][0], i["rect"][1])):
-            print("pol")
+            # print("pol")
             continue
         if not polygon.contains(Point(i["rect"][2], i["rect"][3])):
-            print("pol2")
+            # print("pol2")
             continue
         _, img_encoded = cv2.imencode('.png', img)
         img_bytes = img_encoded.tobytes()
@@ -391,7 +391,7 @@ def shrink_or_expand_points(args):
     args = json.loads(args)
     points = args["coordinates"]
     subdivision = args["subdivision_list"]
-    scale = args["scale"]
+    scale = args["Scale"]
 
     # print(subdivision)
     # return "args"
@@ -454,16 +454,35 @@ def shrink_or_expand_points(args):
 
     updateArea(args)
 
-    with open("raja.json", "r") as f:
-        raja = json.loads(f.read())
+    
 
+    # with open("raja.json", "r") as f:
+        # raja = json.loads(f.read())
+    # args = select_and_rotate_coords(args,args["coordinates"],args["subdivision_list"],raja)
 
-    args = select_and_rotate_coords(args,args["coordinates"],args["subdivision_list"],raja)
-
-    print(generatepdf(args,"test"))
+    # print(generatepdf(args,"test"))
 
     return json.dumps(args)
 
+def custom_sort_key(item):
+    key = item
+    if key.isdigit():
+        return (1, int(key))
+    else:
+        return (0, key)
+def rotate(args,raja):
+    args = json.loads(args)
+    coordinates = args["coordinates"]
+    scale = args["Scale"]
+    raja = json.loads(raja)
+
+    args = select_and_rotate_coords(args,args["coordinates"],args["subdivision_list"],raja)
+    args["Areass"] = []
+    args["Scale"] = "1:"+str(scale)
+
+    args["srt_coordinetes"] = sorted(list(coordinates.keys()), key=custom_sort_key)
+
+    return json.dumps(args)
 
 if __name__ == "__main__":
     print('ExtractPdf("source.pdf")')

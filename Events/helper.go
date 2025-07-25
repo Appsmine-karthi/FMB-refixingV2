@@ -7,9 +7,16 @@ import (
 	"io"
 	"mypropertyqr-landsurvey/Algs"
 	"net/http"
+	"os"
+	"strings"
 )
 
-func doPost(url string, body map[string]string) (map[string]interface{}, error) {
+var nithishUrl = "https://dev-api.sreeragu.com/api/v2/MobileSurvey/getById"
+var a0Url = "https://a0-fmb.mypropertyqr.in/rurals/"
+var sreeraguUrl = "https://prod-api.sreeragu.com/api/v2/MobileSurvey/update"
+var FileDir = "/home/anand/mypropertyqr-landsurvey/"
+
+func doPost(url string, body map[string]interface{}) (map[string]interface{}, error) {
 
 	bodyBytes, err := json.Marshal(body)
 	if err != nil {
@@ -43,39 +50,265 @@ func doPost(url string, body map[string]string) (map[string]interface{}, error) 
 	err = json.Unmarshal(respBody, &result)
 	if err != nil {
 		fmt.Println(err)
-		response := map[string]interface{}{"error": "error in unmarshalling","link":url,"payload":body}
+		response := map[string]interface{}{"error": "error in unmarshalling", "link": url, "payload": body}
 		return response, fmt.Errorf("received non-200 response: %d", resp.StatusCode)
+	}
+
+	return result, nil
+
+}
+
+func doGet(url string) (map[string]interface{}, error) {
+	resp, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	var result map[string]interface{}
+	err = json.Unmarshal(respBody, &result)
+	if err != nil {
+		return nil, err
 	}
 
 	return result, nil
 }
 
-func getLandDetails(id, Mid string){
+func downloadFile(url string, path string) error {
 
+	if _, err := os.Stat(path); err == nil {
+		file, err := os.Create(path)
+		if err != nil {
+			return err
+		}
+		defer file.Close()
+
+		resp, err := http.Get(url)
+		if err != nil {
+			return err
+		}
+		defer resp.Body.Close()
+
+		_, err = io.Copy(file, resp.Body)
+		if err != nil {
+			return err
+		}
+		return nil
+	} else if os.IsNotExist(err) {
+		resp, err := http.Get(url)
+		if err != nil {
+			return err
+		}
+		defer resp.Body.Close()
+
+		file, err := os.Create(path)
+		if err != nil {
+			return err
+		}
+		defer file.Close()
+
+		_, err = io.Copy(file, resp.Body)
+		if err != nil {
+			return err
+		}
+		return nil
+	} else {
+		return err
+	}
 }
 
-func getA0(){
-	
+func getNithish(id string, memberId string) (map[string]string, error) {
+	res, err := doPost(nithishUrl,
+		map[string]interface{}{"id": id, "memberId": memberId})
+	if err != nil {
+		return nil, err
+	}
+	district := res["data"].(map[string]interface{})["district"].(map[string]interface{})["name"].(string)
+	taluk := res["data"].(map[string]interface{})["taluk"].(map[string]interface{})["name"].(string)
+	village := res["data"].(map[string]interface{})["village"].(map[string]interface{})["name"].(string)
+	survey_no := res["data"].(map[string]interface{})["surveyNumber"].(string)
+	noOfSubdivision := res["data"].(map[string]interface{})["noOfSubdivision"].(string)
+	latitude := res["data"].(map[string]interface{})["latitude"].(string)
+	longitude := res["data"].(map[string]interface{})["longitude"].(string)
+
+	return map[string]string{
+		"district":        district,
+		"taluk":           taluk,
+		"village":         village,
+		"survey_no":       survey_no,
+		"noOfSubdivision": noOfSubdivision,
+		"latitude":        latitude,
+		"longitude":       longitude,
+	}, nil
 }
 
-func Extractdata(id, Mid string){
-	response := Algs.Pycess(Algs.PyParam{
-		Mod: "ExtractPdf",
-		Arg: []any{"4.pdf"},
+func getRaja(latitude string, longitude string) (string, error) {
+	res, err := doGet("https://survey.mypropertyqr.in/village/?lat=" + latitude + "&lon=" + longitude)
+	if err != nil {
+		fmt.Println("Error in getRaja:", err)
+		return "", err
+	}
+
+	jsonBytes, err := json.Marshal(res)
+	if err != nil {
+		fmt.Println("JSON marshal error:", err)
+		return "", err
+	}
+	return string(jsonBytes), nil
+}
+
+func getA0(payload map[string]string) (map[string]interface{}, error) {
+	url := "https://a0-fmb.mypropertyqr.in/rurals/" + payload["district"] + "/" + payload["taluk"] + "/" + payload["village"] + "/" + payload["survey_no"]
+	res, err := doGet(url)
+	if err != nil {
+		fmt.Println("Error in getA0:", err)
+		return nil, err
+	}
+
+	return res, nil
+}
+
+func Extractdata(id string, memberId string) string {
+
+	details, err := getNithish(id, memberId)
+	if err != nil {
+		// errorDetails := map[string]interface{}{
+		// 	"function":      "extract_data",
+		// 	"error_type":    "API_REQUEST_ERROR",
+		// 	"error_message": err.Error(),
+		// 	"id":            id,
+		// 	"memberId":      memberId,
+		// 	"step":          "Getting survey data from nithish API",
+		// 	"success":       false,
+		// }
+		payload := map[string]interface{}{
+			"id":                id,
+			"memberId":          memberId,
+			"surveyStatus":      "Failed to Extract",
+			"surveyStatusCode":  0,
+			"remarks":           "Failed to get Id details",
+			"surveyStatusAlert": "ServerError",
+		}
+		_, _ = doPost(sreeraguUrl, payload)
+
+		resultJSON, _ := json.Marshal(payload)
+		return string(resultJSON)
+	}
+
+	if details["noOfSubdivision"] > "25" {
+		// errorDetails := map[string]interface{}{
+		// 	"function":      "extract_data",
+		// 	"error_type":    "SUBDIVISION_LIMIT_ERROR",
+		// 	"error_message": fmt.Sprintf("Number of subdivisions (%s) exceeds limit of 25", details["noOfSubdivision"]),
+		// 	"id":            id,
+		// 	"memberId":      memberId,
+		// 	"step":          "Subdivision validation",
+		// 	"noOfSubdivision": details["noOfSubdivision"],
+		// 	"success":       false,
+		// }
+		payload := map[string]interface{}{
+			"id":                id,
+			"memberId":          memberId,
+			"surveyStatus":      "Processing",
+			"surveyStatusCode":  1,
+			"remarks":           fmt.Sprintf("noOfSubdivision null or 0 or >%s", details["noOfSubdivision"]),
+			"surveyStatusAlert": "MoreSurvey",
+		}
+		_, _ = doPost(sreeraguUrl, payload)
+
+		resultJSON, _ := json.Marshal(payload)
+		return string(resultJSON)
+	}
+
+	rajaCh := make(chan struct {
+		result string
+		err    error
 	})
+	go func() {
+		result, err := getRaja(details["latitude"], details["longitude"])
+		rajaCh <- struct {
+			result string
+			err    error
+		}{result, err}
+	}()
+
+	Localfilename := strings.ReplaceAll(FileDir+"inputs/"+details["district"]+details["taluk"]+details["village"]+details["survey_no"]+".pdf", " ", "_")
+	S3filename := strings.ReplaceAll("inputs/"+details["district"]+details["taluk"]+details["village"]+details["survey_no"]+".pdf", " ", "_")
+	isPdfInS3 := GetFromS3(
+		S3filename,
+		Localfilename,
+	)
+	// fmt.Println(isPdfInS3)
+	if !isPdfInS3 {
+		a0, err := getA0(details)
+		if err != nil {
+			fmt.Println("Error in getA0:", err)
+			return ""
+		}
+		if a0["message"] != "File uploaded successfully" {
+			// errorDetails := map[string]interface{}{
+			// 	"function":      "extract_data",
+			// 	"error_type":    "SUBDIVISION_LIMIT_ERROR",
+			// 	"error_message": fmt.Sprintf("Number of subdivisions (%s) exceeds limit of 25", details["noOfSubdivision"]),
+			// 	"id":            id,
+			// 	"memberId":      memberId,
+			// 	"step":          "Subdivision validation",
+			// 	"noOfSubdivision": details["noOfSubdivision"],
+			// 	"success":       false,
+			// }
+			payload := map[string]interface{}{
+				"id":                id,
+				"memberId":          memberId,
+				"surveyStatus":      "Failed to Extract",
+				"surveyStatusCode":  0,
+				"remarks":           "Failed to get A0 FMB",
+				"surveyStatusAlert": a0["error"],
+			}
+			_, _ = doPost(sreeraguUrl, payload)
+
+			resultJSON, _ := json.Marshal(payload)
+			return string(resultJSON)
+		}
+
+		pdfUrl := a0["data"].([]any)[0].(string)
+		err = downloadFile(pdfUrl, Localfilename)
+		if err != nil {
+			fmt.Println("Error in downloadFile:", err)
+			return ""
+		}
+		uploaded := UploadToS3(S3filename, Localfilename)
+		if !uploaded {
+			fmt.Println("Error in UploadToS3:", S3filename)
+			return ""
+		}
+	}
+
+	defer os.Remove(Localfilename)
+
+
+	response, err := Algs.Pycess(Algs.PyParam{
+		Mod: "ExtractPdf",
+		Arg: []any{Localfilename},
+	})
+	if err != nil {
+		return `{"Error": "ExtractPdf", "error": "` + err.Error() + `"}`
+	}
 
 	var res Algs.PyRes
-	err := json.Unmarshal([]byte(response), &res)
+	err = json.Unmarshal([]byte(response), &res)
 	if err != nil {
 		fmt.Println("JSON error:", err)
-		return
+		return ""
 	}
 
 	res.Line3 = Algs.RemoveFloatingLines(res.Line3)
 	newLine1 := Algs.RemoveFloatingLines(res.Line1)
 
-
-    Algs.OffsetToOrigin(&res)
+	Algs.OffsetToOrigin(&res)
 
 	seen := make(map[string]bool)
 	var points []Algs.Point
@@ -98,56 +331,57 @@ func Extractdata(id, Mid string){
 			}
 		}
 	}
-    //all red text with coordinates ((x,y):text)    
+	//all red text with coordinates ((x,y):text)
 	CoordRed := Algs.RankBasedAssignment(points, res.R)
-    CoordBlue := Algs.FormatBbox(res.B)
+	CoordBlue := Algs.FormatBbox(res.B)
 
-    CoordRedMap := make(map[Algs.Point]string)
-    for key, value := range CoordRed {
-        CoordRedMap[value] = key
-    }
+	CoordRedMap := make(map[Algs.Point]string)
+	for key, value := range CoordRed {
+		CoordRedMap[value] = key
+	}
 
-    // get subdiv
-    str, err := json.Marshal([]any{CoordBlue, res.Line1, res.Line3, res.Xmax - res.Xmin, res.Ymax - res.Ymin})
-    if err != nil {
-        fmt.Println("Error marshaling Line1 to JSON:", err)
-    }
-    response = Algs.Pycess(Algs.PyParam{
+	// get subdiv
+	str, err := json.Marshal([]any{CoordBlue, res.Line1, res.Line3, res.Xmax - res.Xmin, res.Ymax - res.Ymin})
+	if err != nil {
+		fmt.Println("Error marshaling Line1 to JSON:", err)
+	}
+	response, err = Algs.Pycess(Algs.PyParam{
 		Mod: "getSubdiv",
 		Arg: []any{string(str)},
 	})
+	if err != nil {
+		return `{"Error": "getSubdiv", "error": "` + err.Error() + `"}`
+	}
 
-    var subdivResult map[string][][][]float32
-    err = json.Unmarshal([]byte(response), &subdivResult)
-    if err != nil {
-        fmt.Println("Error unmarshaling subdiv JSON:", err)
-        return
-    }
+	var subdivResult map[string][][][]float32
+	err = json.Unmarshal([]byte(response), &subdivResult)
+	if err != nil {
+		fmt.Println("Error unmarshaling subdiv JSON:", err)
+		return ""
+	}
 
+	for ind := range CoordBlue {
+		subdivResult[ind] = Algs.OrderLines(subdivResult[ind])
+	}
 
-    for ind := range CoordBlue {
-        subdivResult[ind] = Algs.OrderLines(subdivResult[ind])
-    }
+	//remove line if dont have text
+	for ind := range subdivResult {
+		newPol := [][][]float32{}
+		for _, pol := range subdivResult[ind] {
+			newLne := [][]float32{}
+			for _, lne := range pol {
+				_, exists := CoordRedMap[Algs.Point{lne[0], lne[1]}]
+				if exists {
+					newLne = append(newLne, lne)
+				}
+			}
+			newPol = append(newPol, newLne)
+		}
+		subdivResult[ind] = newPol
+	}
 
-
-//remove line if dont have text
-    for ind := range subdivResult {
-        newPol := [][][]float32{}
-        for _, pol := range subdivResult[ind] {
-            newLne := [][]float32{}
-            for _, lne := range pol {
-                _, exists := CoordRedMap[Algs.Point{lne[0], lne[1]}]
-                if exists {
-                    newLne = append(newLne, lne)
-                }
-            }
-            newPol = append(newPol, newLne)
-        }
-        subdivResult[ind] = newPol
-    }
-
-    // fmt.Println(subdivResult)   
-    // fmt.Println((Algs.FlattenPoints(subdivResult["3"])))
+	// fmt.Println(subdivResult)
+	// fmt.Println((Algs.FlattenPoints(subdivResult["3"])))
 
 	coordinates := make(map[string][]any)
 	for c := range CoordRed {
@@ -191,7 +425,7 @@ func Extractdata(id, Mid string){
 			flattenedArr = append(flattenedArr, CoordRedMap[temp])
 		}
 
-		if(len(flattenedArr) == 0){
+		if len(flattenedArr) == 0 {
 			continue
 		}
 
@@ -202,27 +436,35 @@ func Extractdata(id, Mid string){
 		subdiv_list[key] = grp
 	}
 
-
-	data, err := json.Marshal(map[string]any{"lines": lines, "subdivision_list": subdiv_list, "coordinates": coordinates, "scale": res.Scale})
+	data, err := json.Marshal(map[string]any{"lines": lines, "subdivision_list": subdiv_list, "coordinates": coordinates, "Scale": res.Scale, "district": details["district"], "taluk": details["taluk"], "village": details["village"], "survey_no": details["survey_no"]})
 	if err != nil {
 		fmt.Println("Error marshaling lines:", err)
 	}
 
-	response = Algs.Pycess(Algs.PyParam{
+	response, err = Algs.Pycess(Algs.PyParam{
 		Mod: "shrink_or_expand_points",
 		Arg: []any{string(data)},
 	})
+	if err != nil {
+		return `{"Error": "shrink_or_expand_points", "error": "` + err.Error() + `"}`
+	}
 
-	// data, err = json.Marshal(response)
-	// if err != nil {
-	// 	fmt.Println("Error marshaling lines:", err)
-	// }
-	// response = Algs.Pycess(Algs.PyParam{
-	// 	Mod: "rapidProcess",
-	// 	Arg: []any{string(data)},
-	// })
+	rajaRes := <-rajaCh
+	if rajaRes.err != nil {
+		return ""
+	}
+	raja := rajaRes.result
 
-	fmt.Println(response)
+	response, err = Algs.Pycess(Algs.PyParam{
+		Mod: "rotate",
+		Arg: []any{response, raja},
+	})
+	if err != nil {
+		return `{"Error": "rotate", "error": "` + err.Error() + `"}`
+	}
+
+
+	return response
 }
 
 // func getA0(){
@@ -252,12 +494,10 @@ func Extractdata(id, Mid string){
 // 	if err != nil {
 // 		return dep2
 // 	}
-	
+
 // 	inputfilename := district + taluk + village + survey_no
 // 	inputfilename = strings.ReplaceAll(inputfilename, " ", "_")
 // 	inputpdf := inputfilename + ".pdf"
-
-
 
 // 	fmt.Println(district,taluk,village,survey_no,noOfSubdivision,inputpdf)
 // 	return dep2
