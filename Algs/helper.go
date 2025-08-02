@@ -1,12 +1,5 @@
 package Algs
 
-// /*
-// #cgo CFLAGS: -I/usr/include/python3.12
-// #cgo LDFLAGS: -lpython3.12
-// #include "pyembed.h"
-// #include <stdlib.h>
-// */
-// import "C"
 import (
 	"encoding/json"
 	"fmt"
@@ -86,10 +79,6 @@ func Pycess(det PyParam) (string,error) {
 	}
 	return rtn,nil
 
-	// input := C.CString(string(jsonBytes))
-    // defer C.free(unsafe.Pointer(input))
-    // result := C.CallProcess(input)
-    // return C.GoString(result)
 }
 
 type Point struct {
@@ -139,6 +128,80 @@ func RemoveFloatingLines(lines [][][]float32) [][][]float32 {
 	return result
 }
 
+func RemoveIsolatedLines(lines [][][]float32) [][][]float32 {
+	type Point struct {
+		X float32
+		Y float32
+	}
+
+	type Line struct {
+		A Point
+		B Point
+	}
+
+	pointToLines := make(map[Point][]int)
+	pointCount := make(map[Point]int)
+
+	// Preprocess to map points to lines
+	for i, line := range lines {
+		a := Point{line[0][0], line[0][1]}
+		b := Point{line[1][0], line[1][1]}
+		pointToLines[a] = append(pointToLines[a], i)
+		pointToLines[b] = append(pointToLines[b], i)
+		pointCount[a]++
+		pointCount[b]++
+	}
+
+	visited := make([]bool, len(lines))
+	var result [][][]float32
+
+	// Find connected components (islands)
+	for i := 0; i < len(lines); i++ {
+		if visited[i] {
+			continue
+		}
+
+		queue := []int{i}
+		island := []int{}
+
+		for len(queue) > 0 {
+			curr := queue[0]
+			queue = queue[1:]
+
+			if visited[curr] {
+				continue
+			}
+			visited[curr] = true
+			island = append(island, curr)
+
+			currLine := lines[curr]
+			a := Point{currLine[0][0], currLine[0][1]}
+			b := Point{currLine[1][0], currLine[1][1]}
+
+			for _, nei := range pointToLines[a] {
+				if !visited[nei] {
+					queue = append(queue, nei)
+				}
+			}
+			for _, nei := range pointToLines[b] {
+				if !visited[nei] {
+					queue = append(queue, nei)
+				}
+			}
+		}
+
+		// Only include the island if it has 4 or more lines
+		if len(island) >= 4 {
+			for _, idx := range island {
+				result = append(result, lines[idx])
+			}
+		}
+	}
+
+	return result
+}
+
+
 type MatchCandidate struct {
 	Point  Point
 	Label  string
@@ -158,6 +221,7 @@ func Distance(a, b Point) float32 {
 	dy := a.Y - b.Y
 	return float32(math.Sqrt(float64(dx*dx + dy*dy)))
 }
+
 
 func RankBasedAssignment(points []Point, labels []Label) map[string]Point {
 	// Step 1: Create all (point, label, distance) tuples
@@ -286,8 +350,8 @@ func OffsetToOrigin(res *PyRes) {
 		}
 	}
 
-	minX = float32(int(minX + 0.999999))
-	minY = float32(int(minY + 0.999999))
+	minX = float32(math.Floor(float64(minX)))
+	minY = float32(math.Floor(float64(minY)))
 
 	res.Xmin = minX
 	res.Ymin = minY

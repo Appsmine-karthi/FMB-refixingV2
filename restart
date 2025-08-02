@@ -1,2 +1,1 @@
-go build main.go
-pm2 restart Pymodule OCR FMBgo
+pm2 restart Pymodule OCR

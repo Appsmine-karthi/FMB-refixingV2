@@ -1,7 +1,7 @@
 package Events
 
 import (
-	// "fmt"
+	"fmt"
 	"io"
 	"os"
 
@@ -11,13 +11,9 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3"
 )
 
+
 func GetFromS3(filename string, pdfpath string) bool {
-	const (
-		AWS_ACCESS_KEY = "AKIAQWO5JSUX25P5VDVF"
-		AWS_SECRET_KEY = "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"
-		S3_REGION      = "us-east-1"
-		BUCKET_NAME    = "mypropertyproduction"
-	)
+
 	S3_OBJECT_NAME := "fmb_refixing/" + filename
 
 	sess, err := session.NewSession(&aws.Config{
@@ -25,7 +21,7 @@ func GetFromS3(filename string, pdfpath string) bool {
 		Credentials: credentials.NewStaticCredentials(AWS_ACCESS_KEY, AWS_SECRET_KEY, ""),
 	})
 	if err != nil {
-		// fmt.Println("Error in session.NewSession:", err)
+		fmt.Println("Error in session.NewSession:", err)
 		return false
 	}
 
@@ -60,12 +56,7 @@ func GetFromS3(filename string, pdfpath string) bool {
 }
 
 func UploadToS3(filename string, filepath string) bool {
-	const (
-		AWS_ACCESS_KEY = "AKIAQWO5JSUX25P5VDVF"
-		AWS_SECRET_KEY = "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"
-		S3_REGION      = "us-east-1"
-		BUCKET_NAME    = "mypropertyproduction"
-	)
+
 	S3_OBJECT_NAME := "fmb_refixing/" + filename
 
 	sess, err := session.NewSession(&aws.Config{
@@ -73,25 +64,56 @@ func UploadToS3(filename string, filepath string) bool {
 		Credentials: credentials.NewStaticCredentials(AWS_ACCESS_KEY, AWS_SECRET_KEY, ""),
 	})
 	if err != nil {
+		// fmt.Println("Error in session.NewSession:", err)
 		return false
 	}
 
-	uploader := s3.New(sess)
+	s3Client := s3.New(sess)
+
+	// Check if the object exists
+	headInput := &s3.HeadObjectInput{
+		Bucket: aws.String(BUCKET_NAME),
+		Key:    aws.String(S3_OBJECT_NAME),
+	}
+	_, err = s3Client.HeadObject(headInput)
+	if err == nil {
+		// Object exists, so delete it before uploading
+		delInput := &s3.DeleteObjectInput{
+			Bucket: aws.String(BUCKET_NAME),
+			Key:    aws.String(S3_OBJECT_NAME),
+		}
+		_, delErr := s3Client.DeleteObject(delInput)
+		if delErr != nil {
+			// fmt.Println("Error deleting existing object:", delErr)
+			return false
+		}
+		// Optionally, wait for deletion to propagate
+		err = s3Client.WaitUntilObjectNotExists(&s3.HeadObjectInput{
+			Bucket: aws.String(BUCKET_NAME),
+			Key:    aws.String(S3_OBJECT_NAME),
+		})
+		if err != nil {
+			// fmt.Println("Error waiting for object deletion:", err)
+			return false
+		}
+	}
 
 	file, err := os.Open(filepath)
 	if err != nil {
+		// fmt.Println("Error in os.Open:", err)
 		return false
 	}
 	defer file.Close()
 
-	input := &s3.PutObjectInput{
+	putInput := &s3.PutObjectInput{
 		Bucket: aws.String(BUCKET_NAME),
 		Key:    aws.String(S3_OBJECT_NAME),
 		Body:   file,
 	}
 
-	_, err = uploader.PutObject(input)
+	_, err = s3Client.PutObject(putInput)
 	if err != nil {
+		// fmt.Println("Error in uploader.PutObject:", err)
 		return false
 	}
 

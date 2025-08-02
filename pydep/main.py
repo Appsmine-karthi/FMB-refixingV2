@@ -50,9 +50,10 @@ def ExtractLandLines(drawings):
     line1 = []
     line1_ = []
 
-
-    for drawing in drawings:             
+    for drawing in drawings:
         temp = drawing["items"]
+        if(drawing.get("color","") == (0.0, 0.0, 1.0)):
+            continue
         if(drawing["width"] == 3.0):  
             crd = [[temp[0][1][0],temp[0][1][1]], [temp[0][2][0],temp[0][2][1]]]
             line3.append(crd)
@@ -63,7 +64,7 @@ def ExtractLandLines(drawings):
             else:
                 if(1 not in crd[0] and 1 not in crd[1]):
                     line1.append(crd)
-    
+    # print(line1)
     return {"line3":line3,"line1":line1,"line1_":line1_}
 
 def CheckDot(count):
@@ -225,7 +226,11 @@ def ExtractPdf(path):
         files = {'image': ('image.png', img_bytes, 'image/png')}
         response = requests.post(ocr_url, files=files)
         bbox = i["rect"]
-        rtn["r"].append({"text":response.json()['results'][0]['text'],"bbox": [bbox[0],bbox[1],bbox[2],bbox[3]]})
+        try:    
+            rtn["r"].append({"text":response.json()['results'][0]['text'],"bbox": [bbox[0],bbox[1],bbox[2],bbox[3]]})
+        except:
+            continue
+
     rtn["b"] = []
     outer_polygon = remove_floating_lines(rtn["line3"])
     outer_polygon = lines_to_ring(outer_polygon)
@@ -258,6 +263,7 @@ def ExtractPdf(path):
         # cv2.waitKey(0)
         bbox = i["rect"]
         rtn["b"].append({"text": text, "bbox": [bbox[0], bbox[1], bbox[2], bbox[3]]})
+        # print(rtn["line1"])
     return json.dumps(rtn)
 
 def getSubdiv(crd):
@@ -288,6 +294,42 @@ def getSubdiv(crd):
 
     return json.dumps(subdiv)
 
+seed_point_offset = [0,0]
+def get_div_cords(res,seed):
+      image = np.zeros((int(res['y_max']+1), int(res['x_max']+1), 3), dtype=np.uint8)
+      ind = 1
+      ref_arr=[]
+
+      for i in res['lines']:
+          sp = (int(res['cords'][i[0]][0]),int(res['cords'][i[0]][1]))
+          ep = (int(res['cords'][i[1]][0]),int(res['cords'][i[1]][1]))
+          color = (ind,255,255)
+          cv2.line(image, sp, ep, color, 1)
+          ind += 1
+          ref_arr.append(i)
+      line_ind = customFloodFill.process(image,int(res['subdivision_list'][seed][0]+seed_point_offset[0]),int(res['subdivision_list'][seed][1]+seed_point_offset[1]))
+
+      buc = Counter(map(str, line_ind))
+      line_ind = [int(key) for key, count in buc.items() if count >= 5]
+
+      i=0
+      for e in line_ind:
+            line_ind[i] = ref_arr[e-1]
+            i += 1
+    #   text = seed
+    #   org = (int(res['subdivision_list'][seed][0]+seed_point_offset[0]), int(res['subdivision_list'][seed][1]+seed_point_offset[1]))  # Position of the text
+    #   font = cv2.FONT_HERSHEY_SIMPLEX  # Font type
+      font_scale = 1  # Font scale
+    #   color = (255, 255, 255)  # White color
+      thickness = 1  # Thickness of the text
+
+      # Put text on the image
+    #   cv2.putText(image, text, org, font, font_scale, color, thickness)
+    #   print("written to /home/developers/Fmb-Layout/Fmb-layout-backend/pol_get/"+seed+".png")
+      # cv2.imwrite("/home/developers/Fmb-Layout/Fmb-layout-backend/pol_get/"+seed+".png",image)
+      # cv2.waitKey(0)
+      return line_ind
+
 def calculate_distance(x1, y1, x2, y2):
     distance = math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
     return distance
@@ -305,6 +347,103 @@ def updateArea(data):
     for key, value in data['subdivision_list'].items():
         cycle_points = [data['coordinates'][point][0] for point in value[1]]
         data['subdivision_list'][key][2] = calculate_area(cycle_points)
+
+def circle_line_intersection(x1, y1, r, x2, y2, x3, y3):
+    """Check if a circle with center (x1, y1) and radius r intersects a line segment (x2, y2) - (x3, y3)."""
+    
+    # Vector from point 2 to point 3
+    dx = x3 - x2
+    dy = y3 - y2
+
+    # Vector from circle center to point 2
+    fx = x2 - x1
+    fy = y2 - y1
+
+    # Quadratic equation coefficients
+    a = dx**2 + dy**2
+    b = 2 * (fx * dx + fy * dy)
+    c = fx**2 + fy**2 - r**2
+
+    # Compute the discriminant
+    discriminant = b**2 - 4 * a * c
+
+    if discriminant < 0:
+        return [False]  # No intersection
+
+    # Compute t values for line equation
+    t1 = (-b - math.sqrt(discriminant)) / (2 * a)
+    t2 = (-b + math.sqrt(discriminant)) / (2 * a)
+
+    # Check if intersection points lie on the segment (0 ≤ t ≤ 1)
+    if 0 <= t1 <= 1 or 0 <= t2 <= 1:
+
+        intersection_x1 = x2 + t1 * dx
+        intersection_y1 = y2 + t1 * dy
+        intersection_x2 = x2 + t2 * dx
+        intersection_y2 = y2 + t2 * dy
+        final_x = (intersection_x1 + intersection_x2) / 2
+        final_y = (intersection_y1 + intersection_y2) / 2
+        return [True,final_x,final_y]  # Intersection occurs
+
+    return [False,"notreq"] 
+
+def updatelines(data, id, coordinate):
+    lines = data['lines']
+    new_lines = []
+    j = 0
+    for i in lines:
+        lcoords = i['coordinates']
+        if i['dashes'] != "[ 30 10 1 3 1 3 1 10 ] 1" and id != lcoords[0] and id != lcoords[1]:
+            x1,y1 = coordinate[0], coordinate[1]
+            x2,y2 = data['coordinates'][lcoords[0]][0][0], data['coordinates'][lcoords[0]][0][1]
+            x3,y3 = data['coordinates'][lcoords[1]][0][0], data['coordinates'][lcoords[1]][0][1]
+            result = circle_line_intersection(x1, y1, 3, x2, y2, x3, y3)
+            # print("result ")
+            # print(result)
+            if result[0] == True:
+                x = result[1]
+                y = result[2]
+                data['coordinates'][id][0] = [x,y]
+                lines[j]['coordinates'] = [lcoords[0],id]
+                new_lines.append({'coordinates':[lcoords[1],id],'dashes':i['dashes'],'strokewidth':i['strokewidth'],'length':0})
+                break
+        j += 1
+    lines.extend(new_lines)
+    data['lines'] = lines
+    return data
+
+def build_adjacency_list(edges):
+    graph = {}
+    for u, v in edges:
+        if u not in graph:
+            graph[u] = []
+        if v not in graph:
+            graph[v] = []
+        graph[u].append(v)
+        graph[v].append(u)
+    return graph
+
+def find_longest_path(edges):
+    graph = build_adjacency_list(edges)
+    def dfs(node, visited):
+        visited.add(node)
+        max_path = []
+        for neighbor in graph.get(node, []):
+            if neighbor not in visited:
+                path = dfs(neighbor, visited)
+                if len(path) > len(max_path):
+                    max_path = path
+        visited.remove(node)
+        return [node] + max_path
+
+    longest_path = []
+    for start_node in graph:
+        visited = set()
+        path = dfs(start_node, visited)
+        if len(path) > len(longest_path):
+            longest_path = path
+    # print("Longest Path:", longest_path,edges)
+    return longest_path
 
 from func import *
 import util
@@ -361,7 +500,7 @@ def get_relative_points(obj,pix):#endpoints of pdf, endpoint of world
 
     top_right_wld = util.find_top_right_point_geo(pix['polygon']['geo'])
     bottom_left_wld = util.find_bottom_left_point_geo(pix['polygon']['geo'])
-    print([[top_right_pdf,{'x':top_right_wld[0],'y':top_right_wld[1]}],[bottom_left_pdf,{'x':bottom_left_wld[0],'y':bottom_left_wld[1]}]])
+    # print([[top_right_pdf,{'x':top_right_wld[0],'y':top_right_wld[1]}],[bottom_left_pdf,{'x':bottom_left_wld[0],'y':bottom_left_wld[1]}]])
 
     return [[top_right_pdf,{'x':top_right_wld[0],'y':top_right_wld[1]}],[bottom_left_pdf,{'x':bottom_left_wld[0],'y':bottom_left_wld[1]}]]
 
@@ -387,6 +526,50 @@ def select_and_rotate_coords(data,coordinates,subdivision_list,rajaresponse):
     data['subdivision_list'] = out['subdivision_list']
     # print("new requestr ",out)
     return data
+
+def get_pdf_box_update(obj):
+    line_ord = {
+          'lines':[],
+          'cords':{},
+          'x_max':0,
+          'y_max':0
+    }
+    for i in obj['lines']:
+        if i['dashes'] == "[ 9 0 ] 1":
+                    line_ord['lines'].append(i['coordinates'])
+    for i in line_ord['lines']:
+          for e in i:
+                r = obj['coordinates'][e][0]
+                line_ord['cords'][e] = r
+
+    for i in obj['subdivision_list']:
+          val = obj['subdivision_list'][i]
+          line_ord['cords']["sub_"+i] = val[0]
+      
+
+    points = np.array(list(line_ord['cords'].values()))
+    min_x, min_y = np.min(points, axis=0)
+    offset_coords = {key: [x - min_x, y - min_y] for key, (x, y) in line_ord['cords'].items()}
+    line_ord['cords'] = offset_coords
+
+    for i in line_ord['cords']:
+            val = line_ord['cords'][i]
+            if line_ord['x_max'] < val[0]:
+                  line_ord['x_max'] = val[0]
+            if line_ord['y_max'] < val[1]:
+                  line_ord['y_max'] = val[1]
+    
+    line_ord['subdivision_list'] = {}
+    temp = line_ord['cords'].copy()
+    for i in temp:
+          k = i.split('_')
+          if k[0] == "sub":
+            val = line_ord['cords'][i]
+            line_ord['subdivision_list'][k[1]] = val
+            del line_ord['cords'][i]
+
+      
+    return(line_ord)
 
 def shrink_or_expand_points(args):
     args = json.loads(args)
@@ -455,13 +638,7 @@ def shrink_or_expand_points(args):
 
     updateArea(args)
 
-    
-
-    # with open("raja.json", "r") as f:
-        # raja = json.loads(f.read())
     # args = select_and_rotate_coords(args,args["coordinates"],args["subdivision_list"],raja)
-
-    # print(generatepdf(args,"test"))
 
     return json.dumps(args)
 
@@ -485,5 +662,62 @@ def rotate(args,raja):
 
     return json.dumps(args)
 
+def getPDF(req):
+    req = json.loads(req)
+
+    id = req['id']
+    data = req['data']
+
+    res = generatepdf(data,id)
+    return res
+
+from rotateCords import update_lines_with_new_slope_and_length
+def getRotatedCoords(content):
+    content = json.loads(content)
+    new_coord1 = content['new_coord1']
+    new_coord2 = content['new_coord2']
+    old_coord1 = content['old_coord1']
+    old_coord2 = content['old_coord2']
+    coordinates = content['coordinates']
+    selected_point1 = content['selected_point1']
+    selected_point2 = content['selected_point2']
+    subdivision_list = content['subdivision_list']
+    print("dfg")
+    out = update_lines_with_new_slope_and_length(new_coord1,new_coord2,old_coord1,old_coord2,coordinates,selected_point1,selected_point2,subdivision_list)
+    return json.dumps(out)
+
+def updateData(content):
+    content = json.loads(content)
+    with open("data.json","w") as f:
+        json.dump(content,f)
+    data = content['data']
+    event = content['event']
+    if event == "coordinatedrag":
+         id = content['id']
+         coordinate = data['coordinates'][id][0]
+        #  print("new cord ",coordinate)
+         data = updatelines(data, id, coordinate)
+    subdivisions = {}
+    res = get_pdf_box_update(data)
+    for key, value in data["subdivision_list"].items():
+        coordinates, points, area = value
+        # print("for ",key)
+        path = find_longest_path(get_div_cords(res,key))
+        cycle_points = [data['coordinates'][point][0] for point in path]
+        area = calculate_area(cycle_points)
+        subdivisions[key] = [coordinates,path,area]
+    # print(subdivisions)
+    data['subdivision_list'] = subdivisions
+
+    return json.dumps(data)
+
+def SelectAndRotateCoords(content):
+    content = json.loads(content)
+    coordinates = content['coordinates']
+    subdivision_list = content['subdivision_list']
+    data = content['data']
+    rajaresponse = content['rajaresponse']
+    return json.dumps(select_and_rotate_coords(data, coordinates, subdivision_list, rajaresponse))
+
 if __name__ == "__main__":
-    print('ExtractPdf("source.pdf")')
+    f = ExtractPdf("COIMBATORECoimbatore_NorthVilankurichy.112.pdf")

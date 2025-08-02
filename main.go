@@ -4,15 +4,64 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
+	"time"
 	// "mypropertyqr-landsurvey/Algs"
 	"mypropertyqr-landsurvey/Events"
+	"os"
+	"log"
+	"github.com/joho/godotenv"
 )
 
+
+func getClientIP(r *http.Request) string {
+	// Check X-Forwarded-For header first (for proxies/load balancers)
+	if xff := r.Header.Get("X-Forwarded-For"); xff != "" {
+		// X-Forwarded-For can contain multiple IPs, take the first one
+		if idx := strings.Index(xff, ","); idx != -1 {
+			return strings.TrimSpace(xff[:idx])
+		}
+		return strings.TrimSpace(xff)
+	}
+	
+	// Check X-Real-IP header
+	if xri := r.Header.Get("X-Real-IP"); xri != "" {
+		return strings.TrimSpace(xri)
+	}
+	
+	// Fall back to RemoteAddr
+	if idx := strings.LastIndex(r.RemoteAddr, ":"); idx != -1 {
+		return r.RemoteAddr[:idx]
+	}
+	return r.RemoteAddr
+}
+
+func loggingMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		clientIP := getClientIP(r)
+		timestamp := time.Now().Format("2006-01-02 15:04:05")
+		
+		fmt.Printf("[%s] %s %s from %s\n", timestamp, r.Method, r.URL.Path, clientIP)
+
+		next.ServeHTTP(w, r)
+	})
+}
+
+func loadEnv() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+		os.Exit(1)
+	}
+
+	Events.LoadEnv()
+}
+
 func main() {
-	// Algs.InitPy()
+	loadEnv()
+	mux := http.NewServeMux()
 
-
-	http.HandleFunc("/extractdata", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/extractdata", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 			return
@@ -32,6 +81,7 @@ func main() {
 		var data map[string]interface{}
 		err = json.Unmarshal([]byte(dataStr), &data)
 		if err != nil {
+			fmt.Println("Error in unmarshal JSON:", dataStr)
 			http.Error(w, "Failed to unmarshal JSON", http.StatusInternalServerError)
 			return
 		}
@@ -39,9 +89,139 @@ func main() {
 		json.NewEncoder(w).Encode(data)
 	})
 
+	mux.HandleFunc("/getPDF", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodPost {
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+		var body map[string]interface{}
+		err := json.NewDecoder(r.Body).Decode(&body)
+		if err != nil {
+			http.Error(w, "Invalid JSON", http.StatusBadRequest)
+			return
+		}
+
+		dataStr, err := json.Marshal(body)
+		if err != nil {
+			fmt.Println("Error marshalling data:", err)
+		} 
+		
+
+		id, _ := body["id"].(string)
+		memberId, _ := body["memberId"].(string)
+		
+		response := Events.GetPdf(id, memberId, string(dataStr))
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(response)
+	})
 	
+	mux.HandleFunc("/getrotated_coords", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodPost {
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+		var body map[string]interface{}
+		err := json.NewDecoder(r.Body).Decode(&body)
+		if err != nil {
+			http.Error(w, "Invalid JSON", http.StatusBadRequest)
+			return
+		}
+		bodyBytes, err := json.Marshal(body)
+		if err != nil {
+			http.Error(w, "Failed to marshal JSON", http.StatusInternalServerError)
+			return
+		}
+
+		content := string(bodyBytes)
+		response := Events.GetRotatedCoords(content)
+		var data map[string]interface{}
+		err = json.Unmarshal([]byte(response), &data)
+		if err != nil {
+			fmt.Println("Error in unmarshal JSON:", response)
+			http.Error(w, "Failed to unmarshal JSON", http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(data)
+	})
+
+	mux.HandleFunc("/helpvideo", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet {
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+		response := map[string]interface{}{
+			"link": Events.HowtoLink,
+			"text": Events.HowtoText,
+		}
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(response)
+	})
+
+	mux.HandleFunc("/updatedata", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodPost {
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+		var body map[string]interface{}
+		err := json.NewDecoder(r.Body).Decode(&body)
+		if err != nil {
+			http.Error(w, "Invalid JSON", http.StatusBadRequest)
+			return
+		}
+		bodyBytes, err := json.Marshal(body)
+		if err != nil {
+			http.Error(w, "Failed to marshal JSON", http.StatusInternalServerError)
+			return
+		}
+		content := string(bodyBytes)
+		
+		dataStr := Events.UpdateData(content)
+		var data map[string]interface{}
+		err = json.Unmarshal([]byte(dataStr), &data)
+		if err != nil {
+			fmt.Println("Error in unmarshal JSON:", dataStr)
+			http.Error(w, "Failed to unmarshal JSON", http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(data)
+	})
+
+	// mux.HandleFunc("/selectand_rotate_coords", func(w http.ResponseWriter, r *http.Request) {
+	// 	if r.Method != http.MethodPost {
+	// 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+	// 		return
+	// 	}
+	// 	var body map[string]interface{}
+	// 	err := json.NewDecoder(r.Body).Decode(&body)
+	// 	if err != nil {
+	// 		http.Error(w, "Invalid JSON", http.StatusBadRequest)
+	// 		return
+	// 	}
+	// 	bodyBytes, err := json.Marshal(body)
+	// 	if err != nil {
+	// 		http.Error(w, "Failed to marshal JSON", http.StatusInternalServerError)
+	// 		return
+	// 	}
+	// 	content := string(bodyBytes)
+		
+	// 	dataStr := Events.UpdateData(content)
+	// 	var data map[string]interface{}
+	// 	err = json.Unmarshal([]byte(dataStr), &data)
+	// 	if err != nil {
+	// 		fmt.Println("Error in unmarshal JSON:", dataStr)
+	// 		http.Error(w, "Failed to unmarshal JSON", http.StatusInternalServerError)
+	// 		return
+	// 	}
+	// 	w.Header().Set("Content-Type", "application/json")
+	// 	json.NewEncoder(w).Encode(data)
+	// })
+	
+	handler := loggingMiddleware(mux)
 	fmt.Println("Server started at :5001")
-	err := http.ListenAndServe(":5001", nil)
+	err := http.ListenAndServe(":5001", handler)
 	if err != nil {
 		fmt.Println("Server error:", err)
 	}

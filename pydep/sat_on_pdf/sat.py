@@ -4,7 +4,7 @@ URL = "https://mt.google.com/vt/lyrs=s&x={x}&y={y}&z=18"
 import cv2
 import requests
 import numpy as np
-import sat_on_pdf.func as func
+import sat_on_pdf.funcs as func
 
 width, height = round(575.27), round(721.89)
 

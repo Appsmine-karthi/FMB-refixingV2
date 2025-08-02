@@ -4,6 +4,14 @@ import math
 from page2pdfgenerator import page2pdfgenerator
 from sat_on_pdf.main import generatepdfpage1,generatepdfpage2
 
+import os
+from dotenv import load_dotenv
+load_dotenv()
+pdfTemp = os.getenv("PDF_TEMP")
+logoIcon = os.getenv("LOGO_ICON")
+
+# print(pdfTemp)
+# print(logoIcon)
 
 def img_to_base64(image_path):
     with open(image_path, "rb") as img_file:
@@ -129,12 +137,11 @@ def generatecad(data,id):
     # s3_url = uploadtos3(outputcad,cadname)
     # return s3_url
 
-
 def generatepdf(data,id):
-    outputsvg = "temp/"+id+".svg"
-    page1pdf = "temp/"+id+"_1.pdf"
-    page2pdf = "temp/"+id+"_2.pdf"
-    outputpdf = "temp/"+id+".pdf"
+    outputsvg = pdfTemp+id+".svg"
+    page1pdf = pdfTemp+id+"_1.pdf"
+    page2pdf = pdfTemp+id+"_2.pdf"
+    outputpdf = pdfTemp+id+".pdf"
     scaleandarea = generatepdfpage1(data,page1pdf)
     generatepdfpage2(data,page2pdf)
     dup_point = {point['key']: (point['latitude'],point['longitude']) for point in data['duppoints']}
@@ -207,12 +214,11 @@ def generatepdf(data,id):
         font_size="40px",  font_family="serif", font_weight="bold" 
         # text_anchor="middle"
     ))
-    image_data = img_to_base64("image.png")
+    image_data = img_to_base64(logoIcon)
     # Add the image as base64-encoded data to the SVG
     dwg.add(dwg.image(href="data:image/png;base64," + image_data, insert=(20, 20), size=(90, 90)))
     draw_table(dwg,dup_point,point)
     dwg.save()
     page2pdfgenerator(outputsvg,page1pdf,page2pdf,outputpdf)
-    # pdfname = id+".pdf"
-    # s3_url = uploadtos3(outputpdf,pdfname)
-    return "s3_url"
+
+    return outputpdf

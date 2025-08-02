@@ -10,7 +10,6 @@ from typing import Dict, Any
 app = FastAPI()
 
 @app.post("/process")
-@app.post("/process")
 async def process_generic(request: Request):
     try:
         data: Dict[str, Any] = await request.json()
@@ -44,6 +43,13 @@ def process(mod, arg):
         func = getattr(main, func_name)
         return func(*args, **kwargs)
     except Exception as e:
+        import traceback
+        error_details = {
+            "error_type": type(e).__name__,
+            "error_message": str(e),
+            "traceback": traceback.format_exc()
+        }
+        print(error_details)
         return "!"+str(e)
 
 if __name__ == '__main__':

@@ -8,9 +8,9 @@ import torch
 
 app = FastAPI()
 
-# Check if GPU is available
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print(f"Using device: {device}")
+
 
 # Initialize the OCR reader globally for better performance with GPU support
 reader = easyocr.Reader(['en'], recog_network='english_g2', gpu=(device == 'cuda'))

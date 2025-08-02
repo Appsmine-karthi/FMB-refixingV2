@@ -8,6 +8,16 @@ def cord_angle(p1, p2, p3):
     # print("elb: ",p2)
     # print("bse: ",p3)
 
+    print(p1)
+    print()
+    print(p2)
+    print()
+    print(p3)
+
+    print(p1[0] - p2[0], p1[1] - p2[1])
+    print(p3[0] - p2[0], p3[1] - p2[1])
+
+
     v1 = (p1[0] - p2[0], p1[1] - p2[1])
     v2 = (p3[0] - p2[0], p3[1] - p2[1])
     
@@ -77,16 +87,12 @@ import numpy as np
 def get_pdf_box(obj):
     line_ord = []
     for i in obj['lines']:
-        if i['strokewidth'] == "2":
+        if i['strokewidth'] == "3":
             line_ord.append(i['coordinates'])
-            # for e in i['coordinates']:
-            #     if e not in line_ord:
-            #         line_ord.append(e)
 
-    # print("bf",line_ord)
-    
+
     point_ind = arrange_chain(line_ord)
-
+    print(point_ind)
     for i in range(len(point_ind)):
         line_ord[i] = obj['coordinates'][point_ind[i]][0]
 

@@ -6,7 +6,7 @@ import cv2
 import pos
 import sat
 import math
-import func as func
+import funcs as func
 
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
@@ -15,6 +15,11 @@ from io import BytesIO
 from PIL import Image
 import numpy as np
 from reportlab.lib.colors import Color
+
+import os
+from dotenv import load_dotenv
+load_dotenv()
+logo = os.getenv("LOGO")
 
 def generatepdfpage1(data,file_name):
     keys = {}
@@ -94,7 +99,7 @@ def generatepdfpage1(data,file_name):
     pil_image.save(image_buffer, format="PNG")
     image_buffer.seek(0)
     pdf_canvas.drawImage(ImageReader(image_buffer), x=page_margin-dig_padding, y=page_margin-dig_padding,mask='auto')
-    pdf_canvas.drawImage("logo.png", x=page_margin+10, y=height-85, width = 150*2, height= 35*2,mask='auto')
+    pdf_canvas.drawImage(logo, x=page_margin+10, y=height-85, width = 150*2, height= 35*2,mask='auto')
 
 
     #margin

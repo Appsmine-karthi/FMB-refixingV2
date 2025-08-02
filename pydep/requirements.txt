@@ -16,3 +16,4 @@ reportlab
 requests
 pybind11
 "uvicorn[standard]" gunicorn
+dotenv
