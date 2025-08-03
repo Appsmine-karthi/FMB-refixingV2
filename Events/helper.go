@@ -333,7 +333,6 @@ func Extractdata(id string, memberId string) string {
 		Localjsonname,
 	)
 	log.Printf("JSON exists in S3: %t", isJsonInS3)
-	
 	if isJsonInS3 {
 		log.Printf("Reading existing JSON from S3")
 		data, err := os.ReadFile(Localjsonname)
@@ -734,7 +733,7 @@ func Extractdata(id string, memberId string) string {
 		UploadToS3(S3jsonname, Localjsonname)
 		os.Remove(Localjsonname)
 		log.Printf("Local JSON file removed")
-	}	
+	}
 	
 	log.Printf("Extractdata completed successfully for id: %s", id)
 	return response
@@ -843,4 +842,40 @@ func Selectand_rotate_coords(content string) string {
 	
 	log.Printf("Selectand_rotate_coords completed successfully")
 	return response
+}
+
+func ManualUpdate(content string) string {
+	log.Printf("Starting ManualUpdate")
+	var data map[string]interface{}
+	err := json.Unmarshal([]byte(content), &data)
+	if err != nil {
+		log.Printf("Error unmarshalling content in ManualUpdate: %v", err)
+		return `{"success": false, "Error": "ManualUpdate", "message": "Invalid JSON provided","error": "` + err.Error() + `"}`
+	}
+
+	dataBytes, err := json.Marshal(data["data"])
+	if err != nil {
+		log.Printf("Error marshalling data in ManualUpdate (data): %v", err)
+		return `{"success": false, "Error": "ManualUpdate", "message": "Invalid JSON provided","error": "` + err.Error() + `"}`
+	}
+
+	idVal, ok := data["id"].(string)
+	if !ok {
+		log.Printf("Error in ManualUpdate: id field missing or not a string")
+		return `{"success": false, "Error": "ManualUpdate", "message": "Missing or invalid id in data"}`
+	}
+
+	filepath := outputDir + idVal + ".json"
+	err = os.WriteFile(filepath, dataBytes, 0644)
+	if err != nil {
+		log.Printf("Error writing JSON to file in ManualUpdate: %v", err)
+		return `{"success": false, "Error": "ManualUpdate", "message": "Failed to write JSON to file","error": "` + err.Error() + `"}`
+	}
+	log.Printf("ManualUpdate JSON written to file: %s", filepath)
+
+	UploadToS3(filepath, filepath)
+	os.Remove(filepath)
+
+	log.Printf("ManualUpdate completed successfully")
+	return `{"success": true, "message": "ManualUpdate completed successfully"}`
 }

@@ -16,6 +16,10 @@ func GetFromS3(filename string, pdfpath string) bool {
 
 	S3_OBJECT_NAME := "fmb_refixing/" + filename
 
+	fmt.Println("Getting from S3\n\n")
+	fmt.Println(AWS_ACCESS_KEY, AWS_SECRET_KEY)
+	fmt.Println("\n\n")
+
 	sess, err := session.NewSession(&aws.Config{
 		Region:      aws.String(S3_REGION),
 		Credentials: credentials.NewStaticCredentials(AWS_ACCESS_KEY, AWS_SECRET_KEY, ""),
@@ -29,7 +33,7 @@ func GetFromS3(filename string, pdfpath string) bool {
 
 	file, err := os.Create(pdfpath)
 	if err != nil {
-		// fmt.Println("Error in os.Create:", err)
+		fmt.Println("Error in os.Create:", err)
 		return false
 	}
 	defer file.Close()
@@ -41,14 +45,14 @@ func GetFromS3(filename string, pdfpath string) bool {
 
 	result, err := downloader.GetObject(input)
 	if err != nil {
-		// fmt.Println("Error in downloader.GetObject:", err)
+		fmt.Println("Error in downloader.GetObject:", err)
 		return false
 	}
 	defer result.Body.Close()
 
 	_, err = io.Copy(file, result.Body)
 	if err != nil {
-		// fmt.Println("Error in io.Copy:", err)
+		fmt.Println("Error in io.Copy:", err)
 		return false
 	}
 
