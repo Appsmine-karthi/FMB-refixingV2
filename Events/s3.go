@@ -1,9 +1,10 @@
 package Events
 
 import (
-	"fmt"
+	// "fmt"
 	"io"
 	"os"
+	"net/http"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -12,49 +13,82 @@ import (
 )
 
 
+// func GetFromS3(filename string, pdfpath string) bool {
+
+// 	S3_OBJECT_NAME := "fmb_refixing/" + filename
+
+// 	fmt.Println("Getting from S3\n\n")
+// 	fmt.Println(AWS_ACCESS_KEY, AWS_SECRET_KEY)
+// 	fmt.Println("\n\n")
+
+// 	sess, err := session.NewSession(&aws.Config{
+// 		Region:      aws.String(S3_REGION),
+// 		Credentials: credentials.NewStaticCredentials(AWS_ACCESS_KEY, AWS_SECRET_KEY, ""),
+// 	})
+// 	if err != nil {
+// 		fmt.Println("Error in session.NewSession:", err)
+// 		return false
+// 	}
+
+// 	downloader := s3.New(sess)
+
+// 	file, err := os.Create(pdfpath)
+// 	if err != nil {
+// 		fmt.Println("Error in os.Create:", err)
+// 		return false
+// 	}
+// 	defer file.Close()
+
+// 	input := &s3.GetObjectInput{
+// 		Bucket: aws.String(BUCKET_NAME),
+// 		Key:    aws.String(S3_OBJECT_NAME),
+// 	}
+
+// 	result, err := downloader.GetObject(input)
+// 	if err != nil {
+// 		fmt.Println("Error in downloader.GetObject:", err)
+// 		return false
+// 	}
+// 	defer result.Body.Close()
+
+// 	_, err = io.Copy(file, result.Body)
+// 	if err != nil {
+// 		fmt.Println("Error in io.Copy:", err)
+// 		return false
+// 	}
+
+// 	return true
+// }
+
 func GetFromS3(filename string, pdfpath string) bool {
 
-	S3_OBJECT_NAME := "fmb_refixing/" + filename
+	url := s3Url+ filename
 
-	fmt.Println("Getting from S3\n\n")
-	fmt.Println(AWS_ACCESS_KEY, AWS_SECRET_KEY)
-	fmt.Println("\n\n")
-
-	sess, err := session.NewSession(&aws.Config{
-		Region:      aws.String(S3_REGION),
-		Credentials: credentials.NewStaticCredentials(AWS_ACCESS_KEY, AWS_SECRET_KEY, ""),
-	})
+	resp, err := http.Get(url)
 	if err != nil {
-		fmt.Println("Error in session.NewSession:", err)
+		// fmt.Println("Error in http.Get:", err)
+		return false
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		// fmt.Println("Non-OK HTTP status:", resp.Status)
 		return false
 	}
 
-	downloader := s3.New(sess)
-
-	file, err := os.Create(pdfpath)
+	out, err := os.Create(pdfpath)
 	if err != nil {
-		fmt.Println("Error in os.Create:", err)
+		// fmt.Println("Error creating file:", err)
 		return false
 	}
-	defer file.Close()
+	defer out.Close()
 
-	input := &s3.GetObjectInput{
-		Bucket: aws.String(BUCKET_NAME),
-		Key:    aws.String(S3_OBJECT_NAME),
-	}
-
-	result, err := downloader.GetObject(input)
+	_, err = io.Copy(out, resp.Body)
 	if err != nil {
-		fmt.Println("Error in downloader.GetObject:", err)
+		// fmt.Println("Error saving file:", err)
 		return false
 	}
-	defer result.Body.Close()
 
-	_, err = io.Copy(file, result.Body)
-	if err != nil {
-		fmt.Println("Error in io.Copy:", err)
-		return false
-	}
 
 	return true
 }

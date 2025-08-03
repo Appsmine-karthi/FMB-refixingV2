@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io"
+	// "io"
 	"net/http"
 	"strings"
 	"time"
@@ -83,7 +83,13 @@ func main() {
 		err = json.Unmarshal([]byte(dataStr), &data)
 		if err != nil {
 			fmt.Println("Error in unmarshal JSON:", dataStr)
-			http.Error(w, "Failed to unmarshal JSON", http.StatusInternalServerError)
+			fmt.Println("Error in unmarshal JSON:", err)
+			payload := map[string]interface{}{
+				"success": false, 
+				"Error": "failed to unmarshal JSON",
+				"message": Events.LandSurveyError ,
+				}
+			json.NewEncoder(w).Encode(payload)
 			return
 		}
 		w.Header().Set("Content-Type", "application/json")
@@ -220,21 +226,21 @@ func main() {
 	// 	json.NewEncoder(w).Encode(data)
 	// })
 
-	mux.HandleFunc("/ManualUpdate", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != http.MethodPost {
-			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-			return
-		}
-		bodyBytes, err := io.ReadAll(r.Body)
-		if err != nil {
-			http.Error(w, "Failed to read request body", http.StatusBadRequest)
-			return
-		}
-		content := string(bodyBytes)
-		dataStr := Events.ManualUpdate(content)
-		w.Header().Set("Content-Type", "application/json")
-		w.Write([]byte(dataStr))
-	})
+	// mux.HandleFunc("/ManualUpdate", func(w http.ResponseWriter, r *http.Request) {
+	// 	if r.Method != http.MethodPost {
+	// 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+	// 		return
+	// 	}
+	// 	bodyBytes, err := io.ReadAll(r.Body)
+	// 	if err != nil {
+	// 		http.Error(w, "Failed to read request body", http.StatusBadRequest)
+	// 		return
+	// 	}
+	// 	content := string(bodyBytes)
+	// 	dataStr := Events.ManualUpdate(content)
+	// 	w.Header().Set("Content-Type", "application/json")
+	// 	w.Write([]byte(dataStr))
+	// })
 	
 	handler := loggingMiddleware(mux)
 	fmt.Println("Server started at :5001")

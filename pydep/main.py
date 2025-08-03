@@ -45,7 +45,7 @@ def SvgToD(geometry_data):
 
     return " ".join(path_commands)
 
-def ExtractLandLines(drawings):
+def ExtractLandLines(drawings, canvas_height):
     line3 = []
     line1 = []
     line1_ = []
@@ -54,17 +54,18 @@ def ExtractLandLines(drawings):
         temp = drawing["items"]
         if(drawing.get("color","") == (0.0, 0.0, 1.0)):
             continue
-        if(drawing["width"] == 3.0):  
-            crd = [[temp[0][1][0],temp[0][1][1]], [temp[0][2][0],temp[0][2][1]]]
+        if(drawing["width"] == 3.0):
+            crd = [[temp[0][1][0],canvas_height - temp[0][1][1]], [temp[0][2][0],canvas_height - temp[0][2][1]]]
             line3.append(crd)
         if(drawing["width"] == 1.0):
-            crd = [[temp[0][1][0],temp[0][1][1]], [temp[0][2][0],temp[0][2][1]]]
+            crd = [[temp[0][1][0],canvas_height - temp[0][1][1]], [temp[0][2][0],canvas_height - temp[0][2][1]]]
             if(drawing["dashes"] == "[ 30 10 1 3 1 3 1 10 ] 1"):
                 line1_.append(crd)
             else:
                 if(1 not in crd[0] and 1 not in crd[1]):
                     line1.append(crd)
-    # print(line1)
+
+
     return {"line3":line3,"line1":line1,"line1_":line1_}
 
 def CheckDot(count):
@@ -90,7 +91,7 @@ def PathHasDot(path):
             count = []
     return False
 
-def ExtractTextD(drawings):
+def ExtractTextD(drawings, canvas_height):
     r = []
     b = []
     for drawing in drawings:
@@ -215,9 +216,9 @@ def ExtractPdf(path):
     canvas_width = int(page_rect.width)
     canvas_height = int(page_rect.height)
 
-    rtn = ExtractLandLines(drawings)
+    rtn = ExtractLandLines(drawings, canvas_height)
     rtn["Scale"] = int(ExtractScale(drawings))
-    textD = ExtractTextD(drawings)
+    textD = ExtractTextD(drawings, canvas_height)
     rtn["r"] = []
     for i in textD["r"]:
         img,height = MakeSvgImage(SvgToD(i["items"]))
@@ -227,7 +228,7 @@ def ExtractPdf(path):
         response = requests.post(ocr_url, files=files)
         bbox = i["rect"]
         try:    
-            rtn["r"].append({"text":response.json()['results'][0]['text'],"bbox": [bbox[0],bbox[1],bbox[2],bbox[3]]})
+            rtn["r"].append({"text":response.json()['results'][0]['text'],"bbox": [bbox[0],canvas_height - bbox[1],bbox[2],canvas_height - bbox[3]]})
         except:
             continue
 
@@ -262,7 +263,7 @@ def ExtractPdf(path):
         # cv2.imshow("img",img)
         # cv2.waitKey(0)
         bbox = i["rect"]
-        rtn["b"].append({"text": text, "bbox": [bbox[0], bbox[1], bbox[2], bbox[3]]})
+        rtn["b"].append({"text": text, "bbox": [bbox[0], canvas_height - bbox[1], bbox[2], canvas_height - bbox[3]]})
         # print(rtn["line1"])
     return json.dumps(rtn)
 
@@ -720,4 +721,4 @@ def SelectAndRotateCoords(content):
     return json.dumps(select_and_rotate_coords(data, coordinates, subdivision_list, rajaresponse))
 
 if __name__ == "__main__":
-    f = ExtractPdf("COIMBATORECoimbatore_NorthVilankurichy.112.pdf")
+    f = ExtractPdf("/home/ubuntu/mypropertyqr-landsurvey/inputs/NAMAKKALKumarapalayamKokkarayanpettai88.pdf")
