@@ -451,3 +451,29 @@ func CalculateArea(points [][]float32) float32 {
 	}
 	return float32(math.Abs(float64(area)) / 2.0)
 }
+
+func GetBoundingBox(lines [][][]float32) (xmin, ymin, xmax, ymax float32) {
+	if len(lines) == 0 {
+		return 0, 0, 0, 0
+	}
+	xmin, ymin = lines[0][0][0], lines[0][0][1]
+	xmax, ymax = lines[0][0][0], lines[0][0][1]
+	for _, seg := range lines {
+		for _, pt := range seg {
+			x, y := pt[0], pt[1]
+			if x < xmin {
+				xmin = x
+			}
+			if x > xmax {
+				xmax = x
+			}
+			if y < ymin {
+				ymin = y
+			}
+			if y > ymax {
+				ymax = y
+			}
+		}
+	}
+	return xmin, ymin, xmax, ymax
+}

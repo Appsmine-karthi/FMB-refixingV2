@@ -450,18 +450,24 @@ from func import *
 import util
 import flipMatch
 def get_relative_points(obj,pix):#endpoints of pdf, endpoint of world
+
     bound_rect = pix['bound_rect']
     box,points,point_ind = get_pdf_box(obj)
 
     wld_an = compute_angle((bound_rect))
     pdf_an = compute_angle((box))
 
-    to_back_an = pdf_an-wld_an
 
+    to_back_an = pdf_an-wld_an
+    # print("points: ",points)
     points = points.reshape(-1,2)
+    # print("points: ",points)
     
     points = util.rotate_points_clockwise(points , -to_back_an)
+    # print("points: ",points)
     points = util.offset_points_top(points)
+    # print("points: ",points)
+
 
     pix_points = pix['polygon']['pix']
     pix_points = util.offset_points_top(pix_points)
@@ -472,38 +478,71 @@ def get_relative_points(obj,pix):#endpoints of pdf, endpoint of world
     pdf_img = util.draw_box_ref(box,points)
     wld_img = util.draw_box_ref(bound_rect,pix_points)
 
-    normal = flipMatch.process(pdf_img,wld_img)
+    if len(pdf_img.shape) == 2:
+        pdf_img = cv2.cvtColor(pdf_img, cv2.COLOR_GRAY2BGR)
+    if len(wld_img.shape) == 2:
+        wld_img = cv2.cvtColor(wld_img, cv2.COLOR_GRAY2BGR)
+    h1, w1 = pdf_img.shape[:2]
+    h2, w2 = wld_img.shape[:2]
+    target_height = max(h1, h2)
+    if h1 != target_height:
+        pdf_img = cv2.resize(pdf_img, (w1 * target_height // h1, target_height))
+    if h2 != target_height:
+        wld_img = cv2.resize(wld_img, (w2 * target_height // h2, target_height))
+    combined_img = np.hstack((pdf_img, wld_img))
+    cv2.imwrite("pdf_wld_rotate.png", combined_img)
 
-    # print("normal: ",normal)
+    cv2.imwrite("pdf.png",pdf_img)
+    cv2.imwrite("wld.png",wld_img)
+
+    normal = flipMatch.process(pdf_img,wld_img,True)
+    print("normal: ",normal)
+
     if(normal != -2):
         pdf_img = cv2.flip(pdf_img,normal)
 
-
-    # cv2.imshow("pdf",pdf_img)
-    # cv2.imshow("wld",wld_img)
-    # cv2.waitKey(0)
+    if len(pdf_img.shape) == 2:
+        pdf_img = cv2.cvtColor(pdf_img, cv2.COLOR_GRAY2BGR)
+    if len(wld_img.shape) == 2:
+        wld_img = cv2.cvtColor(wld_img, cv2.COLOR_GRAY2BGR)
+    h1, w1 = pdf_img.shape[:2]
+    h2, w2 = wld_img.shape[:2]
+    target_height = max(h1, h2)
+    if h1 != target_height:
+        pdf_img = cv2.resize(pdf_img, (w1 * target_height // h1, target_height))
+    if h2 != target_height:
+        wld_img = cv2.resize(wld_img, (w2 * target_height // h2, target_height))
+    combined_img = np.hstack((pdf_img, wld_img))
+    cv2.imwrite("pdf_wld_rotate_flip.png", combined_img)
 
     points = util.flip_points(points,normal==0 or normal==-1,normal==1 or normal==-1)
     # cv2.imshow("new",util.draw_box_ref(box,points))
     # cv2.waitKey(0)
 
-    top_right_pdf = util.find_top_right_point_pix(points)
+    bottom_right_pdf = util.find_bottom_right_point_pix(points)
+    print("points: ",points)
+    print("bottom_right_pdf: ",bottom_right_pdf)
     for i in range(len(point_ind)):
-        vald = (top_right_pdf == points[i])
+        vald = (bottom_right_pdf == points[i])
         if vald[0] and vald[1]:
-            top_right_pdf = point_ind[i]
+            bottom_right_pdf = point_ind[i]
 
-    bottom_left_pdf = util.find_bottom_left_point_pix(points)
+    top_left_pdf = util.find_top_left_point_pix(points)
     for i in range(len(point_ind)):
-        vald = (bottom_left_pdf == points[i])
+        vald = (top_left_pdf == points[i])
         if vald[0] and vald[1]:
-            bottom_left_pdf = point_ind[i]
+            top_left_pdf = point_ind[i]
 
-    top_right_wld = util.find_top_right_point_geo(pix['polygon']['geo'])
-    bottom_left_wld = util.find_bottom_left_point_geo(pix['polygon']['geo'])
+
+    top_left_wld = util.find_top_left_point_geo(pix['polygon']['geo'])
+    bottom_right_wld = util.find_bottom_right_point_geo(pix['polygon']['geo'])
+    # print(pix['polygon']['geo'])
+    # print(bottom_left_wld)
+    # print(top_right_wld)
     # print([[top_right_pdf,{'x':top_right_wld[0],'y':top_right_wld[1]}],[bottom_left_pdf,{'x':bottom_left_wld[0],'y':bottom_left_wld[1]}]])
-
-    return [[top_right_pdf,{'x':top_right_wld[0],'y':top_right_wld[1]}],[bottom_left_pdf,{'x':bottom_left_wld[0],'y':bottom_left_wld[1]}]]
+    print(top_left_pdf, top_left_wld)
+    print(bottom_right_pdf, bottom_right_wld)
+    return [[top_left_pdf,{'x':top_left_wld[0],'y':top_left_wld[1]}],[bottom_right_pdf,{'x':bottom_right_wld[0],'y':bottom_right_wld[1]}]]
 
 import utm
 def latlog_to_utm(lat, long):
@@ -683,7 +722,6 @@ def getRotatedCoords(content):
     selected_point1 = content['selected_point1']
     selected_point2 = content['selected_point2']
     subdivision_list = content['subdivision_list']
-    print("dfg")
     out = update_lines_with_new_slope_and_length(new_coord1,new_coord2,old_coord1,old_coord2,coordinates,selected_point1,selected_point2,subdivision_list)
     return json.dumps(out)
 

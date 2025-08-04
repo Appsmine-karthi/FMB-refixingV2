@@ -1,6 +1,6 @@
 package Events
 
-var MoreSurvey = "The location you selected contains more than 12 subdivisions on the map. As a result, there is a slight delay in generating the map. It will be prepared and made available on this same page within 24 hours.Once it is ready, you can start the survey work directly through your mobile."
+var MoreSurvey = "The location you selected contains more than 100 subdivisions on the map. As a result, there is a slight delay in generating the map. It will be prepared and made available on this same page within 24 hours.Once it is ready, you can start the survey work directly through your mobile."
 
 var LandSurveyError = "There is a slight delay in generating the map for the location you selected.We will prepare it and provide it on this same page within 24 hours.Kindly wait for a short while."
 

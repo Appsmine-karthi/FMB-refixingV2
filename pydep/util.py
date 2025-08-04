@@ -145,19 +145,41 @@ def flip_points(points, flip_horizontal=False, flip_vertical=False):
     
     return flipped_points
 
-def find_top_right_point_pix(points):
-    sorted_points = sorted(points, key=lambda p: p[0])
-    return sorted_points[0]
+# def find_bottom_right_point_pix(points):
+#     return max(points, key=lambda p: (p[1], p[0]))
 
-def find_bottom_left_point_pix(points):
-    sorted_points = sorted(points, key=lambda p: -p[0])
-    return sorted_points[0]
- 
- 
-def find_top_right_point_geo(points):
-    sorted_points = sorted(points, key=lambda p: p[1])
-    return sorted_points[0]
- 
-def find_bottom_left_point_geo(points):
-    sorted_points = sorted(points, key=lambda p: -p[1])
-    return sorted_points[0]
+# def find_top_left_point_pix(points):
+#     return min(points, key=lambda p: (p[1], p[0]))
+
+def find_top_left_point_geo(points): #lattitude, longitude
+    return max(points, key=lambda p: (p[0], p[1]))
+
+def find_bottom_right_point_geo(points): #lattitude, longitude
+    return min(points, key=lambda p: (p[0], p[1]))
+
+import math
+def find_bottom_right_point_pix(points):
+    # Get the bounding box of the polygon
+    max_x = max(p[0] for p in points)
+    max_y = max(p[1] for p in points)
+    target = (max_x, max_y)
+
+    # Compute distance to (maxX, maxY) for each point
+    def distance(p):
+        return math.hypot(p[0] - target[0], p[1] - target[1])
+
+    # Return the point closest to the bottom-right corner of the frame
+    return min(points, key=distance)
+
+def find_top_left_point_pix(points):
+    # Get the bounding box of the polygon
+    min_x = min(p[0] for p in points)
+    min_y = min(p[1] for p in points)
+    target = (min_x, min_y)
+
+    # Compute distance to (minX, minY) for each point
+    def distance(p):
+        return math.hypot(p[0] - target[0], p[1] - target[1])
+
+    # Return the point closest to the top-left corner of the frame
+    return min(points, key=distance)

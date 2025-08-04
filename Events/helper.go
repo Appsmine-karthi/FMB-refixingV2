@@ -292,7 +292,7 @@ func Extractdata(id string, memberId string) string {
 	log.Printf("Retrieved details: %+v", details)
 
 	noOfSubdivision, _ := strconv.Atoi(details["noOfSubdivision"])
-	if noOfSubdivision > 25 {
+	if noOfSubdivision > 100 {
 		log.Printf("Number of subdivisions (%d) exceeds limit of 25", noOfSubdivision)
 		payload := map[string]interface{}{
 			"id":                id,
@@ -638,6 +638,7 @@ func Extractdata(id string, memberId string) string {
 			"strokewidth": "3",
 		})
 	}
+
 	
 	subdiv_list := make(map[string]any)
 	for key, subdivPolys := range subdivResult {
@@ -720,7 +721,7 @@ func Extractdata(id string, memberId string) string {
 			"surveyStatusAlert": LandSurveyError,
 		}
 		_, _ = doPost(sreeraguUrl, payload)
-		return `{"success": false, "Error": "rotate", "message": "` + LandSurveyError + `,"error": ` + err.Error() + `"}`
+		return `{"success": false, "Error": "rotate", "message": "` + LandSurveyError + `","error": "` + err.Error() + `"}`
 	}
 
 	log.Printf("Processing completed successfully, updating final status")

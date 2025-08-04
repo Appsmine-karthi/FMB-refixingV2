@@ -90,13 +90,16 @@ def get_pdf_box(obj):
         if i['strokewidth'] == "3":
             line_ord.append(i['coordinates'])
 
+    l = []
+    for i in line_ord:
+        l.append([int(obj['coordinates'][i[0]][0][0]),int(obj['coordinates'][i[0]][0][1])])
+
+
 
     point_ind = arrange_chain(line_ord)
     print(point_ind)
     for i in range(len(point_ind)):
         line_ord[i] = obj['coordinates'][point_ind[i]][0]
-
-    # print(line_ord)
 
 
     points = np.array(line_ord, np.int32)
