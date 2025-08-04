@@ -478,22 +478,22 @@ def get_relative_points(obj,pix):#endpoints of pdf, endpoint of world
     pdf_img = util.draw_box_ref(box,points)
     wld_img = util.draw_box_ref(bound_rect,pix_points)
 
-    if len(pdf_img.shape) == 2:
-        pdf_img = cv2.cvtColor(pdf_img, cv2.COLOR_GRAY2BGR)
-    if len(wld_img.shape) == 2:
-        wld_img = cv2.cvtColor(wld_img, cv2.COLOR_GRAY2BGR)
-    h1, w1 = pdf_img.shape[:2]
-    h2, w2 = wld_img.shape[:2]
-    target_height = max(h1, h2)
-    if h1 != target_height:
-        pdf_img = cv2.resize(pdf_img, (w1 * target_height // h1, target_height))
-    if h2 != target_height:
-        wld_img = cv2.resize(wld_img, (w2 * target_height // h2, target_height))
-    combined_img = np.hstack((pdf_img, wld_img))
-    cv2.imwrite("pdf_wld_rotate.png", combined_img)
+    # if len(pdf_img.shape) == 2:
+    #     pdf_img = cv2.cvtColor(pdf_img, cv2.COLOR_GRAY2BGR)
+    # if len(wld_img.shape) == 2:
+    #     wld_img = cv2.cvtColor(wld_img, cv2.COLOR_GRAY2BGR)
+    # h1, w1 = pdf_img.shape[:2]
+    # h2, w2 = wld_img.shape[:2]
+    # target_height = max(h1, h2)
+    # if h1 != target_height:
+    #     pdf_img = cv2.resize(pdf_img, (w1 * target_height // h1, target_height))
+    # if h2 != target_height:
+    #     wld_img = cv2.resize(wld_img, (w2 * target_height // h2, target_height))
+    # combined_img = np.hstack((pdf_img, wld_img))
+    # cv2.imwrite("pdf_wld_rotate.png", combined_img)
 
-    cv2.imwrite("pdf.png",pdf_img)
-    cv2.imwrite("wld.png",wld_img)
+    # cv2.imwrite("pdf.png",pdf_img)
+    # cv2.imwrite("wld.png",wld_img)
 
     normal = flipMatch.process(pdf_img,wld_img)
     # print("normal: ",normal)
@@ -501,19 +501,19 @@ def get_relative_points(obj,pix):#endpoints of pdf, endpoint of world
     if(normal != -2):
         pdf_img = cv2.flip(pdf_img,normal)
 
-    if len(pdf_img.shape) == 2:
-        pdf_img = cv2.cvtColor(pdf_img, cv2.COLOR_GRAY2BGR)
-    if len(wld_img.shape) == 2:
-        wld_img = cv2.cvtColor(wld_img, cv2.COLOR_GRAY2BGR)
-    h1, w1 = pdf_img.shape[:2]
-    h2, w2 = wld_img.shape[:2]
-    target_height = max(h1, h2)
-    if h1 != target_height:
-        pdf_img = cv2.resize(pdf_img, (w1 * target_height // h1, target_height))
-    if h2 != target_height:
-        wld_img = cv2.resize(wld_img, (w2 * target_height // h2, target_height))
-    combined_img = np.hstack((pdf_img, wld_img))
-    cv2.imwrite("pdf_wld_rotate_flip.png", combined_img)
+    # if len(pdf_img.shape) == 2:
+    #     pdf_img = cv2.cvtColor(pdf_img, cv2.COLOR_GRAY2BGR)
+    # if len(wld_img.shape) == 2:
+    #     wld_img = cv2.cvtColor(wld_img, cv2.COLOR_GRAY2BGR)
+    # h1, w1 = pdf_img.shape[:2]
+    # h2, w2 = wld_img.shape[:2]
+    # target_height = max(h1, h2)
+    # if h1 != target_height:
+    #     pdf_img = cv2.resize(pdf_img, (w1 * target_height // h1, target_height))
+    # if h2 != target_height:
+    #     wld_img = cv2.resize(wld_img, (w2 * target_height // h2, target_height))
+    # combined_img = np.hstack((pdf_img, wld_img))
+    # cv2.imwrite("pdf_wld_rotate_flip.png", combined_img)
 
     points = util.flip_points(points,normal==1 or normal==-1,normal==0 or normal==-1)
     # cv2.imshow("new",util.draw_box_ref(box,points))
