@@ -65,21 +65,27 @@ def compute_angle(pts):
     return cord_angle(point_tp,point_elb,point_bs)
     
 def arrange_chain(arr):
-    # print(arr,'\n')
     chain = [arr[0]]
+    remaining = arr[1:]
 
-    for i in range(len(arr)-1):
-        end = chain[i][1]
-        for e in arr:
+    for _ in range(len(arr) - 1):
+        end = chain[-1][1]
+        found = False
+        for i, e in enumerate(remaining):
             if e[0] == end:
-                next = e
+                chain.append(e)
+                remaining.pop(i)
+                found = True
                 break
-        chain.append(next)
+            elif e[1] == end:
+                chain.append([e[1], e[0]])  # reverse the direction
+                remaining.pop(i)
+                found = True
+                break
+        if not found:
+            break
 
-    chn_car = []
-    for i in chain:
-        chn_car.append(i[0])
-
+    chn_car = [i[0] for i in chain]
     return chn_car
 
 import cv2
@@ -90,28 +96,24 @@ def get_pdf_box(obj):
         if i['strokewidth'] == "3":
             line_ord.append(i['coordinates'])
 
-    l = []
-    for i in line_ord:
-        l.append([int(obj['coordinates'][i[0]][0][0]),int(obj['coordinates'][i[0]][0][1])])
-
-
+    # l = []
+    # for i in line_ord:
+    #     l.append([[int(obj['coordinates'][i[0]][0][0]),int(obj['coordinates'][i[0]][0][1])],[int(obj['coordinates'][i[1]][0][0]),int(obj['coordinates'][i[1]][0][1])]])
 
     point_ind = arrange_chain(line_ord)
-    print(point_ind)
-    for i in range(len(point_ind)):
-        line_ord[i] = obj['coordinates'][point_ind[i]][0]
 
+    temp = []
+    for i in point_ind:
+        temp.append(obj['coordinates'][i][0])
 
-    points = np.array(line_ord, np.int32)
+    points = np.array(temp, np.int32)
 
     min_x = np.min(points[:, 0])
     min_y = np.min(points[:, 1])
 
-
     for i in range(len(points)):
         points[i][0] -= min_x
         points[i][1] -= min_y
-
 
     canvas_height = int(np.max(points[:, 1]) + 1)
 

@@ -467,6 +467,11 @@ func Extractdata(id string, memberId string) string {
 	res.Line3 = Algs.RemoveFloatingLines(res.Line3)
 	newLine1 := Algs.RemoveFloatingLines(res.Line1)
 
+	
+	log.Printf("\n\n\n--------------------------------")
+	// log.Printf("Subdivision results: %+v", subdivResult)
+	log.Printf("--------------------------------\n\n\n")
+
 	Algs.OffsetToOrigin(&res)
 
 	seen := make(map[string]bool)
@@ -571,10 +576,6 @@ func Extractdata(id string, memberId string) string {
 		_, _ = doPost(sreeraguUrl, payload)
 		return `{"success": false, "Error": "getSubdiv unmarshal", "message": "` + LandSurveyError + `,"error": ` + err.Error() + `"}`
 	}
-
-	log.Printf("\n\n\n--------------------------------")
-	log.Printf("Subdivision results: %+v", subdivResult)
-	log.Printf("--------------------------------\n\n\n")
 
 	log.Printf("Processing subdivision results")
 	for ind := range CoordBlue {

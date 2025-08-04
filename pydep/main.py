@@ -495,8 +495,8 @@ def get_relative_points(obj,pix):#endpoints of pdf, endpoint of world
     cv2.imwrite("pdf.png",pdf_img)
     cv2.imwrite("wld.png",wld_img)
 
-    normal = flipMatch.process(pdf_img,wld_img,True)
-    print("normal: ",normal)
+    normal = flipMatch.process(pdf_img,wld_img)
+    # print("normal: ",normal)
 
     if(normal != -2):
         pdf_img = cv2.flip(pdf_img,normal)
@@ -515,13 +515,13 @@ def get_relative_points(obj,pix):#endpoints of pdf, endpoint of world
     combined_img = np.hstack((pdf_img, wld_img))
     cv2.imwrite("pdf_wld_rotate_flip.png", combined_img)
 
-    points = util.flip_points(points,normal==0 or normal==-1,normal==1 or normal==-1)
+    points = util.flip_points(points,normal==1 or normal==-1,normal==0 or normal==-1)
     # cv2.imshow("new",util.draw_box_ref(box,points))
     # cv2.waitKey(0)
 
     bottom_right_pdf = util.find_bottom_right_point_pix(points)
-    print("points: ",points)
-    print("bottom_right_pdf: ",bottom_right_pdf)
+    # print("points: ",points)
+    # print("bottom_right_pdf: ",bottom_right_pdf)
     for i in range(len(point_ind)):
         vald = (bottom_right_pdf == points[i])
         if vald[0] and vald[1]:
@@ -540,8 +540,8 @@ def get_relative_points(obj,pix):#endpoints of pdf, endpoint of world
     # print(bottom_left_wld)
     # print(top_right_wld)
     # print([[top_right_pdf,{'x':top_right_wld[0],'y':top_right_wld[1]}],[bottom_left_pdf,{'x':bottom_left_wld[0],'y':bottom_left_wld[1]}]])
-    print(top_left_pdf, top_left_wld)
-    print(bottom_right_pdf, bottom_right_wld)
+    # print(top_left_pdf, top_left_wld)
+    # print(bottom_right_pdf, bottom_right_wld)
     return [[top_left_pdf,{'x':top_left_wld[0],'y':top_left_wld[1]}],[bottom_right_pdf,{'x':bottom_right_wld[0],'y':bottom_right_wld[1]}]]
 
 import utm
