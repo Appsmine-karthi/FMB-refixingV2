@@ -151,11 +151,11 @@ def flip_points(points, flip_horizontal=False, flip_vertical=False):
 # def find_top_left_point_pix(points):
 #     return min(points, key=lambda p: (p[1], p[0]))
 
-def find_top_left_point_geo(points): #lattitude, longitude
-    return max(points, key=lambda p: (p[0], p[1]))
+# def find_top_left_point_geo(points): #lattitude, longitude
+#     return max(points, key=lambda p: (p[0], p[1]))
 
-def find_bottom_right_point_geo(points): #lattitude, longitude
-    return min(points, key=lambda p: (p[0], p[1]))
+# def find_bottom_right_point_geo(points): #lattitude, longitude
+#     return min(points, key=lambda p: (p[0], p[1]))
 
 import math
 def find_bottom_right_point_pix(points):
@@ -182,4 +182,25 @@ def find_top_left_point_pix(points):
         return math.hypot(p[0] - target[0], p[1] - target[1])
 
     # Return the point closest to the top-left corner of the frame
+    return min(points, key=distance)
+
+
+def find_bottom_right_point_geo(points):
+    min_x = min(p[0] for p in points)
+    max_y = max(p[1] for p in points)
+    target = (min_x, max_y)
+
+    def distance(p):
+        return math.hypot(p[0] - target[0], p[1] - target[1])
+
+    return min(points, key=distance)
+
+def find_top_left_point_geo(points):
+    max_x = max(p[0] for p in points)
+    min_y = min(p[1] for p in points)
+    target = (max_x, min_y)
+
+    def distance(p):
+        return math.hypot(p[0] - target[0], p[1] - target[1])
+
     return min(points, key=distance)
