@@ -31,11 +31,30 @@ def update_lines_with_new_slope_and_length(new_coord1,new_coord2,old_coord1,old_
     return calculate_new_coord()
 
 def calculate_new_position(ax, ay, bx, by, cx, cy, ax_new, ay_new, cx_new, cy_new):
+    # Calculate original and new distances between reference points
+    original_distance = math.sqrt((cx - ax)**2 + (cy - ay)**2)
+    new_distance = math.sqrt((cx_new - ax_new)**2 + (cy_new - ay_new)**2)
+    
+    # Calculate scale factor
+    scale_factor = new_distance / original_distance if original_distance > 0 else 1.0
+    
+    # Calculate angles
     initial_angle = math.atan2(cy - ay, cx - ax)
     new_angle = math.atan2(cy_new - ay_new, cx_new - ax_new)
     rotation_angle = new_angle - initial_angle
+    
+    # Translation vector
     translation_vector = {'x': ax_new - ax, 'y': ay_new - ay}
-    rotated_b = rotate_point(bx, by, ax, ay, rotation_angle)
+    
+    # Apply transformation: scale -> rotate -> translate
+    # First, scale point B relative to point A
+    scaled_bx = ax + (bx - ax) * scale_factor
+    scaled_by = ay + (by - ay) * scale_factor
+    
+    # Then rotate the scaled point around A
+    rotated_b = rotate_point(scaled_bx, scaled_by, ax, ay, rotation_angle)
+    
+    # Finally translate
     new_b = {
         'x': rotated_b['x'] + translation_vector['x'],
         'y': rotated_b['y'] + translation_vector['y']
