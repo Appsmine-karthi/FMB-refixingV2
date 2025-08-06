@@ -690,6 +690,10 @@ def rotate(args,raja):
 
     args["srt_coordinetes"] = sorted(list(coordinates.keys()), key=custom_sort_key)
 
+    from temp import data as op
+
+    args = op
+
     return json.dumps(args)
 
 def getPDF(req):
@@ -755,8 +759,8 @@ transformer = Transformer.from_crs("EPSG:4326", "EPSG:32643", always_xy=True)
 def get_utm_coordinates(crd):
     return transformer.transform(crd[0], crd[1])
 def updateFromKml(content):
-    with open("data.json", "w") as f:
-        f.write(content)
+    # with open("data.json", "w") as f:
+    #     f.write(content)
     content = json.loads(content)
 
     data = {
@@ -768,7 +772,8 @@ def updateFromKml(content):
         "taluk": content.get("taluk", ""),
         "village": content.get("village", ""),
         "survey_no": content.get("survey_no", ""),
-        "Scale": "1:1"
+        "Scale": "1:1",
+        "Note": "Manualy uploaded"
     }
 
     walls = [i["coordinates"] for i in content.get("Line1", [])]
@@ -844,11 +849,8 @@ def updateFromKml(content):
 
 
     data["srt_coordinetes"] = sorted(list(data["coordinates"].keys()), key=custom_sort_key)
-    # data["subdivision_list"] = {}
-    # data["coordinates"] = {}
 
     updateArea(data)
-
     return json.dumps(data)
 
 if __name__ == "__main__":
