@@ -11,8 +11,8 @@ import (
 	"os"
 	"strings"
 	"strconv"
+	"path/filepath"
 )
-
 
 var nithishUrl string
 var a0Url string
@@ -336,7 +336,7 @@ func Extractdata(id string, memberId string) string {
 		S3jsonname,
 		Localjsonname,
 	)
-	isJsonInS3 = false
+	// isJsonInS3 = false
 	log.Printf("JSON exists in S3: %t", isJsonInS3)
 	if isJsonInS3 {
 		log.Printf("Reading existing JSON from S3")
@@ -427,6 +427,8 @@ func Extractdata(id string, memberId string) string {
 		log.Printf("PDF uploaded to S3 successfully")
 	}
 
+	defer os.Remove(Localfilename)
+
 	log.Printf("Starting PDF processing with Pycess")
 	response, err := Algs.Pycess(Algs.PyParam{
 		Mod: "ExtractPdf",
@@ -465,12 +467,14 @@ func Extractdata(id string, memberId string) string {
 
 	log.Printf("Processing extracted data")
 	res.Line3 = Algs.RemoveFloatingLines(res.Line3)
-	newLine1 := Algs.RemoveFloatingLines(res.Line1)
+
+	res.Line1 = Algs.RemoveArrows(res.Line1)
 
 	
-	log.Printf("\n\n\n--------------------------------")
-	// log.Printf("Subdivision results: %+v", subdivResult)
-	log.Printf("--------------------------------\n\n\n")
+
+	// log.Printf("\n\n\n--------------------------------")
+	// fmt.Println(res.Line1)
+	// log.Printf("--------------------------------\n\n\n")
 
 	Algs.OffsetToOrigin(&res)
 
@@ -486,7 +490,7 @@ func Extractdata(id string, memberId string) string {
 			}
 		}
 	}
-	for _, seg := range newLine1 {
+	for _, seg := range res.Line1 {
 		for _, p := range seg {
 			key := fmt.Sprintf("%.2f_%.2f", p[0], p[1])
 			if !seen[key] {
@@ -603,7 +607,6 @@ func Extractdata(id string, memberId string) string {
 		temp := CoordRed[c]
 		coordinates[c] = []any{[]float32{temp.X, temp.Y}, "main", []string{"notmodified", "notmodified"}}
 	}
-
 	lines := make([]map[string]any, 0, len(res.Line3))
 	for _, seg := range res.Line1_ {
 		lines = append(lines, map[string]any{
@@ -613,24 +616,31 @@ func Extractdata(id string, memberId string) string {
 			"strokewidth": "1",
 		})
 	}
-	for _, subdivPolys := range subdivResult {
-		for _, poly := range subdivPolys {
-			for i := 0; i < len(poly)-1; i++ {
-				start := poly[i]
-				end := poly[i+1]
-				lines = append(lines, map[string]any{
-					"coordinates": []string{
-						CoordRedMap[Algs.Point{start[0], start[1]}],
-						CoordRedMap[Algs.Point{end[0], end[1]}],
-					},
-					"length":      Algs.Distance(Algs.Point{start[0], start[1]}, Algs.Point{end[0], end[1]}),
-					"dashes":      "[ 9 0 ] 1",
-					"strokewidth": "1",
-				})
-			}
-		}
+	// for _, subdivPolys := range subdivResult {
+	// 	for _, poly := range subdivPolys {
+	// 		for i := 0; i < len(poly)-1; i++ { 
+	// 			start := poly[i]
+	// 			end := poly[i+1]
+	// 			lines = append(lines, map[string]any{
+	// 				"coordinates": []string{
+	// 					CoordRedMap[Algs.Point{start[0], start[1]}],
+	// 					CoordRedMap[Algs.Point{end[0], end[1]}],
+	// 				},
+	// 				"length":      Algs.Distance(Algs.Point{start[0], start[1]}, Algs.Point{end[0], end[1]}),
+	// 				"dashes":      "[ 9 0 ] 1",
+	// 				"strokewidth": "1",
+	// 			})
+	// 		}
+	// 	}
+	// }
+	for _, seg := range res.Line1 {
+		lines = append(lines, map[string]any{
+			"coordinates": []string{CoordRedMap[Algs.Point{seg[0][0], seg[0][1]}], CoordRedMap[Algs.Point{seg[1][0], seg[1][1]}]},
+			"length":      Algs.Distance(Algs.Point{seg[0][0], seg[0][1]}, Algs.Point{seg[1][0], seg[1][1]}),
+			"dashes":      "[ 9 0 ] 1",
+			"strokewidth": "1",
+		})
 	}
-
 	for _, seg := range res.Line3 {
 		lines = append(lines, map[string]any{
 			"coordinates": []string{CoordRedMap[Algs.Point{seg[0][0], seg[0][1]}], CoordRedMap[Algs.Point{seg[1][0], seg[1][1]}]},
@@ -745,14 +755,13 @@ func Extractdata(id string, memberId string) string {
 	} else {
 		log.Printf("Uploading final JSON to S3")
 		UploadToS3(S3jsonname, Localjsonname)
-		// os.Remove(Localjsonname)
+		os.Remove(Localjsonname)
 		log.Printf("Local JSON file removed")
 	}
 	
 	log.Printf("Extractdata completed successfully for id: %s", id)
 	return response
 }
-
 
 func GetPdf(id string, memberId string, data string) string {
 	log.Printf("Starting GetPdf for id: %s, memberId: %s", id, memberId)
@@ -859,475 +868,49 @@ func Selectand_rotate_coords(content string) string {
 	return response
 }
 
-// func man(id string, memberId string) string {
-// 	log.Printf("Starting Extractdata for id: %s, memberId: %s", id, memberId)
-	
-// 	details, err := getNithish(id, memberId)
-// 	if err != nil {
-// 		log.Printf("Failed to get Nithish data: %v", err)
-// 		payload := map[string]interface{}{
-// 			"id":                id,
-// 			"memberId":          memberId,
-// 			"surveyStatus":      "Failed to Extract",
-// 			"surveyStatusCode":  0,
-// 			"remarks":           "Failed to get Id details",
-// 			"surveyStatusAlert": "",
-// 		}
-// 		_, _ = doPost(sreeraguUrl, payload)
+func UpdateFromKml(content string) string {
+	log.Printf("Starting UpdateFromKml")
 
-// 		resultJSON, _ := json.Marshal(payload)
-// 		return string(resultJSON)
-// 	}
+	response, err := Algs.Pycess(Algs.PyParam{
+		Mod: "updateFromKml",
+		Arg: []any{content},
+	})
 
-// 	log.Printf("Retrieved details: %+v", details)
+	if err != nil || response[0] == '!' {
+		log.Printf("Error in updateFromKml: %v", err)
+		return `{"success": false, "Error": "updateFromKml", "message": "We are facing some technical issues, please try again later","error": "` + err.Error() + `"}`
+	}
 
-// 	if details["noOfSubdivision"] > "25" {
-// 		log.Printf("Number of subdivisions (%s) exceeds limit of 25", details["noOfSubdivision"])
-// 		payload := map[string]interface{}{
-// 			"id":                id,
-// 			"memberId":          memberId,
-// 			"surveyStatus":      "Processing",
-// 			"surveyStatusCode":  1,
-// 			"remarks":           fmt.Sprintf("noOfSubdivision null or 0 or >%s", details["noOfSubdivision"]),
-// 			"surveyStatusAlert": MoreSurvey,
-// 		}
-// 		_, _ = doPost(sreeraguUrl, payload)
+	var data map[string]interface{}
+	err = json.Unmarshal([]byte(content), &data)
+	if err != nil {
+		log.Printf("Error unmarshaling content in UpdateFromKml: %v", err)
+		return `{"success": false, "Error": "updateFromKml", "message": "Failed to unmarshal content","error": "` + err.Error() + `"}`
+	}
 
-// 		resultJSON, _ := json.Marshal(payload)
-// 		return string(resultJSON)
-// 	}
+	district := data["district"].(string)
+	taluk := data["taluk"].(string)
+	village := data["village"].(string)
+	survey_no := data["survey_no"].(string)
 
-// 	log.Printf("Starting concurrent Raja data retrieval")
-// 	rajaCh := make(chan struct {
-// 		result string
-// 		err    error
-// 	})
-// 	go func() {
-// 		result, err := getRaja(details["latitude"], details["longitude"])
-// 		rajaCh <- struct {
-// 			result string
-// 			err    error
-// 		}{result, err}
-// 	}()
+	Localjsonname := strings.ReplaceAll(outputDir+"FromKml/"+district+taluk+village+survey_no+".json", " ", "_")
+	S3jsonname := strings.ReplaceAll(s3jsonDir+district+taluk+village+survey_no+".json", " ", "_")
 
-// 	Localfilename := strings.ReplaceAll(inputDir+details["district"]+details["taluk"]+details["village"]+details["survey_no"]+".pdf", " ", "_")
-// 	S3filename := strings.ReplaceAll(s3pdfDir+details["district"]+details["taluk"]+details["village"]+details["survey_no"]+".pdf", " ", "_")
-	
-// 	Localjsonname := strings.ReplaceAll(outputDir+details["district"]+details["taluk"]+details["village"]+details["survey_no"]+".json", " ", "_")
-// 	S3jsonname := strings.ReplaceAll(s3jsonDir+details["district"]+details["taluk"]+details["village"]+details["survey_no"]+".json", " ", "_")
-	
-// 	log.Printf("Local filename: %s", Localfilename)
-// 	log.Printf("S3 filename: %s", S3filename)
-// 	log.Printf("Local JSON name: %s", Localjsonname)
-// 	log.Printf("S3 JSON name: %s", S3jsonname)
-	
-// 	isJsonInS3 := GetFromS3(
-// 		S3jsonname,
-// 		Localjsonname,
-// 	)
-// 	log.Printf("JSON exists in S3: %t", isJsonInS3)
-// 	if isJsonInS3 {
-// 		log.Printf("Reading existing JSON from S3")
-// 		data, err := os.ReadFile(Localjsonname)
-// 		if err != nil {
-// 			log.Printf("Error reading JSON file: %v", err)
-// 		}
-// 		if err == nil{
-// 			log.Printf("Successfully read JSON file, removing local copy")
-// 			os.Remove(Localjsonname)
-// 			payload := map[string]interface{}{
-// 				"id":                id,
-// 				"memberId":          memberId,
-// 				"surveyStatus":      "Ready to Survey",
-// 				"surveyStatusCode":  2,
-// 				"remarks":           "completed rotation",
-// 				"surveyStatusAlert": "ready",
-// 				"downloadDocument" : s3Url + S3filename,
-// 			}
-// 			_, _ = doPost(sreeraguUrl, payload)
-// 			return string(data)
-// 		}
-// 	}
+	dir := filepath.Dir(Localjsonname)
+	if err := os.MkdirAll(dir, 0755); err != nil {
+		log.Printf("Error creating directory %s: %v", dir, err)
+		return `{"success": false, "Error": "updateFromKml", "message": "Failed to create directory for file","error": "` + err.Error() + `"}`
+	}
 
-// 	isPdfInS3 := GetFromS3(
-// 		S3filename,
-// 		Localfilename,
-// 	)
-// 	log.Printf("PDF exists in S3: %t", isPdfInS3)
-	
-// 	if !isPdfInS3 {
-// 		log.Printf("PDF not in S3, fetching from A0")
-// 		a0, err := getA0(details)
-// 		if err != nil {
-// 			log.Printf("Error in getA0: %v", err)
-// 			payload := map[string]interface{}{
-// 				"id":                id,
-// 				"memberId":          memberId,
-// 				"surveyStatus":      "Failed to Extract",
-// 				"surveyStatusCode":  0,
-// 				"remarks":           "Failed to get A0 FMB",
-// 				"surveyStatusAlert": "",
-// 			}
-// 			_, _ = doPost(sreeraguUrl, payload)
-// 			return `{"success": false, "Error": "Failed to get A0 FMB", "message": "` + LandSurveyError + `,error: ` + err.Error() + `"}`
-// 		}
-// 		if a0["message"] != "File uploaded successfully" {
-// 			log.Printf("A0 response indicates failure: %v", a0["error"])
-// 			payload := map[string]interface{}{
-// 				"id":                id,
-// 				"memberId":          memberId,
-// 				"surveyStatus":      "Failed to Extract",
-// 				"surveyStatusCode":  0,
-// 				"remarks":           "Failed to get A0 FMB: " + fmt.Sprintf("%v", a0["error"]),
-// 				"surveyStatusAlert": "",
-// 			}
-// 			_, _ = doPost(sreeraguUrl, payload)
+	err = os.WriteFile(Localjsonname, []byte(response), 0644)
+	if err != nil {
+		log.Printf("Error writing response to file %s: %v", Localjsonname, err)
+		return `{"success": false, "Error": "updateFromKml", "message": "Failed to write response to file","error": "` + err.Error() + `"}`
+	}
 
-// 			return `{"success": false, "Error": "Failed to get A0 FMB", "message": Failed to get A0 FMB ,"error": ` + fmt.Sprintf("%v", a0["error"]) + `"}`
-// 		}
-
-// 		log.Printf("A0 data retrieved successfully, updating status")
-// 		payload := map[string]interface{}{
-// 			"id":                id,
-// 			"memberId":          memberId,
-// 			"surveyStatus":      "Processing",
-// 			"surveyStatusCode":  1,
-// 			"remarks":           "completed pdf extraction",
-// 			"downloadDocument" : s3Url + S3filename,
-// 			"surveyStatusAlert": LandSurveyError,
-// 		}
-// 		_, _ = doPost(sreeraguUrl, payload)
-
-// 		pdfUrl := a0["data"].([]any)[0].(string)
-// 		log.Printf("Downloading PDF from: %s", pdfUrl)
-// 		err = downloadFile(pdfUrl, Localfilename)
-// 		if err != nil {
-// 			log.Printf("Error in downloadFile: %v", err)
-// 			return `{"success": false, "Error": "Failed to download file", "message": Failed to download file","error": ` + err.Error() + `"}`
-// 		}
-		
-// 		log.Printf("Uploading PDF to S3")
-// 		uploaded := UploadToS3(S3filename, Localfilename)
-// 		if !uploaded {
-// 			log.Printf("Error in UploadToS3: %s", S3filename)
-// 			return `{"success": false, "Error": "Failed to upload file", "message": Failed to upload file","error": ` + err.Error() + `"}`
-// 		}
-// 		log.Printf("PDF uploaded to S3 successfully")
-// 	}
-
-// 	log.Printf("Starting PDF processing with Pycess")
-// 	response, err := Algs.Pycess(Algs.PyParam{
-// 		Mod: "ExtractPdf",
-// 		Arg: []any{Localfilename},
-// 	})
-// 	if err != nil || response[0] == '!'{
-// 		log.Printf("Error in ExtractPdf Pycess: %v", err)
-// 		payload := map[string]interface{}{
-// 			"id":                id,
-// 			"memberId":          memberId,
-// 			"surveyStatus":      "Processing",
-// 			"surveyStatusCode":  1,
-// 			"remarks":           "failed to extract pdf (pycess)",
-// 			"surveyStatusAlert": LandSurveyError,
-// 		}
-// 		_, _ = doPost(sreeraguUrl, payload)
-// 		return `{"success": false, "Error": "ExtractPdf", "message": "` + LandSurveyError + `,"error": ` + err.Error() + `"}`
-// 	}
-
-// 	log.Printf("PDF extraction completed, unmarshaling response")
-// 	var res Algs.PyRes
-// 	err = json.Unmarshal([]byte(response), &res)
-// 	if err != nil || response[0] == '!'{
-// 		log.Printf("Error unmarshaling PyRes: %v", err)
-// 		payload := map[string]interface{}{
-// 			"id":                id,
-// 			"memberId":          memberId,
-// 			"surveyStatus":      "Processing",
-// 			"surveyStatusCode":  1,
-// 			"remarks":           "failed to extract pdf (unmarshal)",
-// 			"surveyStatusAlert": LandSurveyError,
-// 		}
-// 		_, _ = doPost(sreeraguUrl, payload)
-// 		return `{"success": false, "Error": "ExtractPdf unmarshal", "message": "` + LandSurveyError + `,"error": ` + err.Error() + `"}`
-// 	}
-
-// 	log.Printf("Processing extracted data")
-// 	res.Line3 = Algs.RemoveFloatingLines(res.Line3)
-// 	newLine1 := Algs.RemoveFloatingLines(res.Line1)
-
-// 	Algs.OffsetToOrigin(&res)
-
-// 	seen := make(map[string]bool)
-// 	var points []Algs.Point
-
-// 	for _, seg := range res.Line3 {
-// 		for _, p := range seg {
-// 			key := fmt.Sprintf("%.2f_%.2f", p[0], p[1])
-// 			if !seen[key] {
-// 				seen[key] = true
-// 				points = append(points, Algs.Point{p[0], p[1]})
-// 			}
-// 		}
-// 	}
-// 	for _, seg := range newLine1 {
-// 		for _, p := range seg {
-// 			key := fmt.Sprintf("%.2f_%.2f", p[0], p[1])
-// 			if !seen[key] {
-// 				seen[key] = true
-// 				points = append(points, Algs.Point{p[0], p[1]})
-// 			}
-// 		}
-// 	}
-	
-// 	log.Printf("Processing coordinates and labels")
-// 	CoordRed := Algs.RankBasedAssignment(points, res.R)
-// 	CoordBlue := Algs.FormatBbox(res.B)
-
-// 	CoordRedMap := make(map[Algs.Point]string)
-// 	for key, value := range CoordRed {
-// 		CoordRedMap[value] = key
-// 	}
-
-// 	for _, seg := range res.Line1_ {
-// 		for _, p := range seg {
-// 			key := fmt.Sprintf("%.2f_%.2f", p[0], p[1])
-// 			if !seen[key] {
-// 				seen[key] = true
-// 				points = append(points, Algs.Point{p[0], p[1]})
-// 			}
-// 		}
-// 	}
-
-// 	counter := 0
-// 	for _, pnt := range points {
-// 		if _, exists := CoordRedMap[pnt]; !exists {
-// 			st := fmt.Sprintf("t%d", counter)
-// 			CoordRedMap[pnt] = st
-// 			CoordRed[st] = pnt
-// 			counter++
-// 		}
-// 	}
-
-// 	log.Printf("Getting subdivision data")
-// 	str, err := json.Marshal([]any{CoordBlue, res.Line1, res.Line3, res.Xmax - res.Xmin, res.Ymax - res.Ymin})
-// 	if err != nil {
-// 		log.Printf("Error marshaling Line1 to JSON: %v", err)
-// 		payload := map[string]interface{}{
-// 			"id":                id,
-// 			"memberId":          memberId,
-// 			"surveyStatus":      "Processing",
-// 			"surveyStatusCode":  1,
-// 			"remarks":           "failed to get subdiv (marshal)",
-// 			"surveyStatusAlert": LandSurveyError,
-// 		}
-// 		_, _ = doPost(sreeraguUrl, payload)
-// 		return `{"success": false, "Error": "getSubdiv marshal", "message": "` + LandSurveyError + `,"error": ` + err.Error() + `"}`
-// 	}
-	
-// 	response, err = Algs.Pycess(Algs.PyParam{
-// 		Mod: "getSubdiv",
-// 		Arg: []any{string(str)},
-// 	})
-// 	if err != nil || response[0] == '!'{
-// 		log.Printf("Error in getSubdiv Pycess: %v", err)
-// 		payload := map[string]interface{}{
-// 			"id":                id,
-// 			"memberId":          memberId,
-// 			"surveyStatus":      "Processing",
-// 			"surveyStatusCode":  1,
-// 			"remarks":           "failed to get subdiv (pycess)",
-// 			"surveyStatusAlert": LandSurveyError,
-// 		}
-// 		_, _ = doPost(sreeraguUrl, payload)
-// 		return `{"success": false, "Error": "getSubdiv", "message": "` + LandSurveyError + `,"error": ` + err.Error() + `"}`
-// 	}
-
-// 	var subdivResult map[string][][][]float32
-// 	err = json.Unmarshal([]byte(response), &subdivResult)
-// 	if err != nil {
-// 		log.Printf("Error unmarshaling subdiv JSON: %v", err)
-// 		payload := map[string]interface{}{
-// 			"id":                id,
-// 			"memberId":          memberId,
-// 			"surveyStatus":      "Processing",
-// 			"surveyStatusCode":  1,
-// 			"remarks":           "failed to get subdiv (unmarshal)",
-// 			"surveyStatusAlert": LandSurveyError,
-// 		}
-// 		_, _ = doPost(sreeraguUrl, payload)
-// 		return `{"success": false, "Error": "getSubdiv unmarshal", "message": "` + LandSurveyError + `,"error": ` + err.Error() + `"}`
-// 	}
-
-// 	log.Printf("Processing subdivision results")
-// 	for ind := range CoordBlue {
-// 		subdivResult[ind] = Algs.OrderLines(subdivResult[ind])
-// 	}
-
-// 	for ind := range subdivResult {
-// 		newPol := [][][]float32{}
-// 		for _, pol := range subdivResult[ind] {
-// 			newLne := [][]float32{}
-// 			for _, lne := range pol {
-// 				_, exists := CoordRedMap[Algs.Point{lne[0], lne[1]}]
-// 				if exists {
-// 					newLne = append(newLne, lne)
-// 				}
-// 			}
-// 			newPol = append(newPol, newLne)
-// 		}
-// 		subdivResult[ind] = newPol
-// 	}
-
-// 	log.Printf("Building coordinates and lines data")
-// 	coordinates := make(map[string][]any)
-// 	for c := range CoordRed {
-// 		temp := CoordRed[c]
-// 		coordinates[c] = []any{[]float32{temp.X, temp.Y}, "main", []string{"notmodified", "notmodified"}}
-// 	}
-
-// 	lines := make([]map[string]any, 0, len(res.Line3))
-// 	for _, seg := range res.Line3 {
-// 		lines = append(lines, map[string]any{
-// 			"coordinates": []string{CoordRedMap[Algs.Point{seg[0][0], seg[0][1]}], CoordRedMap[Algs.Point{seg[1][0], seg[1][1]}]},
-// 			"length":      Algs.Distance(Algs.Point{seg[0][0], seg[0][1]}, Algs.Point{seg[1][0], seg[1][1]}),
-// 			"dashes":      "[ 9 0 ] 1",
-// 			"strokewidth": "3",
-// 		})
-// 	}
-// 	for _, seg := range res.Line1_ {
-// 		lines = append(lines, map[string]any{
-// 			"coordinates": []string{CoordRedMap[Algs.Point{seg[0][0], seg[0][1]}], CoordRedMap[Algs.Point{seg[1][0], seg[1][1]}]},
-// 			"length":      Algs.Distance(Algs.Point{seg[0][0], seg[0][1]}, Algs.Point{seg[1][0], seg[1][1]}),
-// 			"dashes":      "[ 30 10 1 3 1 3 1 10 ] 1",
-// 			"strokewidth": "2",
-// 		})
-// 	}
-// 	for _, subdivPolys := range subdivResult {
-// 		for _, poly := range subdivPolys {
-// 			for i := 0; i < len(poly)-1; i++ {
-// 				start := poly[i]
-// 				end := poly[i+1]
-// 				lines = append(lines, map[string]any{
-// 					"coordinates": []string{
-// 						CoordRedMap[Algs.Point{start[0], start[1]}],
-// 						CoordRedMap[Algs.Point{end[0], end[1]}],
-// 					},
-// 					"length":      Algs.Distance(Algs.Point{start[0], start[1]}, Algs.Point{end[0], end[1]}),
-// 					"dashes":      "[ 9 0 ] 1",
-// 					"strokewidth": "2",
-// 				})
-// 			}
-// 		}
-// 	}
-	
-// 	subdiv_list := make(map[string]any)
-// 	for key, subdivPolys := range subdivResult {
-// 		flattened := Algs.FlattenPoints(subdivPolys)
-// 		flattenedArr := []string{}
-// 		grp := []any{}
-// 		for _, lne := range flattened {
-// 			temp := Algs.Point{lne[0], lne[1]}
-// 			flattenedArr = append(flattenedArr, CoordRedMap[temp])
-// 		}
-
-// 		if len(flattenedArr) == 0 {
-// 			continue
-// 		}
-
-// 		grp = append(grp, []any{CoordBlue[key].X, CoordBlue[key].Y})
-// 		grp = append(grp, flattenedArr)
-// 		grp = append(grp, Algs.CalculateArea(flattened))
-
-// 		subdiv_list[key] = grp
-// 	}
-
-// 	log.Printf("Marshaling final data structure")
-// 	data, err := json.Marshal(map[string]any{"lines": lines, "subdivision_list": subdiv_list, "coordinates": coordinates, "Scale": res.Scale, "district": details["district"], "taluk": details["taluk"], "village": details["village"], "survey_no": details["survey_no"]})
-// 	if err != nil {
-// 		log.Printf("Error marshaling lines: %v", err)
-// 	}
-
-// 	log.Printf("Running shrink_or_expand_points")
-// 	response, err = Algs.Pycess(Algs.PyParam{
-// 		Mod: "shrink_or_expand_points",
-// 		Arg: []any{string(data)},
-// 	})
-// 	if err != nil || response[0] == '!'{
-// 		log.Printf("Error in shrink_or_expand_points: %v", err)
-// 		payload := map[string]interface{}{
-// 			"id":                id,
-// 			"memberId":          memberId,
-// 			"surveyStatus":      "Processing",
-// 			"surveyStatusCode":  1,
-// 			"remarks":           "failed to shrink or expand points",
-// 			"surveyStatusAlert": LandSurveyError,
-// 			"downloadDocument" : s3Url + S3filename,
-// 		}
-// 		_, _ = doPost(sreeraguUrl, payload)
-// 		return `{"success": false, "Error": "shrink_or_expand_points", "message": "` + LandSurveyError + `,"error": ` + err.Error() + `"}`
-// 	}
-
-// 	log.Printf("Waiting for Raja data")
-// 	rajaRes := <-rajaCh
-// 	if rajaRes.err != nil {
-// 		log.Printf("Error in rajaRes: %v", rajaRes.err)
-// 		payload := map[string]interface{}{
-// 			"id":                id,
-// 			"memberId":          memberId,
-// 			"surveyStatus":      "Processing",
-// 			"surveyStatusCode":  1,
-// 			"remarks":           "failed to get world coordinates",
-// 			"surveyStatusAlert": LandSurveyError,
-// 		}
-// 		_, _ = doPost(sreeraguUrl, payload)
-// 		return `{"success": false, "Error": "rajaRes", "message": "` + LandSurveyError + `,"error": ` + rajaRes.err.Error() + `"}`
-// 	}
-// 	raja := rajaRes.result
-// 	log.Printf("Raja data received successfully")
-
-// 	log.Printf("Running rotate operation")
-// 	response, err = Algs.Pycess(Algs.PyParam{
-// 		Mod: "rotate",
-// 		Arg: []any{response, raja},
-// 	})
-// 	if err != nil || response[0] == '!'{
-// 		log.Printf("Error in rotate: %v", err)
-// 		payload := map[string]interface{}{
-// 			"id":                id,
-// 			"memberId":          memberId,
-// 			"surveyStatus":      "Processing",
-// 			"surveyStatusCode":  1,
-// 			"remarks":           "failed to rotate (pycess)",
-// 			"surveyStatusAlert": LandSurveyError,
-// 		}
-// 		_, _ = doPost(sreeraguUrl, payload)
-// 		return `{"success": false, "Error": "rotate", "message": "` + LandSurveyError + `,"error": ` + err.Error() + `"}`
-// 	}
-
-// 	log.Printf("Processing completed successfully, updating final status")
-// 	payload := map[string]interface{}{
-// 		"id":                id,
-// 		"memberId":          memberId,
-// 		"surveyStatus":      "Ready to Survey",
-// 		"surveyStatusCode":  2,
-// 		"remarks":           "completed rotation",
-// 		"surveyStatusAlert": "ready",
-// 		"downloadDocument" : s3Url + S3filename,
-// 	}
-// 	_, _ = doPost(sreeraguUrl, payload)
-
-// 	log.Printf("Writing final JSON to file")
-// 	dataToWrite := []byte(response)
-// 	err = os.WriteFile(Localjsonname, dataToWrite, 0644)
-// 	if err != nil {
-// 		log.Printf("Error writing JSON to file: %v", err)
-// 	} else {
-// 		log.Printf("Uploading final JSON to S3")
-// 		UploadToS3(S3jsonname, Localjsonname)
-// 		os.Remove(Localjsonname)
-// 		log.Printf("Local JSON file removed")
-// 	}
-	
-// 	log.Printf("Extractdata completed successfully for id: %s", id)
-// 	return response
-// }
+	UploadToS3(S3jsonname, Localjsonname)
+	os.Remove(Localjsonname)
+	fmt.Println("S3jsonname", S3jsonname)
+	log.Printf("UpdateFromKml completed successfully")
+	return response
+}

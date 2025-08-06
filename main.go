@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	// "io"
+	"io"
 	"net/http"
 	"strings"
 	"time"
@@ -196,51 +196,22 @@ func main() {
 		json.NewEncoder(w).Encode(data)
 	})
 
-	// mux.HandleFunc("/selectand_rotate_coords", func(w http.ResponseWriter, r *http.Request) {
-	// 	if r.Method != http.MethodPost {
-	// 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-	// 		return
-	// 	}
-	// 	var body map[string]interface{}
-	// 	err := json.NewDecoder(r.Body).Decode(&body)
-	// 	if err != nil {
-	// 		http.Error(w, "Invalid JSON", http.StatusBadRequest)
-	// 		return
-	// 	}
-	// 	bodyBytes, err := json.Marshal(body)
-	// 	if err != nil {
-	// 		http.Error(w, "Failed to marshal JSON", http.StatusInternalServerError)
-	// 		return
-	// 	}
-	// 	content := string(bodyBytes)
-		
-	// 	dataStr := Events.UpdateData(content)
-	// 	var data map[string]interface{}
-	// 	err = json.Unmarshal([]byte(dataStr), &data)
-	// 	if err != nil {
-	// 		fmt.Println("Error in unmarshal JSON:", dataStr)
-	// 		http.Error(w, "Failed to unmarshal JSON", http.StatusInternalServerError)
-	// 		return
-	// 	}
-	// 	w.Header().Set("Content-Type", "application/json")
-	// 	json.NewEncoder(w).Encode(data)
-	// })
 
-	// mux.HandleFunc("/ManualUpdate", func(w http.ResponseWriter, r *http.Request) {
-	// 	if r.Method != http.MethodPost {
-	// 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-	// 		return
-	// 	}
-	// 	bodyBytes, err := io.ReadAll(r.Body)
-	// 	if err != nil {
-	// 		http.Error(w, "Failed to read request body", http.StatusBadRequest)
-	// 		return
-	// 	}
-	// 	content := string(bodyBytes)
-	// 	dataStr := Events.ManualUpdate(content)
-	// 	w.Header().Set("Content-Type", "application/json")
-	// 	w.Write([]byte(dataStr))
-	// })
+	mux.HandleFunc("/UpdateFromKml", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodPost {
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+		bodyBytes, err := io.ReadAll(r.Body)
+		if err != nil {
+			http.Error(w, "Failed to read request body", http.StatusBadRequest)
+			return
+		}
+		content := string(bodyBytes)
+		dataStr := Events.UpdateFromKml(content)
+		w.Header().Set("Content-Type", "application/json")
+		w.Write([]byte(dataStr))
+	})
 	
 	handler := loggingMiddleware(mux)
 	fmt.Println("Server started at :5001")

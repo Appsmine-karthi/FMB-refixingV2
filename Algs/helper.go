@@ -477,3 +477,97 @@ func GetBoundingBox(lines [][][]float32) (xmin, ymin, xmax, ymax float32) {
 	}
 	return xmin, ymin, xmax, ymax
 }
+
+func pointsEqual(p1, p2 []float32) bool {
+	const eps = 0.001
+	return math.Abs(float64(p1[0]-p2[0])) < eps && math.Abs(float64(p1[1]-p2[1])) < eps
+}
+
+func pointKey(p []float32) string {
+	return fmt.Sprintf("%.1f,%.1f", p[0], p[1])
+}
+
+func RemoveArrows(lines [][][]float32) [][][]float32 {
+	type Point [2]float32
+	pointToLines := make(map[Point][]int)
+
+	toPoint := func(p []float32) Point {
+		return Point{p[0], p[1]}
+	}
+
+	for i, line := range lines {
+		start := toPoint(line[0])
+		end := toPoint(line[1])
+		pointToLines[start] = append(pointToLines[start], i)
+		pointToLines[end] = append(pointToLines[end], i)
+	}
+
+	removed := make(map[int]bool)
+
+	for i := 0; i < len(lines); i++ {
+		if removed[i] {
+			continue
+		}
+		for j := i + 1; j < len(lines); j++ {
+			if removed[j] {
+				continue
+			}
+			for k := j + 1; k < len(lines); k++ {
+				if removed[k] {
+					continue
+				}
+				points := make(map[Point]int)
+				edges := [3]int{i, j, k}
+				for _, idx := range edges {
+					p1 := toPoint(lines[idx][0])
+					p2 := toPoint(lines[idx][1])
+					points[p1]++
+					points[p2]++
+				}
+
+				if len(points) == 3 {
+					valid := true
+					for _, count := range points {
+						if count != 2 {
+							valid = false
+							break
+						}
+					}
+					if valid {
+						removed[i] = true
+						removed[j] = true
+						removed[k] = true
+					}
+				}
+			}
+		}
+	}
+
+	changed := true
+	for changed {
+		changed = false
+		removedPoints := make(map[Point]bool)
+		for idx := range removed {
+			removedPoints[toPoint(lines[idx][0])] = true
+			removedPoints[toPoint(lines[idx][1])] = true
+		}
+
+		for i, line := range lines {
+			if removed[i] {
+				continue
+			}
+			if removedPoints[toPoint(line[0])] || removedPoints[toPoint(line[1])] {
+				removed[i] = true
+				changed = true
+			}
+		}
+	}
+
+	var filtered [][][]float32
+	for i, line := range lines {
+		if !removed[i] {
+			filtered = append(filtered, line)
+		}
+	}
+	return filtered
+}
