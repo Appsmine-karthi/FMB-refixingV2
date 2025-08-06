@@ -268,6 +268,7 @@ def ExtractPdf(path):
     return json.dumps(rtn)
 
 def getSubdiv(crd):
+
     crd = json.loads(crd)
     image = np.zeros((int(crd[4]+1), int(crd[3]+1), 3), dtype=np.uint8)
     ref_arr=[]
@@ -317,18 +318,7 @@ def get_div_cords(res,seed):
       for e in line_ind:
             line_ind[i] = ref_arr[e-1]
             i += 1
-    #   text = seed
-    #   org = (int(res['subdivision_list'][seed][0]+seed_point_offset[0]), int(res['subdivision_list'][seed][1]+seed_point_offset[1]))  # Position of the text
-    #   font = cv2.FONT_HERSHEY_SIMPLEX  # Font type
-      font_scale = 1  # Font scale
-    #   color = (255, 255, 255)  # White color
-      thickness = 1  # Thickness of the text
 
-      # Put text on the image
-    #   cv2.putText(image, text, org, font, font_scale, color, thickness)
-    #   print("written to /home/developers/Fmb-Layout/Fmb-layout-backend/pol_get/"+seed+".png")
-      # cv2.imwrite("/home/developers/Fmb-Layout/Fmb-layout-backend/pol_get/"+seed+".png",image)
-      # cv2.waitKey(0)
       return line_ind
 
 def calculate_distance(x1, y1, x2, y2):
@@ -727,8 +717,8 @@ def getRotatedCoords(content):
 
 def updateData(content):
     content = json.loads(content)
-    with open("data.json","w") as f:
-        json.dump(content,f)
+    # with open("data.json","w") as f:
+    #     json.dump(content,f)
     data = content['data']
     event = content['event']
     if event == "coordinatedrag":
@@ -744,6 +734,7 @@ def updateData(content):
         path = find_longest_path(get_div_cords(res,key))
         cycle_points = [data['coordinates'][point][0] for point in path]
         area = calculate_area(cycle_points)
+        print(area)
         subdivisions[key] = [coordinates,path,area]
     # print(subdivisions)
     data['subdivision_list'] = subdivisions
@@ -757,6 +748,108 @@ def SelectAndRotateCoords(content):
     data = content['data']
     rajaresponse = content['rajaresponse']
     return json.dumps(select_and_rotate_coords(data, coordinates, subdivision_list, rajaresponse))
+
+from findSubDivWalls import CreateSubDivWalls, get_subdivision_edges
+from pyproj import Proj, Transformer
+transformer = Transformer.from_crs("EPSG:4326", "EPSG:32643", always_xy=True)
+def get_utm_coordinates(crd):
+    return transformer.transform(crd[0], crd[1])
+def updateFromKml(content):
+    with open("data.json", "w") as f:
+        f.write(content)
+    content = json.loads(content)
+
+    data = {
+        "lines": [],
+        "subdivision_list": {},
+        "coordinates": {},
+        "srt_coordinetes": [],
+        "district": content.get("district", ""),
+        "taluk": content.get("taluk", ""),
+        "village": content.get("village", ""),
+        "survey_no": content.get("survey_no", ""),
+        "Scale": "1:1"
+    }
+
+    walls = [i["coordinates"] for i in content.get("Line1", [])]
+    walls += [i["coordinates"] for i in content.get("Line2", [])]
+
+    seeds, seedLabels = zip(*(
+        (i["coordinates"], i["label"])
+        for i in content.get("Text3", [])
+        if '.' not in i["label"]
+    )) if content.get("Text3") else ([], [])
+
+    stoneIndex = {
+        tuple(crd): i["label"]
+        for i in content.get("Text2", [])
+        for crd in [i["coordinates"]]
+    }
+
+    polygons = CreateSubDivWalls(walls)
+    wall_segments = get_subdivision_edges(polygons, seeds)
+
+    wallUMT = {
+        i: []
+        for i in seedLabels
+    }
+    def forChain(i,x):
+        t = stoneIndex.get(tuple(x), "")
+        wallUMT[i].append(get_utm_coordinates(x))
+        return t
+    subDiv = {
+        seedLabels[i]: [
+            forChain(seedLabels[i],j[0])
+            for j in wall_segments[i]
+        ]
+        for i in range(len(wall_segments))
+    }
+
+    for i in range(len(seedLabels)):
+        seedT = seedLabels[i]
+        wallT = wall_segments[i]
+        seedCrd = get_utm_coordinates(seeds[i])
+        data["subdivision_list"][seedT] = [seedCrd,subDiv[seedT],0]
+
+    for key, value in stoneIndex.items():
+        data["coordinates"][value] = [get_utm_coordinates(key),"main",["notmodified","notmodified"]]
+
+    for i in content.get("Line3", []):
+        a = stoneIndex.get(tuple(i["coordinates"][0]), "")
+        b = stoneIndex.get(tuple(i["coordinates"][1]), "")
+
+        a_ = data["coordinates"][a][0]
+        b_ = data["coordinates"][b][0]
+
+        distance = calculate_distance(a_[0],a_[1],b_[0],b_[1])
+        data["lines"].append({"coordinates":[a,b], "dashes":"[ 30 10 1 3 1 3 1 10 ] 1","length":distance,"strokewidth":1})
+    for i in content.get("Line1", []):
+        a = stoneIndex.get(tuple(i["coordinates"][0]), "")
+        b = stoneIndex.get(tuple(i["coordinates"][1]), "")
+
+        a_ = data["coordinates"][a][0]
+        b_ = data["coordinates"][b][0]
+
+        distance = calculate_distance(a_[0],a_[1],b_[0],b_[1])
+        data["lines"].append({"coordinates":[a,b], "dashes":"[ 9 0 ] 1","length":distance,"strokewidth":1})
+    for i in content.get("Line2", []):
+        a = stoneIndex.get(tuple(i["coordinates"][0]), "")
+        b = stoneIndex.get(tuple(i["coordinates"][1]), "")
+
+        a_ = data["coordinates"][a][0]
+        b_ = data["coordinates"][b][0]
+
+        distance = calculate_distance(a_[0],a_[1],b_[0],b_[1])
+        data["lines"].append({"coordinates":[a,b], "dashes":"[ 9 0 ] 1","length":distance,"strokewidth":3})
+
+
+    data["srt_coordinetes"] = sorted(list(data["coordinates"].keys()), key=custom_sort_key)
+    # data["subdivision_list"] = {}
+    # data["coordinates"] = {}
+
+    updateArea(data)
+
+    return json.dumps(data)
 
 if __name__ == "__main__":
     f = ExtractPdf("/home/ubuntu/mypropertyqr-landsurvey/inputs/NAMAKKALKumarapalayamKokkarayanpettai88.pdf")
