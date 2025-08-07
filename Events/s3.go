@@ -160,13 +160,13 @@ func UploadToS3(filename string, filepath string) bool {
 
 
 func SeeFromS3(filename string) bool {
+	url := s3Url + filename
 
-	url := s3Url+ filename
-
-	_, err := http.Get(url)
+	resp, err := http.Get(url)
 	if err != nil {
 		return false
 	}
+	defer resp.Body.Close()
 
-	return true
+	return resp.StatusCode == http.StatusOK
 }
