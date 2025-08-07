@@ -55,6 +55,8 @@ func LoadEnv() {
 	S3_REGION = os.Getenv("S3_REGION")
 	BUCKET_NAME = os.Getenv("BUCKET_NAME")
 
+	Algs.LoadEnv()
+
 	log.Println("Environment variables loaded successfully")
 	log.Println("\n--------------------------------")
 	log.Printf("nithishUrl: %s", nithishUrl)
@@ -321,11 +323,12 @@ func Extractdata(id string, memberId string) string {
 		}{result, err}
 	}()
 
-	Localfilename := strings.ReplaceAll(inputDir+details["district"]+details["taluk"]+details["village"]+details["survey_no"]+".pdf", " ", "_")
-	S3filename := strings.ReplaceAll(s3pdfDir+details["district"]+details["taluk"]+details["village"]+details["survey_no"]+".pdf", " ", "_")
-	
-	Localjsonname := strings.ReplaceAll(outputDir+details["district"]+details["taluk"]+details["village"]+details["survey_no"]+".json", " ", "_")
-	S3jsonname := strings.ReplaceAll(s3jsonDir+details["district"]+details["taluk"]+details["village"]+details["survey_no"]+".json", " ", "_")
+	PdfName := details["district"]+details["taluk"]+details["village"]+details["survey_no"]+".pdf"
+	Localfilename := strings.ReplaceAll(inputDir+PdfName, " ", "_")
+	S3filename := strings.ReplaceAll(s3pdfDir+PdfName, " ", "_")
+
+	Localjsonname := strings.ReplaceAll(outputDir+PdfName, " ", "_")
+	S3jsonname := strings.ReplaceAll(s3jsonDir+PdfName, " ", "_")
 	
 	log.Printf("Local filename: %s", Localfilename)
 	log.Printf("S3 filename: %s", S3filename)
@@ -336,7 +339,7 @@ func Extractdata(id string, memberId string) string {
 		S3jsonname,
 		Localjsonname,
 	)
-	// isJsonInS3 = false
+	isJsonInS3 = false
 	log.Printf("JSON exists in S3: %t", isJsonInS3)
 	if isJsonInS3 {
 		log.Printf("Reading existing JSON from S3")
@@ -361,10 +364,7 @@ func Extractdata(id string, memberId string) string {
 		}
 	}
 
-	isPdfInS3 := GetFromS3(
-		S3filename,
-		Localfilename,
-	)
+	isPdfInS3 := SeeFromS3(S3filename)
 	log.Printf("PDF exists in S3: %t", isPdfInS3)
 	
 	if !isPdfInS3 {
@@ -412,12 +412,14 @@ func Extractdata(id string, memberId string) string {
 
 		pdfUrl := a0["data"].([]any)[0].(string)
 		log.Printf("Downloading PDF from: %s", pdfUrl)
+
 		err = downloadFile(pdfUrl, Localfilename)
 		if err != nil {
 			log.Printf("Error in downloadFile: %v", err)
 			return `{"success": false, "Error": "Failed to download file", "message": Failed to download file","error": ` + err.Error() + `"}`
 		}
-		
+		defer os.Remove(Localfilename)
+
 		log.Printf("Uploading PDF to S3")
 		uploaded := UploadToS3(S3filename, Localfilename)
 		if !uploaded {
@@ -427,12 +429,10 @@ func Extractdata(id string, memberId string) string {
 		log.Printf("PDF uploaded to S3 successfully")
 	}
 
-	defer os.Remove(Localfilename)
-
 	log.Printf("Starting PDF processing with Pycess")
 	response, err := Algs.Pycess(Algs.PyParam{
 		Mod: "ExtractPdf",
-		Arg: []any{Localfilename},
+		Arg: []any{PdfName},
 	})
 	if err != nil || response[0] == '!'{
 		log.Printf("Error in ExtractPdf Pycess: %v", err)
@@ -734,7 +734,7 @@ func Extractdata(id string, memberId string) string {
 		_, _ = doPost(sreeraguUrl, payload)
 		return `{"success": false, "Error": "rotate", "message": "` + LandSurveyError + `","error": "` + err.Error() + `"}`
 	}
-
+ 
 	log.Printf("Processing completed successfully, updating final status")
 	payload := map[string]interface{}{
 		"id":                id,
@@ -775,15 +775,7 @@ func GetPdf(id string, memberId string, data string) string {
 		return `{"success": false, "Error": "getPDF", "message": "We are facing some technical issues, please try again or contact support","error": "` + err.Error() + `"}`
 	}
 
-	if response[0] != '!' {
-		log.Printf("PDF generated successfully, uploading to S3")
-		done := UploadToS3(s3satPdfDir + memberId + "/" + id+".pdf", response)
-		if !done {
-			log.Printf("Error uploading PDF to S3")
-			return `{"success": false, "Error": "upload to s3", "message": "We are facing some technical issues, please try again or contact support","error": "` + err.Error() + `"}`
-		}
-		log.Printf("PDF uploaded to S3 successfully")
-	}else{
+	if response[0] == '!'{
 		log.Printf("PDF generation failed: %s", response)
 		payload := map[string]interface{}{
 			"id":                id,
@@ -797,9 +789,6 @@ func GetPdf(id string, memberId string, data string) string {
 		return `{"success": false, "Error": "getPDF", "message": "We are facing some technical issues, please try again or contact support","error": "` + response + `"}`
 	}
 	
-	response = s3Url + s3satPdfDir + memberId + "/" + id + ".pdf"
-	log.Printf("PDF URL: %s", response)
-	
 	payload := map[string]interface{}{
 		"id":                id,
 		"memberId":          memberId,
@@ -809,12 +798,6 @@ func GetPdf(id string, memberId string, data string) string {
         "remarks": "downloaded pdf",
 	}
 	_, _ = doPost(sreeraguUrl, payload)
-
-	log.Printf("Cleaning up temporary PDF files")
-	os.Remove(pdfTempDir + id + ".pdf")
-	os.Remove(pdfTempDir + id + "_1.pdf")
-	os.Remove(pdfTempDir + id + "_2.pdf")
-	os.Remove(pdfTempDir + id + ".svg")
 
 	log.Printf("GetPdf completed successfully for id: %s", id)
 	return response

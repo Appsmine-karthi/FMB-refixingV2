@@ -275,7 +275,7 @@ def generatepdfpage2(data,file_name):
     pil_image.save(image_buffer, format="PNG")
     image_buffer.seek(0)
     # pdf_canvas.drawImage(ImageReader(image_buffer), x=page_margin-dig_padding, y=page_margin-dig_padding,mask='auto')
-    pdf_canvas.drawImage("logo.png", x=page_margin+10, y=height-85, width = 150*2, height= 35*2,mask='auto')
+    pdf_canvas.drawImage(logo, x=page_margin+10, y=height-85, width = 150*2, height= 35*2,mask='auto')
 
 
     #margin

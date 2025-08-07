@@ -41,7 +41,7 @@ def get_dis_of_img(p1,p2):
 
 def place_image_on_another(img1, img2, x, y):
     # Get the dimensions of img2
-    print("img1")
+    # print("img1")
     h, w = img2.shape[:2]
     
     # Calculate the region of img1 where img2 should be placed
@@ -87,7 +87,7 @@ def get_sat_img(pnt_wrld,pnt_pdf):
     top_left = func.relative_cord(-int(pnt_pdf['a']['x'])+p1['pix_cord_X'],-(height-int(pnt_pdf['a']['y']))+p1['pix_cord_Y'])
     bottom_right = func.relative_cord(width-int(pnt_pdf['a']['x'])+p1['pix_cord_X'],height-(height-int(pnt_pdf['a']['y'])-p1['pix_cord_Y']))
 
-    print(top_left,bottom_right)
+    # print(top_left,bottom_right)
 
     ttl_tile_img = []
 
@@ -102,7 +102,7 @@ def get_sat_img(pnt_wrld,pnt_pdf):
             response = requests.get(URL.format(x=x,y=y), stream=True)
             image_array = np.asarray(bytearray(response.content), dtype=np.uint8)
             temp = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
-            print(x_inc,y_inc)
+            # print(x_inc,y_inc)
             place_image_on_another(img,temp,x_inc,y_inc)
             x_inc += 256
         y_inc += 256

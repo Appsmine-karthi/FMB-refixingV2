@@ -157,3 +157,16 @@ func UploadToS3(filename string, filepath string) bool {
 
 	return true
 }
+
+
+func SeeFromS3(filename string) bool {
+
+	url := s3Url+ filename
+
+	_, err := http.Get(url)
+	if err != nil {
+		return false
+	}
+
+	return true
+}

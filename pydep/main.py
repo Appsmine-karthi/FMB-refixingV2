@@ -9,6 +9,19 @@ import math
 import customFloodFill
 from collections import Counter
 from pdfGenerator import generatepdf
+import dotenv
+import os
+dotenv.load_dotenv()
+
+inputsDir = os.getenv('INPUT_TEMP')
+S3Domain = os.getenv('S3_DOMAIN')
+S3PdfDir = os.getenv('S3_PDF_DIR')
+
+AWS_ACCESS_KEY = os.getenv('AWS_ACCESS_KEY')
+AWS_SECRET_KEY = os.getenv('AWS_SECRET_KEY')
+S3_REGION      = os.getenv('AWS_REGION')
+BUCKET_NAME    = os.getenv('AWS_S3_BUCKET')
+
 
 ocr_url = "http://localhost:6001/ocr"
 
@@ -44,6 +57,15 @@ def SvgToD(geometry_data):
         previous_end_point = end_point
 
     return " ".join(path_commands)
+
+def DownloadFile(url,LocalFileName):
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        raise RuntimeError(f"Failed to download file from {url}: {e}")
+    with open(LocalFileName, "wb") as f:
+        f.write(response.content)
 
 def ExtractLandLines(drawings, canvas_height):
     line3 = []
@@ -226,12 +248,15 @@ def MakeSvgImage(d):
     padded_img = cv2.resize(padded_img, (100, 100))
     return padded_img,height
 
-def ExtractPdf(path):
-    page = fitz.open(path)[0]
+def ExtractPdf(PdfName):
+    DownloadFile(S3Domain+ "/fmb_refixing/" + S3PdfDir + PdfName, inputsDir + PdfName)
+    page = fitz.open(inputsDir + PdfName)[0]
     drawings = page.get_drawings()
     page_rect = page.rect
     canvas_width = int(page_rect.width)
     canvas_height = int(page_rect.height)
+
+    os.remove(inputsDir + PdfName)
 
     rtn = ExtractLandLines(drawings, canvas_height)
     rtn["Scale"] = int(ExtractScale(drawings))

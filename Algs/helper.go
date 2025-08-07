@@ -8,7 +8,14 @@ import (
 	"bytes"
 	"io"
 	"net/http"
+	"os"
 )
+
+var PythonServer string
+
+func LoadEnv(){
+	PythonServer = os.Getenv("PYTHON_SERVER")
+}
 
 func doPost(url string, body []byte) (map[string]interface{}, error) {
 
@@ -53,12 +60,6 @@ type PyParam struct {
 	Arg []any  `json:"arg"`
 }
 
-// func InitPy(){
-// 	if C.InitPython() == 0 {
-// 		fmt.Println("Failed to initialize Python or load module")
-// 		return
-// 	}
-// }
 
 func Pycess(det PyParam) (string,error) {
 
@@ -67,7 +68,7 @@ func Pycess(det PyParam) (string,error) {
 		panic(err)
 	}
 
-	response, err := doPost("http://localhost:6002/process", jsonBytes)
+	response, err := doPost(PythonServer, jsonBytes)
 	if err != nil {
 		fmt.Println("doPost/process:", err)
 		panic(err)
