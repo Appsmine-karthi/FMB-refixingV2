@@ -24,3 +24,4 @@ def page2pdfgenerator(svgfile,page1pdf,page2pdf,output_pdf):
     merger.write(output_pdf)
     merger.close()
     # print(f"Combined PDF saved as {output_pdf}")
+ 
