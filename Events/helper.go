@@ -336,7 +336,7 @@ func Extractdata(id string, memberId string) string {
 		S3jsonname,
 		Localjsonname,
 	)
-	// isJsonInS3 = false
+	isJsonInS3 = false
 	log.Printf("JSON exists in S3: %t", isJsonInS3)
 	if isJsonInS3 {
 		log.Printf("Reading existing JSON from S3")
@@ -868,7 +868,7 @@ func Selectand_rotate_coords(content string) string {
 	return response
 }
 
-func UpdateFromKml(content string) string {
+func UpdateFromKml(content string) (string, error) {
 	log.Printf("Starting UpdateFromKml")
 
 	response, err := Algs.Pycess(Algs.PyParam{
@@ -878,14 +878,14 @@ func UpdateFromKml(content string) string {
 
 	if err != nil || response[0] == '!' {
 		log.Printf("Error in updateFromKml: %v", err)
-		return `{"success": false, "Error": "updateFromKml", "message": "We are facing some technical issues, please try again later","error": "` + err.Error() + `"}`
+		return err.Error(), err
 	}
 
 	var data map[string]interface{}
 	err = json.Unmarshal([]byte(content), &data)
 	if err != nil {
 		log.Printf("Error unmarshaling content in UpdateFromKml: %v", err)
-		return `{"success": false, "Error": "updateFromKml", "message": "Failed to unmarshal content","error": "` + err.Error() + `"}`
+		return err.Error(), err
 	}
 
 	district := data["district"].(string)
@@ -899,18 +899,18 @@ func UpdateFromKml(content string) string {
 	dir := filepath.Dir(Localjsonname)
 	if err := os.MkdirAll(dir, 0755); err != nil {
 		log.Printf("Error creating directory %s: %v", dir, err)
-		return `{"success": false, "Error": "updateFromKml", "message": "Failed to create directory for file","error": "` + err.Error() + `"}`
+		return err.Error(), err
 	}
 
 	err = os.WriteFile(Localjsonname, []byte(response), 0644)
 	if err != nil {
 		log.Printf("Error writing response to file %s: %v", Localjsonname, err)
-		return `{"success": false, "Error": "updateFromKml", "message": "Failed to write response to file","error": "` + err.Error() + `"}`
+		return err.Error(), err
 	}
 
 	UploadToS3(S3jsonname, Localjsonname)
 	os.Remove(Localjsonname)
 	fmt.Println("S3jsonname", S3jsonname)
 	log.Printf("UpdateFromKml completed successfully")
-	return response
+	return response, nil
 }

@@ -49,12 +49,11 @@ def ExtractLandLines(drawings, canvas_height):
     line3 = []
     line1 = []
     line1_ = []
-
     for drawing in drawings:
         temp = drawing["items"]
         if(drawing.get("color","") == (0.0, 0.0, 1.0)):
             continue
-        if(drawing["width"] == 3.0):
+        if(drawing["width"] == 3.0 or drawing["width"] == 2.0):
             crd = [[temp[0][1][0],canvas_height - temp[0][1][1]], [temp[0][2][0],canvas_height - temp[0][2][1]]]
             line3.append(crd)
         if(drawing["width"] == 1.0):
@@ -65,6 +64,23 @@ def ExtractLandLines(drawings, canvas_height):
                 if(1 not in crd[0] and 1 not in crd[1]):
                     line1.append(crd)
 
+
+    to_remove_line1 = [
+        [[2382.0, 0.0], [2382.0, 3369.0]]
+    ]
+    for line in to_remove_line1:
+        if line in line1:
+            line1.remove(line)
+
+    to_remove_line3 = [
+        [[14.0, 14.0], [2369.0, 14.0]],
+        [[2369.0, 14.0], [2369.0, 3356.0]],
+        [[2369.0, 3356.0], [14.0, 3356.0]],
+        [[14.0, 3356.0], [14.0, 14.0]]
+    ]
+    for line in to_remove_line3:
+        if line in line3:
+            line3.remove(line)
 
     return {"line3":line3,"line1":line1,"line1_":line1_}
 
@@ -145,6 +161,7 @@ def remove_floating_lines(lines: List[List[List[float]]]) -> List[List[List[floa
             result.append(line)
 
     return result
+
 def lines_to_ring(lines):
     # Flatten lines to get all points
     edges = {(tuple(p1), tuple(p2)) for p1, p2 in lines}
@@ -340,8 +357,7 @@ def updateArea(data):
         data['subdivision_list'][key][2] = calculate_area(cycle_points)
 
 def circle_line_intersection(x1, y1, r, x2, y2, x3, y3):
-    """Check if a circle with center (x1, y1) and radius r intersects a line segment (x2, y2) - (x3, y3)."""
-    
+
     # Vector from point 2 to point 3
     dx = x3 - x2
     dy = y3 - y2
@@ -690,10 +706,6 @@ def rotate(args,raja):
 
     args["srt_coordinetes"] = sorted(list(coordinates.keys()), key=custom_sort_key)
 
-    from temp import data as op
-
-    args = op
-
     return json.dumps(args)
 
 def getPDF(req):
@@ -759,8 +771,8 @@ transformer = Transformer.from_crs("EPSG:4326", "EPSG:32643", always_xy=True)
 def get_utm_coordinates(crd):
     return transformer.transform(crd[0], crd[1])
 def updateFromKml(content):
-    # with open("data.json", "w") as f:
-    #     f.write(content)
+    with open("data.json", "w") as f:
+        f.write(content)
     content = json.loads(content)
 
     data = {
@@ -794,17 +806,9 @@ def updateFromKml(content):
     polygons = CreateSubDivWalls(walls)
     wall_segments = get_subdivision_edges(polygons, seeds)
 
-    wallUMT = {
-        i: []
-        for i in seedLabels
-    }
-    def forChain(i,x):
-        t = stoneIndex.get(tuple(x), "")
-        wallUMT[i].append(get_utm_coordinates(x))
-        return t
     subDiv = {
         seedLabels[i]: [
-            forChain(seedLabels[i],j[0])
+            stoneIndex.get(tuple(j[0]), "")
             for j in wall_segments[i]
         ]
         for i in range(len(wall_segments))

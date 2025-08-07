@@ -14,6 +14,24 @@ import (
 	"github.com/joho/godotenv"
 )
 
+// CORS middleware function
+func corsMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Set CORS headers
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With")
+		w.Header().Set("Access-Control-Allow-Credentials", "true")
+		
+		// Handle preflight requests
+		if r.Method == "OPTIONS" {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+		
+		next.ServeHTTP(w, r)
+	})
+}
 
 func getClientIP(r *http.Request) string {
 	// Check X-Forwarded-For header first (for proxies/load balancers)
@@ -196,7 +214,6 @@ func main() {
 		json.NewEncoder(w).Encode(data)
 	})
 
-
 	mux.HandleFunc("/UpdateFromKml", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -208,12 +225,16 @@ func main() {
 			return
 		}
 		content := string(bodyBytes)
-		dataStr := Events.UpdateFromKml(content)
+		dataStr, err := Events.UpdateFromKml(content)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 		w.Header().Set("Content-Type", "application/json")
 		w.Write([]byte(dataStr))
 	})
 	
-	handler := loggingMiddleware(mux)
+	handler := corsMiddleware(loggingMiddleware(mux))
 	fmt.Println("Server started at :5001")
 	err := http.ListenAndServe(":5001", handler)
 	if err != nil {
