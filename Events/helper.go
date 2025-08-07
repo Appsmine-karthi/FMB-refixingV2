@@ -35,6 +35,9 @@ var BUCKET_NAME string
 var satJsonDir string
 var s3satPdfDir string
 
+var cachedJSON = true
+var cachedPDF = true
+
 func LoadEnv() {
 	log.Println("Loading environment variables...")
 	
@@ -54,6 +57,13 @@ func LoadEnv() {
 	AWS_SECRET_KEY = os.Getenv("AWS_SECRET_KEY")
 	S3_REGION = os.Getenv("S3_REGION")
 	BUCKET_NAME = os.Getenv("BUCKET_NAME")
+
+	if os.Getenv("CACHED_JSON") == "false" {
+		cachedJSON = false
+	}
+	if os.Getenv("CACHED_PDF") == "false" {
+		cachedPDF = false
+	}
 
 	Algs.LoadEnv()
 
@@ -323,7 +333,7 @@ func Extractdata(id string, memberId string) string {
 		}{result, err}
 	}()
 
-	PdfName := details["district"]+details["taluk"]+details["village"]+details["survey_no"]+".pdf"
+	PdfName := strings.ReplaceAll(details["district"]+details["taluk"]+details["village"]+details["survey_no"]+".pdf"," ","_")
 	Localfilename := strings.ReplaceAll(inputDir+PdfName, " ", "_")
 	S3filename := strings.ReplaceAll(s3pdfDir+PdfName, " ", "_")
 
@@ -339,7 +349,9 @@ func Extractdata(id string, memberId string) string {
 		S3jsonname,
 		Localjsonname,
 	)
-	isJsonInS3 = false
+	if(cachedJSON == false){
+		isJsonInS3 = false
+	}
 	log.Printf("JSON exists in S3: %t", isJsonInS3)
 	if isJsonInS3 {
 		log.Printf("Reading existing JSON from S3")
@@ -365,6 +377,9 @@ func Extractdata(id string, memberId string) string {
 	}
 
 	isPdfInS3 := SeeFromS3(S3filename)
+	if(cachedPDF == false){
+		isPdfInS3 = false
+	}
 	log.Printf("PDF exists in S3: %t", isPdfInS3)
 	
 	if !isPdfInS3 {
@@ -893,7 +908,7 @@ func UpdateFromKml(content string) (string, error) {
 
 	UploadToS3(S3jsonname, Localjsonname)
 	os.Remove(Localjsonname)
-	fmt.Println("S3jsonname", S3jsonname)
+	// fmt.Println("S3jsonname", S3jsonname)
 	log.Printf("UpdateFromKml completed successfully")
 	return response, nil
 }
