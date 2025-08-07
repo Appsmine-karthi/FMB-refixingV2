@@ -336,7 +336,7 @@ func Extractdata(id string, memberId string) string {
 		S3jsonname,
 		Localjsonname,
 	)
-	isJsonInS3 = false
+	// isJsonInS3 = false
 	log.Printf("JSON exists in S3: %t", isJsonInS3)
 	if isJsonInS3 {
 		log.Printf("Reading existing JSON from S3")
