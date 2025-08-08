@@ -1,0 +1,26 @@
+	// http.HandleFunc("/extractdata", func(w http.ResponseWriter, r *http.Request) {
+	// 	if r.Method != http.MethodPost {
+	// 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+	// 		return
+	// 	}
+	
+	// 	var body map[string]interface{}
+	// 	err := json.NewDecoder(r.Body).Decode(&body)
+	// 	if err != nil {
+	// 		http.Error(w, "Invalid JSON", http.StatusBadRequest)
+	// 		return
+	// 	}
+	
+	// 	id, _ := body["id"].(string)
+	// 	memberId, _ := body["memberId"].(string)
+	
+	// 	w.Header().Set("Content-Type", "application/json")
+	// 	data := Events.Extractdata(id, memberId)
+	// 	json.NewEncoder(w).Encode(data)
+	// })
+
+	// fmt.Println("Server started at :5001")
+	// err := http.ListenAndServe(":5001", nil)
+	// if err != nil {
+	// 	fmt.Println("Server error:", err)
+	// }

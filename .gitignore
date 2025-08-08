@@ -1,0 +1,6 @@
+venv/
+vnev/
+.env
+inputs/
+outputs/
+pdfTemp/

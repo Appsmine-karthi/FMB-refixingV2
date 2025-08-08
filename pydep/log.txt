@@ -1,0 +1,1005 @@
+[1m[90m[TAILING] Tailing last 500 lines for [3] process (change the value with --lines option)[39m[22m
+[90m/home/ubuntu/.pm2/logs/Pymodule-out.log last 500 lines:[39m
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[ 4 -4]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[240   5]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(250), np.int32(5)]
+[32m3|Pymodule | [39m-236 -9
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m['A', 't0', 'B', 'C', 't1', 't2', 't3', 't4', 't5', 'D', 'E', 't6', 't7', 't8', 't9', 't10', 't11', 't12', 't13', 'F', 't14', 'G', 't15', 't16']
+[32m3|Pymodule | [39m[29.845413208007812, -2.9969940185546875]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[310.8953857421875, 66.84974670410156]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[320.8953857421875, 66.84974670410156]
+[32m3|Pymodule | [39m-281.0499725341797 -69.84674072265625
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[151   0]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[-3  5]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(7), np.int32(5)]
+[32m3|Pymodule | [39m154 -5
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m['A', 'B', '1', 'C', '2', 'D', '3', 'E', 'F', 'G', 'H', 't0', '4']
+[32m3|Pymodule | [39m[43.96783447265625, -9.858291625976562]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[-68.88900756835938, 346.7693176269531]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[-58.889007568359375, 346.7693176269531]
+[32m3|Pymodule | [39m112.85684204101562 -356.6276092529297
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[ 72 -14]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[186 383]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(196), np.int32(383)]
+[32m3|Pymodule | [39m-114 -397
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m['A', 'B', '1', 'C', 'D', '2', 'E', 'F']
+[32m3|Pymodule | [39m[43.96783447265625, -9.858291625976562]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[-68.88900756835938, 346.7693176269531]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[-58.889007568359375, 346.7693176269531]
+[32m3|Pymodule | [39m112.85684204101562 -356.6276092529297
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[ 1 -9]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[277  16]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(287), np.int32(16)]
+[32m3|Pymodule | [39m-276 -25
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m['A', '54', '1', '55', 'B', '2', '3', 'S', 'W', 'C', '62', '61', '60', '59', '58', '58', '58', '58', '58', '58', '58', '58', '58', '58', '58']
+[32m3|Pymodule | [39m[4, 4.000003337860107]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[-8.20074462890625, 408.84332275390625]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[1.79925537109375, 408.84332275390625]
+[32m3|Pymodule | [39m12.20074462890625 -404.84331941604614
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[  5 -11]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[ -8 224]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(2), np.int32(224)]
+[32m3|Pymodule | [39m13 -235
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m['A', '51', '52', '2', '1', 'B', '3', '4', '5', '6', '53', '54', '54', '54', '54', '54', '54', '54', '54', '54']
+[32m3|Pymodule | [39m[252.03846740722656, -12.988357543945312]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[333, 459.0000305175781]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[343, 459.0000305175781]
+[32m3|Pymodule | [39m-80.96153259277344 -471.98838806152344
+[32m3|Pymodule | [39m10 0.0
+[32m3|Pymodule | [39m[ 99 -25]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[211 204]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(221), np.int32(204)]
+[32m3|Pymodule | [39m-112 -229
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m{'error_type': 'ZeroDivisionError', 'error_message': 'float division by zero', 'traceback': 'Traceback (most recent call last):\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/pymodule.py", line 44, in process\n    return func(*args, **kwargs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 700, in updateData\n    data = updatelines(data, id, coordinate)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 401, in updatelines\n    result = circle_line_intersection(x1, y1, 3, x2, y2, x3, y3)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 375, in circle_line_intersection\n    t1 = (-b - math.sqrt(discriminant)) / (2 * a)\n         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~\nZeroDivisionError: float division by zero\n'}
+[32m3|Pymodule | [39m{'error_type': 'StopIteration', 'error_message': '', 'traceback': 'Traceback (most recent call last):\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/pymodule.py", line 44, in process\n    return func(*args, **kwargs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 237, in ExtractPdf\n    outer_polygon = lines_to_ring(outer_polygon)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 160, in lines_to_ring\n    start = next(iter(connections))\nStopIteration\n'}
+[32m3|Pymodule | [39m['F', 'A', 'B', '43', '42', 'C', '41', 'D', 'E', '40', '39', 't0', '37', '36', '35']
+[32m3|Pymodule | [39m[415.8306579589844, -3.1109466552734375]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[-6.169347763061523, 9.889144897460938]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[3.8306522369384766, 9.889144897460938]
+[32m3|Pymodule | [39m422.0000057220459 -13.000091552734375
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[217  -9]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[-33  37]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(-23), np.int32(37)]
+[32m3|Pymodule | [39m250 -46
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m['A', '54', '1', '55', 'B', '2', '3', 'S', 'W', 'C', '62', '61', '60', '59', '58', '58', '58', '58', '58', '58', '58', '58', '58', '58', '58']
+[32m3|Pymodule | [39m[4, 4.000003337860107]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[-8.20074462890625, 408.84332275390625]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[1.79925537109375, 408.84332275390625]
+[32m3|Pymodule | [39m12.20074462890625 -404.84331941604614
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[  5 -11]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[ -8 224]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(2), np.int32(224)]
+[32m3|Pymodule | [39m13 -235
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m{'error_type': 'StopIteration', 'error_message': '', 'traceback': 'Traceback (most recent call last):\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/pymodule.py", line 44, in process\n    return func(*args, **kwargs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 237, in ExtractPdf\n    outer_polygon = lines_to_ring(outer_polygon)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 160, in lines_to_ring\n    start = next(iter(connections))\nStopIteration\n'}
+[32m3|Pymodule | [39m{'error_type': 'StopIteration', 'error_message': '', 'traceback': 'Traceback (most recent call last):\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/pymodule.py", line 44, in process\n    return func(*args, **kwargs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 237, in ExtractPdf\n    outer_polygon = lines_to_ring(outer_polygon)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 160, in lines_to_ring\n    start = next(iter(connections))\nStopIteration\n'}
+[32m3|Pymodule | [39m{'error_type': 'StopIteration', 'error_message': '', 'traceback': 'Traceback (most recent call last):\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/pymodule.py", line 44, in process\n    return func(*args, **kwargs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 237, in ExtractPdf\n    outer_polygon = lines_to_ring(outer_polygon)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 160, in lines_to_ring\n    start = next(iter(connections))\nStopIteration\n'}
+[32m3|Pymodule | [39m{'error_type': 'StopIteration', 'error_message': '', 'traceback': 'Traceback (most recent call last):\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/pymodule.py", line 44, in process\n    return func(*args, **kwargs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 237, in ExtractPdf\n    outer_polygon = lines_to_ring(outer_polygon)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 160, in lines_to_ring\n    start = next(iter(connections))\nStopIteration\n'}
+[32m3|Pymodule | [39m['A', 'B', 'C22', '1', 'C21', 'C169', 'C170', 'C171', 'C20', 'C182', 'C181', 'C180', 'C', 'C179', 'C19', 'D', '2', 'E', 'F', '3', '4', 'C17', 'C172', 'C173', 'C174', 'C175', 'C176', 'C177', 'C178', 'C18', 'C120', 'C119', '5', 'C118', 'C117', 'C116', 'C115', 'C114', 'C113', 'C16', 'G', 'C15', '6']
+[32m3|Pymodule | [39m[270, 4.000011444091797]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[-8.576263427734375, 515.5673828125]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[1.423736572265625, 515.5673828125]
+[32m3|Pymodule | [39m278.5762634277344 -511.5673713684082
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[58 -3]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[ 84 335]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(94), np.int32(335)]
+[32m3|Pymodule | [39m-26 -338
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m['A', 'B', 'C', '11', '12', 'D', 'E', 'F', 'G', '13', 'H', '14', '15', '16']
+[32m3|Pymodule | [39m[26.875640869140625, 3.9673194885253906]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[361.04638671875, 91.80068969726562]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[371.04638671875, 91.80068969726562]
+[32m3|Pymodule | [39m-334.1707458496094 -87.83337020874023
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[107  -2]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[114 132]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(124), np.int32(132)]
+[32m3|Pymodule | [39m-7 -134
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m['A', 'B', 'C', '11', '12', 'D', 'E', 'F', 'G', '13', 'H', '14', '15', '16']
+[32m3|Pymodule | [39m[26.875640869140625, 3.9673194885253906]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[361.04638671875, 91.80068969726562]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[371.04638671875, 91.80068969726562]
+[32m3|Pymodule | [39m-334.1707458496094 -87.83337020874023
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[107  -2]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[114 132]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(124), np.int32(132)]
+[32m3|Pymodule | [39m-7 -134
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m['B', 'C', '102', '36', '103', '104', 'D', '105', '6', '5', 'E', 'F', '106', '107', '3', '108', '35', '1', '34', 'A', '100', '101']
+[32m3|Pymodule | [39m[130.78662109375, -13.947582244873047]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[-11.35467529296875, 301.0245666503906]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[-1.35467529296875, 301.0245666503906]
+[32m3|Pymodule | [39m142.14129638671875 -314.9721488952637
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[113  -2]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[127 203]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(137), np.int32(203)]
+[32m3|Pymodule | [39m-14 -205
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m{'error_type': 'StopIteration', 'error_message': '', 'traceback': 'Traceback (most recent call last):\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/pymodule.py", line 44, in process\n    return func(*args, **kwargs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 237, in ExtractPdf\n    outer_polygon = lines_to_ring(outer_polygon)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 160, in lines_to_ring\n    start = next(iter(connections))\nStopIteration\n'}
+[32m3|Pymodule | [39m{'error_type': 'StopIteration', 'error_message': '', 'traceback': 'Traceback (most recent call last):\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/pymodule.py", line 44, in process\n    return func(*args, **kwargs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 237, in ExtractPdf\n    outer_polygon = lines_to_ring(outer_polygon)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 160, in lines_to_ring\n    start = next(iter(connections))\nStopIteration\n'}
+[32m3|Pymodule | [39m['t0', 't1', 'B', 'C', 'D', 'E', 't2', 't7', 't4', 't5', 'F', 'G', 'H', 'A', 't3', 't6']
+[32m3|Pymodule | [39m[13.181533813476562, 2.7323102951049805]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[219.76614379882812, 14.209228515625]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[229.76614379882812, 14.209228515625]
+[32m3|Pymodule | [39m-206.58460998535156 -11.47691822052002
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[5 0]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[132   7]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(142), np.int32(7)]
+[32m3|Pymodule | [39m-127 -7
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m['t0', 't1', 'B', 'C', 'D', 'E', 't2', 't7', 't4', 't5', 'F', 'G', 'H', 'A', 't3', 't6']
+[32m3|Pymodule | [39m[13.181533813476562, 2.7323102951049805]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[219.76614379882812, 14.209228515625]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[229.76614379882812, 14.209228515625]
+[32m3|Pymodule | [39m-206.58460998535156 -11.47691822052002
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[5 0]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[132   7]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(142), np.int32(7)]
+[32m3|Pymodule | [39m-127 -7
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m['A', '24', '40', '43', 'B', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9']
+[32m3|Pymodule | [39m[602.8659057617188, -3.6176300048828125]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[2.0382421016693115, 6.3134307861328125]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[12.038242101669312, 6.3134307861328125]
+[32m3|Pymodule | [39m600.8276636600494 -9.931060791015625
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[  5 -42]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[335   2]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(345), np.int32(2)]
+[32m3|Pymodule | [39m-330 -44
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m{'error_type': 'NameError', 'error_message': "name 'raja' is not defined", 'traceback': 'Traceback (most recent call last):\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/pymodule.py", line 44, in process\n    return func(*args, **kwargs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 659, in shrink_or_expand_points\n    args = select_and_rotate_coords(args,args["coordinates"],args["subdivision_list"],raja)\n                                                                                      ^^^^\nNameError: name \'raja\' is not defined\n'}
+[32m3|Pymodule | [39m['A', '24', '40', '43', 'B', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9']
+[32m3|Pymodule | [39m[602.8659057617188, -3.6176300048828125]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[2.0382421016693115, 6.3134307861328125]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[12.038242101669312, 6.3134307861328125]
+[32m3|Pymodule | [39m600.8276636600494 -9.931060791015625
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[  5 -42]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[335   2]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(345), np.int32(2)]
+[32m3|Pymodule | [39m-330 -44
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39mpdf_wld_rotate.png
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m['A', '24', '40', '43', 'B', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9']
+[32m3|Pymodule | [39m[602.8659057617188, -3.6176300048828125]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[2.0382421016693115, 6.3134307861328125]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[12.038242101669312, 6.3134307861328125]
+[32m3|Pymodule | [39m600.8276636600494 -9.931060791015625
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[  5 -42]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[335   2]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(345), np.int32(2)]
+[32m3|Pymodule | [39m-330 -44
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m[[  0   1]
+[32m3|Pymodule | [39m [  5 -42]
+[32m3|Pymodule | [39m [335   2]
+[32m3|Pymodule | [39m [330  46]]
+[32m3|Pymodule | [39m[[603   0]
+[32m3|Pymodule | [39m [592   9]
+[32m3|Pymodule | [39m [310 212]
+[32m3|Pymodule | [39m [279 239]
+[32m3|Pymodule | [39m [ 24 425]
+[32m3|Pymodule | [39m [  0  44]
+[32m3|Pymodule | [39m [  0  44]
+[32m3|Pymodule | [39m [  0  44]
+[32m3|Pymodule | [39m [  0  44]
+[32m3|Pymodule | [39m [  0  44]
+[32m3|Pymodule | [39m [  0  44]
+[32m3|Pymodule | [39m [  0  44]
+[32m3|Pymodule | [39m [  0  44]
+[32m3|Pymodule | [39m [  0  44]
+[32m3|Pymodule | [39m [  0  44]
+[32m3|Pymodule | [39m [  0  44]
+[32m3|Pymodule | [39m [  0  44]
+[32m3|Pymodule | [39m [  0  44]
+[32m3|Pymodule | [39m [  0  44]
+[32m3|Pymodule | [39m [  0  44]
+[32m3|Pymodule | [39m [  0  44]
+[32m3|Pymodule | [39m [  0  44]
+[32m3|Pymodule | [39m [  0  44]
+[32m3|Pymodule | [39m [  0  44]]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39mpdf_wld_rotate.png
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[657.0617065429688, -27.507293701171875]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[-7.774274826049805, 34.090911865234375]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[2.2257251739501953, 34.090911865234375]
+[32m3|Pymodule | [39m664.8359813690186 -61.59820556640625
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[387  -7]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[0 1]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(10), np.int32(1)]
+[32m3|Pymodule | [39m387 -8
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m[22.64117431640625, -18.52127456665039]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[-4.685737609863281, 267.1691589355469]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[5.314262390136719, 267.1691589355469]
+[32m3|Pymodule | [39m27.32691192626953 -285.69043350219727
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[ 0 -4]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[ -4 154]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(6), np.int32(154)]
+[32m3|Pymodule | [39m4 -158
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m[40.717498779296875, -24.852962493896484]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[-18.66302490234375, 426.4391174316406]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[-8.66302490234375, 426.4391174316406]
+[32m3|Pymodule | [39m59.380523681640625 -451.2920799255371
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[52  0]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[54 90]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(64), np.int32(90)]
+[32m3|Pymodule | [39m-2 -90
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m[14, 4.000003814697266]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[420.99993896484375, 71]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[430.99993896484375, 71]
+[32m3|Pymodule | [39m-406.99993896484375 -66.99999618530273
+[32m3|Pymodule | [39m10.0 0
+[32m3|Pymodule | [39m[3 0]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[243  27]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(253), np.int32(27)]
+[32m3|Pymodule | [39m-240 -27
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m[8.118698120117188, 3.155959129333496]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[323.37066650390625, 7.387542724609375]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[333.37066650390625, 7.387542724609375]
+[32m3|Pymodule | [39m-315.25196838378906 -4.231583595275879
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[22 -3]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[  0 181]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(10), np.int32(181)]
+[32m3|Pymodule | [39m22 -184
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m[8.118698120117188, 3.155959129333496]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[323.37066650390625, 7.387542724609375]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[333.37066650390625, 7.387542724609375]
+[32m3|Pymodule | [39m-315.25196838378906 -4.231583595275879
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[22 -3]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[  0 181]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(10), np.int32(181)]
+[32m3|Pymodule | [39m22 -184
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m[8.118698120117188, 3.155959129333496]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[323.37066650390625, 7.387542724609375]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[333.37066650390625, 7.387542724609375]
+[32m3|Pymodule | [39m-315.25196838378906 -4.231583595275879
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[22 -3]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[  0 180]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(10), np.int32(180)]
+[32m3|Pymodule | [39m22 -183
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m{'error_type': 'IndexError', 'error_message': 'list index out of range', 'traceback': 'Traceback (most recent call last):\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/pymodule.py", line 44, in process\n    return func(*args, **kwargs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 664, in shrink_or_expand_points\n    subdiv_points[key] = [[new_x, new_y], value[1], value[2]]\n                                                    ~~~~~^^^\nIndexError: list index out of range\n'}
+[32m3|Pymodule | [39m[8.118698120117188, 3.155959129333496]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[323.37066650390625, 7.387542724609375]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[333.37066650390625, 7.387542724609375]
+[32m3|Pymodule | [39m-315.25196838378906 -4.231583595275879
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[22 -3]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[  0 180]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(10), np.int32(180)]
+[32m3|Pymodule | [39m22 -183
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m{'error_type': 'KeyError', 'error_message': "''", 'traceback': 'Traceback (most recent call last):\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/pymodule.py", line 44, in process\n    return func(*args, **kwargs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 827, in updateFromKml\n    b_ = data["coordinates"][b][0]\n         ~~~~~~~~~~~~~~~~~~~^^^\nKeyError: \'\'\n'}
+[32m3|Pymodule | [39m{'error_type': 'KeyError', 'error_message': "''", 'traceback': 'Traceback (most recent call last):\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/pymodule.py", line 44, in process\n    return func(*args, **kwargs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 827, in updateFromKml\n    b_ = data["coordinates"][b][0]\n         ~~~~~~~~~~~~~~~~~~~^^^\nKeyError: \'\'\n'}
+[32m3|Pymodule | [39m{'error_type': 'KeyError', 'error_message': "''", 'traceback': 'Traceback (most recent call last):\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/pymodule.py", line 44, in process\n    return func(*args, **kwargs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 827, in updateFromKml\n    b_ = data["coordinates"][b][0]\n         ~~~~~~~~~~~~~~~~~~~^^^\nKeyError: \'\'\n'}
+[32m3|Pymodule | [39m{'error_type': 'KeyError', 'error_message': "''", 'traceback': 'Traceback (most recent call last):\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/pymodule.py", line 44, in process\n    return func(*args, **kwargs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 827, in updateFromKml\n    b_ = data["coordinates"][b][0]\n         ~~~~~~~~~~~~~~~~~~~^^^\nKeyError: \'\'\n'}
+[32m3|Pymodule | [39m{'error_type': 'KeyError', 'error_message': "''", 'traceback': 'Traceback (most recent call last):\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/pymodule.py", line 44, in process\n    return func(*args, **kwargs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 827, in updateFromKml\n    for i in content.get("Line1", []):\n             ^^^^^^^^^^^^^^^^^^^^^^\nKeyError: \'\'\n'}
+[32m3|Pymodule | [39m[275.95855712890625, 3.28338623046875]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[297, 366.99993896484375]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[307, 366.99993896484375]
+[32m3|Pymodule | [39m-21.04144287109375 -363.716552734375
+[32m3|Pymodule | [39m10 0.0
+[32m3|Pymodule | [39m[0 0]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[ -6 214]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(4), np.int32(214)]
+[32m3|Pymodule | [39m6 -214
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m[66.4293212890625, -98.0044937133789]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[604.9138793945312, 123.80654907226562]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[614.9138793945312, 123.80654907226562]
+[32m3|Pymodule | [39m-538.4845581054688 -221.81104278564453
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[ 21 -71]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[355  29]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(365), np.int32(29)]
+[32m3|Pymodule | [39m-334 -100
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m{'error_type': 'StopIteration', 'error_message': '', 'traceback': 'Traceback (most recent call last):\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/pymodule.py", line 44, in process\n    return func(*args, **kwargs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 237, in ExtractPdf\n    outer_polygon = lines_to_ring(outer_polygon)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 160, in lines_to_ring\n    start = next(iter(connections))\nStopIteration\n'}
+[32m3|Pymodule | [39m{'error_type': 'StopIteration', 'error_message': '', 'traceback': 'Traceback (most recent call last):\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/pymodule.py", line 44, in process\n    return func(*args, **kwargs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 237, in ExtractPdf\n    outer_polygon = lines_to_ring(outer_polygon)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 160, in lines_to_ring\n    start = next(iter(connections))\nStopIteration\n'}
+[32m3|Pymodule | [39m[20.071266174316406, -13.6199369430542]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[217, 4]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[227, 4]
+[32m3|Pymodule | [39m-196.9287338256836 -17.6199369430542
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m[]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[]
+[32m3|Pymodule | [39m{'error_type': 'IndexError', 'error_message': 'list index out of range', 'traceback': 'Traceback (most recent call last):\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/pymodule.py", line 44, in process\n    return func(*args, **kwargs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 687, in rotate\n    args = select_and_rotate_coords(args,args["coordinates"],args["subdivision_list"],raja)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 544, in select_and_rotate_coords\n    ret = get_relative_points(data,rajaresponse)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 448, in get_relative_points\n    pdf_an = compute_angle((box))\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/func.py", line 65, in compute_angle\n    return cord_angle(point_tp,point_elb,point_bs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/func.py", line 17, in cord_angle\n    print(p1[0] - p2[0], p1[1] - p2[1])\n          ~~^^^\nIndexError: list index out of range\n'}
+[32m3|Pymodule | [39m{'error_type': 'StopIteration', 'error_message': '', 'traceback': 'Traceback (most recent call last):\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/pymodule.py", line 44, in process\n    return func(*args, **kwargs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 237, in ExtractPdf\n    outer_polygon = lines_to_ring(outer_polygon)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 160, in lines_to_ring\n    start = next(iter(connections))\nStopIteration\n'}
+[32m3|Pymodule | [39m{'error_type': 'StopIteration', 'error_message': '', 'traceback': 'Traceback (most recent call last):\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/pymodule.py", line 44, in process\n    return func(*args, **kwargs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 237, in ExtractPdf\n    outer_polygon = lines_to_ring(outer_polygon)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 160, in lines_to_ring\n    start = next(iter(connections))\nStopIteration\n'}
+[32m3|Pymodule | [39m[37, 4.000001907348633]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[430.9765625, 45.0133056640625]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[440.9765625, 45.0133056640625]
+[32m3|Pymodule | [39m-393.9765625 -41.01330375671387
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[]
+[32m3|Pymodule | [39m{'error_type': 'IndexError', 'error_message': 'list index out of range', 'traceback': 'Traceback (most recent call last):\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/pymodule.py", line 44, in process\n    return func(*args, **kwargs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 687, in rotate\n    args = select_and_rotate_coords(args,args["coordinates"],args["subdivision_list"],raja)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 544, in select_and_rotate_coords\n    ret = get_relative_points(data,rajaresponse)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 448, in get_relative_points\n    pdf_an = compute_angle((box))\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/func.py", line 65, in compute_angle\n    return cord_angle(point_tp,point_elb,point_bs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/func.py", line 17, in cord_angle\n    print(p1[0] - p2[0], p1[1] - p2[1])\n          ~~^^^\nIndexError: list index out of range\n'}
+[32m3|Pymodule | [39m[37, 4.000001907348633]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[430.9765625, 45.0133056640625]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[440.9765625, 45.0133056640625]
+[32m3|Pymodule | [39m-393.9765625 -41.01330375671387
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[]
+[32m3|Pymodule | [39m{'error_type': 'IndexError', 'error_message': 'list index out of range', 'traceback': 'Traceback (most recent call last):\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/pymodule.py", line 44, in process\n    return func(*args, **kwargs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 687, in rotate\n    args = select_and_rotate_coords(args,args["coordinates"],args["subdivision_list"],raja)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 544, in select_and_rotate_coords\n    ret = get_relative_points(data,rajaresponse)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 448, in get_relative_points\n    pdf_an = compute_angle((box))\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/func.py", line 65, in compute_angle\n    return cord_angle(point_tp,point_elb,point_bs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/func.py", line 17, in cord_angle\n    print(p1[0] - p2[0], p1[1] - p2[1])\n          ~~^^^\nIndexError: list index out of range\n'}
+[32m3|Pymodule | [39m[16.78984832763672, -4.837793350219727]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[3.7499008178710938, 343.6845397949219]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[13.749900817871094, 343.6845397949219]
+[32m3|Pymodule | [39m13.039947509765625 -348.5223331451416
+[32m3|Pymodule | [39m10.0 0.0
+[32m3|Pymodule | [39m[ 3 -1]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[  0 204]
+[32m3|Pymodule | [39m
+[32m3|Pymodule | [39m[np.int32(10), np.int32(204)]
+[32m3|Pymodule | [39m3 -205
+[32m3|Pymodule | [39m10 0
+[32m3|Pymodule | [39m{'error_type': 'StopIteration', 'error_message': '', 'traceback': 'Traceback (most recent call last):\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/pymodule.py", line 44, in process\n    return func(*args, **kwargs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 237, in ExtractPdf\n    outer_polygon = lines_to_ring(outer_polygon)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 160, in lines_to_ring\n    start = next(iter(connections))\nStopIteration\n'}
+[32m3|Pymodule | [39m{'error_type': 'StopIteration', 'error_message': '', 'traceback': 'Traceback (most recent call last):\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/pymodule.py", line 44, in process\n    return func(*args, **kwargs)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 237, in ExtractPdf\n    outer_polygon = lines_to_ring(outer_polygon)\n  File "/home/ubuntu/mypropertyqr-landsurvey/pydep/main.py", line 160, in lines_to_ring\n    start = next(iter(connections))\nStopIteration\n'}
+
+[90m/home/ubuntu/.pm2/logs/Pymodule-error.log last 500 lines:[39m
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/workers/base.py", line 135, in init_process
+[31m3|Pymodule | [39m    self.load_wsgi()
+[31m3|Pymodule | [39m    ~~~~~~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/workers/base.py", line 147, in load_wsgi
+[31m3|Pymodule | [39m    self.wsgi = self.app.wsgi()
+[31m3|Pymodule | [39m                ~~~~~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/app/base.py", line 66, in wsgi
+[31m3|Pymodule | [39m    self.callable = self.load()
+[31m3|Pymodule | [39m                    ~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 57, in load
+[31m3|Pymodule | [39m    return self.load_wsgiapp()
+[31m3|Pymodule | [39m           ~~~~~~~~~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 47, in load_wsgiapp
+[31m3|Pymodule | [39m    return util.import_app(self.app_uri)
+[31m3|Pymodule | [39m           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/util.py", line 370, in import_app
+[31m3|Pymodule | [39m    mod = importlib.import_module(module)
+[31m3|Pymodule | [39m  File "/usr/lib/python3.13/importlib/__init__.py", line 88, in import_module
+[31m3|Pymodule | [39m    return _bootstrap._gcd_import(name[level:], package, level)
+[31m3|Pymodule | [39m           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[31m3|Pymodule | [39m  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+[31m3|Pymodule | [39m  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+[31m3|Pymodule | [39m  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+[31m3|Pymodule | [39mModuleNotFoundError: No module named 'pymodule'
+[31m3|Pymodule | [39m[2025-08-06 13:28:51 +0000] [28671] [INFO] Worker exiting (pid: 28671)
+[31m3|Pymodule | [39m[2025-08-06 13:28:51 +0000] [28672] [INFO] Booting worker with pid: 28672
+[31m3|Pymodule | [39m[2025-08-06 13:28:51 +0000] [28673] [INFO] Booting worker with pid: 28673
+[31m3|Pymodule | [39m[2025-08-06 13:28:51 +0000] [28672] [ERROR] Exception in worker process
+[31m3|Pymodule | [39mTraceback (most recent call last):
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/arbiter.py", line 608, in spawn_worker
+[31m3|Pymodule | [39m    worker.init_process()
+[31m3|Pymodule | [39m    ~~~~~~~~~~~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/uvicorn/workers.py", line 75, in init_process
+[31m3|Pymodule | [39m    super().init_process()
+[31m3|Pymodule | [39m    ~~~~~~~~~~~~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/workers/base.py", line 135, in init_process
+[31m3|Pymodule | [39m    self.load_wsgi()
+[31m3|Pymodule | [39m    ~~~~~~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/workers/base.py", line 147, in load_wsgi
+[31m3|Pymodule | [39m    self.wsgi = self.app.wsgi()
+[31m3|Pymodule | [39m                ~~~~~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/app/base.py", line 66, in wsgi
+[31m3|Pymodule | [39m    self.callable = self.load()
+[31m3|Pymodule | [39m                    ~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 57, in load
+[31m3|Pymodule | [39m    return self.load_wsgiapp()
+[31m3|Pymodule | [39m           ~~~~~~~~~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 47, in load_wsgiapp
+[31m3|Pymodule | [39m    return util.import_app(self.app_uri)
+[31m3|Pymodule | [39m           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/util.py", line 370, in import_app
+[31m3|Pymodule | [39m    mod = importlib.import_module(module)
+[31m3|Pymodule | [39m  File "/usr/lib/python3.13/importlib/__init__.py", line 88, in import_module
+[31m3|Pymodule | [39m    return _bootstrap._gcd_import(name[level:], package, level)
+[31m3|Pymodule | [39m           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[31m3|Pymodule | [39m  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+[31m3|Pymodule | [39m  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+[31m3|Pymodule | [39m  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+[31m3|Pymodule | [39mModuleNotFoundError: No module named 'pymodule'
+[31m3|Pymodule | [39m[2025-08-06 13:28:51 +0000] [28672] [INFO] Worker exiting (pid: 28672)
+[31m3|Pymodule | [39m[2025-08-06 13:28:52 +0000] [28670] [ERROR] Worker (pid:28671) exited with code 3
+[31m3|Pymodule | [39m[2025-08-06 13:28:52 +0000] [28670] [ERROR] Worker (pid:28673) was sent SIGTERM!
+[31m3|Pymodule | [39m[2025-08-06 13:28:52 +0000] [28670] [ERROR] Worker (pid:28672) was sent SIGTERM!
+[31m3|Pymodule | [39m[2025-08-06 13:28:52 +0000] [28670] [ERROR] Shutting down: Master
+[31m3|Pymodule | [39m[2025-08-06 13:28:52 +0000] [28670] [ERROR] Reason: Worker failed to boot.
+[31m3|Pymodule | [39m[2025-08-06 13:28:52 +0000] [28683] [INFO] Starting gunicorn 23.0.0
+[31m3|Pymodule | [39m[2025-08-06 13:28:52 +0000] [28683] [INFO] Listening at: http://127.0.0.1:6002 (28683)
+[31m3|Pymodule | [39m[2025-08-06 13:28:52 +0000] [28683] [INFO] Using worker: uvicorn.workers.UvicornWorker
+[31m3|Pymodule | [39m[2025-08-06 13:28:52 +0000] [28684] [INFO] Booting worker with pid: 28684
+[31m3|Pymodule | [39m[2025-08-06 13:28:52 +0000] [28684] [ERROR] Exception in worker process
+[31m3|Pymodule | [39mTraceback (most recent call last):
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/arbiter.py", line 608, in spawn_worker
+[31m3|Pymodule | [39m    worker.init_process()
+[31m3|Pymodule | [39m    ~~~~~~~~~~~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/uvicorn/workers.py", line 75, in init_process
+[31m3|Pymodule | [39m    super().init_process()
+[31m3|Pymodule | [39m    ~~~~~~~~~~~~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/workers/base.py", line 135, in init_process
+[31m3|Pymodule | [39m    self.load_wsgi()
+[31m3|Pymodule | [39m    ~~~~~~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/workers/base.py", line 147, in load_wsgi
+[31m3|Pymodule | [39m    self.wsgi = self.app.wsgi()
+[31m3|Pymodule | [39m                ~~~~~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/app/base.py", line 66, in wsgi
+[31m3|Pymodule | [39m    self.callable = self.load()
+[31m3|Pymodule | [39m                    ~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 57, in load
+[31m3|Pymodule | [39m    return self.load_wsgiapp()
+[31m3|Pymodule | [39m           ~~~~~~~~~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 47, in load_wsgiapp
+[31m3|Pymodule | [39m    return util.import_app(self.app_uri)
+[31m3|Pymodule | [39m           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/util.py", line 370, in import_app
+[31m3|Pymodule | [39m    mod = importlib.import_module(module)
+[31m3|Pymodule | [39m  File "/usr/lib/python3.13/importlib/__init__.py", line 88, in import_module
+[31m3|Pymodule | [39m    return _bootstrap._gcd_import(name[level:], package, level)
+[31m3|Pymodule | [39m           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[31m3|Pymodule | [39m  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+[31m3|Pymodule | [39m  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+[31m3|Pymodule | [39m  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+[31m3|Pymodule | [39mModuleNotFoundError: No module named 'pymodule'
+[31m3|Pymodule | [39m[2025-08-06 13:28:52 +0000] [28684] [INFO] Worker exiting (pid: 28684)
+[31m3|Pymodule | [39m[2025-08-06 13:28:52 +0000] [28685] [INFO] Booting worker with pid: 28685
+[31m3|Pymodule | [39m[2025-08-06 13:28:52 +0000] [28683] [ERROR] Worker (pid:28684) exited with code 3
+[31m3|Pymodule | [39m[2025-08-06 13:28:52 +0000] [28685] [ERROR] Exception in worker process
+[31m3|Pymodule | [39mTraceback (most recent call last):
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/arbiter.py", line 608, in spawn_worker
+[31m3|Pymodule | [39m    worker.init_process()
+[31m3|Pymodule | [39m    ~~~~~~~~~~~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/uvicorn/workers.py", line 75, in init_process
+[31m3|Pymodule | [39m    super().init_process()
+[31m3|Pymodule | [39m    ~~~~~~~~~~~~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/workers/base.py", line 135, in init_process
+[31m3|Pymodule | [39m    self.load_wsgi()
+[31m3|Pymodule | [39m    ~~~~~~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/workers/base.py", line 147, in load_wsgi
+[31m3|Pymodule | [39m    self.wsgi = self.app.wsgi()
+[31m3|Pymodule | [39m                ~~~~~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/app/base.py", line 66, in wsgi
+[31m3|Pymodule | [39m    self.callable = self.load()
+[31m3|Pymodule | [39m                    ~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 57, in load
+[31m3|Pymodule | [39m    return self.load_wsgiapp()
+[31m3|Pymodule | [39m           ~~~~~~~~~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 47, in load_wsgiapp
+[31m3|Pymodule | [39m    return util.import_app(self.app_uri)
+[31m3|Pymodule | [39m           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/util.py", line 370, in import_app
+[31m3|Pymodule | [39m    mod = importlib.import_module(module)
+[31m3|Pymodule | [39m  File "/usr/lib/python3.13/importlib/__init__.py", line 88, in import_module
+[31m3|Pymodule | [39m    return _bootstrap._gcd_import(name[level:], package, level)
+[31m3|Pymodule | [39m           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[31m3|Pymodule | [39m  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+[31m3|Pymodule | [39m  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+[31m3|Pymodule | [39m  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+[31m3|Pymodule | [39mModuleNotFoundError: No module named 'pymodule'
+[31m3|Pymodule | [39m[2025-08-06 13:28:52 +0000] [28685] [INFO] Worker exiting (pid: 28685)
+[31m3|Pymodule | [39m[2025-08-06 13:28:52 +0000] [28683] [ERROR] Worker (pid:28685) exited with code 3
+[31m3|Pymodule | [39mTraceback (most recent call last):
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/arbiter.py", line 201, in run
+[31m3|Pymodule | [39m    self.manage_workers()
+[31m3|Pymodule | [39m    ~~~~~~~~~~~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/arbiter.py", line 570, in manage_workers
+[31m3|Pymodule | [39m    self.spawn_workers()
+[31m3|Pymodule | [39m    ~~~~~~~~~~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/arbiter.py", line 642, in spawn_workers
+[31m3|Pymodule | [39m    time.sleep(0.1 * random.random())
+[31m3|Pymodule | [39m    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/arbiter.py", line 241, in handle_chld
+[31m3|Pymodule | [39m    self.reap_workers()
+[31m3|Pymodule | [39m    ~~~~~~~~~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/arbiter.py", line 529, in reap_workers
+[31m3|Pymodule | [39m    raise HaltServer(reason, self.WORKER_BOOT_ERROR)
+[31m3|Pymodule | [39mgunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
+[31m3|Pymodule | [39m
+[31m3|Pymodule | [39mDuring handling of the above exception, another exception occurred:
+[31m3|Pymodule | [39m
+[31m3|Pymodule | [39mTraceback (most recent call last):
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/bin/gunicorn", line 8, in <module>
+[31m3|Pymodule | [39m    sys.exit(run())
+[31m3|Pymodule | [39m             ~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 66, in run
+[31m3|Pymodule | [39m    WSGIApplication("%(prog)s [OPTIONS] [APP_MODULE]", prog=prog).run()
+[31m3|Pymodule | [39m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/app/base.py", line 235, in run
+[31m3|Pymodule | [39m    super().run()
+[31m3|Pymodule | [39m    ~~~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/app/base.py", line 71, in run
+[31m3|Pymodule | [39m    Arbiter(self).run()
+[31m3|Pymodule | [39m    ~~~~~~~~~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/arbiter.py", line 228, in run
+[31m3|Pymodule | [39m    self.halt(reason=inst.reason, exit_status=inst.exit_status)
+[31m3|Pymodule | [39m    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/arbiter.py", line 341, in halt
+[31m3|Pymodule | [39m    self.stop()
+[31m3|Pymodule | [39m    ~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/arbiter.py", line 395, in stop
+[31m3|Pymodule | [39m    time.sleep(0.1)
+[31m3|Pymodule | [39m    ~~~~~~~~~~^^^^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/arbiter.py", line 241, in handle_chld
+[31m3|Pymodule | [39m    self.reap_workers()
+[31m3|Pymodule | [39m    ~~~~~~~~~~~~~~~~~^^
+[31m3|Pymodule | [39m  File "/home/ubuntu/mypropertyqr-landsurvey/vnev/lib/python3.13/site-packages/gunicorn/arbiter.py", line 529, in reap_workers
+[31m3|Pymodule | [39m    raise HaltServer(reason, self.WORKER_BOOT_ERROR)
+[31m3|Pymodule | [39mgunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
+[31m3|Pymodule | [39m[2025-08-06 13:29:36 +0000] [29006] [INFO] Starting gunicorn 23.0.0
+[31m3|Pymodule | [39m[2025-08-06 13:29:36 +0000] [29006] [INFO] Listening at: http://127.0.0.1:6002 (29006)
+[31m3|Pymodule | [39m[2025-08-06 13:29:36 +0000] [29006] [INFO] Using worker: uvicorn.workers.UvicornWorker
+[31m3|Pymodule | [39m[2025-08-06 13:29:36 +0000] [29009] [INFO] Booting worker with pid: 29009
+[31m3|Pymodule | [39m[2025-08-06 13:29:36 +0000] [29010] [INFO] Booting worker with pid: 29010
+[31m3|Pymodule | [39m[2025-08-06 13:29:36 +0000] [29011] [INFO] Booting worker with pid: 29011
+[31m3|Pymodule | [39m[2025-08-06 13:29:36 +0000] [29012] [INFO] Booting worker with pid: 29012
+[31m3|Pymodule | [39m[2025-08-06 13:29:36 +0000] [29013] [INFO] Booting worker with pid: 29013
+[31m3|Pymodule | [39m[2025-08-06 13:29:36 +0000] [29014] [INFO] Booting worker with pid: 29014
+[31m3|Pymodule | [39m[2025-08-06 13:29:36 +0000] [29015] [INFO] Booting worker with pid: 29015
+[31m3|Pymodule | [39m[2025-08-06 13:29:36 +0000] [29016] [INFO] Booting worker with pid: 29016
+[31m3|Pymodule | [39m[2025-08-06 13:29:37 +0000] [29025] [INFO] Booting worker with pid: 29025
+[31m3|Pymodule | [39m[2025-08-06 13:29:37 +0000] [29027] [INFO] Booting worker with pid: 29027
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29013] [INFO] Started server process [29013]
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29013] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29013] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29027] [INFO] Started server process [29027]
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29027] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29027] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29009] [INFO] Started server process [29009]
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29009] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29009] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29010] [INFO] Started server process [29010]
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29010] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29010] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29012] [INFO] Started server process [29012]
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29012] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29012] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29016] [INFO] Started server process [29016]
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29016] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29016] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29015] [INFO] Started server process [29015]
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29015] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29015] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29014] [INFO] Started server process [29014]
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29014] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29014] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29011] [INFO] Started server process [29011]
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29011] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29011] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29025] [INFO] Started server process [29025]
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29025] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 13:29:42 +0000] [29025] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29011] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29006] [INFO] Handling signal: int
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29011] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29027] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29027] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29016] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29015] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29016] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29015] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29013] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29013] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29025] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29012] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29025] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29012] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29010] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29010] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29009] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29009] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29014] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29014] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29011] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29011] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29011] [INFO] Finished server process [29011]
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29006] [ERROR] Worker (pid:29011) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29027] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29027] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29027] [INFO] Finished server process [29027]
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29016] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29016] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29016] [INFO] Finished server process [29016]
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29015] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29015] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29015] [INFO] Finished server process [29015]
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29013] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29013] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29013] [INFO] Finished server process [29013]
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29025] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29025] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29012] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29012] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29012] [INFO] Finished server process [29012]
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29025] [INFO] Finished server process [29025]
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29010] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29010] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29010] [INFO] Finished server process [29010]
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29006] [ERROR] Worker (pid:29027) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29014] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29014] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29014] [INFO] Finished server process [29014]
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29009] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29009] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29009] [INFO] Finished server process [29009]
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29006] [ERROR] Worker (pid:29013) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29006] [ERROR] Worker (pid:29015) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29006] [ERROR] Worker (pid:29012) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29006] [ERROR] Worker (pid:29016) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29006] [ERROR] Worker (pid:29014) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29006] [ERROR] Worker (pid:29025) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29006] [ERROR] Worker (pid:29009) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29006] [ERROR] Worker (pid:29010) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [29006] [INFO] Shutting down: Master
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [39309] [INFO] Starting gunicorn 23.0.0
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [39309] [INFO] Listening at: http://127.0.0.1:6002 (39309)
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [39309] [INFO] Using worker: uvicorn.workers.UvicornWorker
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [39320] [INFO] Booting worker with pid: 39320
+[31m3|Pymodule | [39m[2025-08-06 14:03:17 +0000] [39321] [INFO] Booting worker with pid: 39321
+[31m3|Pymodule | [39m[2025-08-06 14:03:18 +0000] [39322] [INFO] Booting worker with pid: 39322
+[31m3|Pymodule | [39m[2025-08-06 14:03:18 +0000] [39323] [INFO] Booting worker with pid: 39323
+[31m3|Pymodule | [39m[2025-08-06 14:03:18 +0000] [39324] [INFO] Booting worker with pid: 39324
+[31m3|Pymodule | [39m[2025-08-06 14:03:18 +0000] [39325] [INFO] Booting worker with pid: 39325
+[31m3|Pymodule | [39m[2025-08-06 14:03:18 +0000] [39326] [INFO] Booting worker with pid: 39326
+[31m3|Pymodule | [39m[2025-08-06 14:03:18 +0000] [39327] [INFO] Booting worker with pid: 39327
+[31m3|Pymodule | [39m[2025-08-06 14:03:18 +0000] [39328] [INFO] Booting worker with pid: 39328
+[31m3|Pymodule | [39m[2025-08-06 14:03:18 +0000] [39329] [INFO] Booting worker with pid: 39329
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39322] [INFO] Started server process [39322]
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39322] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39322] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39323] [INFO] Started server process [39323]
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39323] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39323] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39320] [INFO] Started server process [39320]
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39320] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39320] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39326] [INFO] Started server process [39326]
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39326] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39326] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39327] [INFO] Started server process [39327]
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39327] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39327] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39321] [INFO] Started server process [39321]
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39321] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39321] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39324] [INFO] Started server process [39324]
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39324] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39324] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39328] [INFO] Started server process [39328]
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39328] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39328] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39325] [INFO] Started server process [39325]
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39325] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39325] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39329] [INFO] Started server process [39329]
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39329] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 14:03:21 +0000] [39329] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39329] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39329] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39309] [INFO] Handling signal: int
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39321] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39326] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39321] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39326] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39323] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39323] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39325] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39325] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39320] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39320] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39327] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39327] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39324] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39324] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39328] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39328] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39322] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39322] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39329] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39329] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39329] [INFO] Finished server process [39329]
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39326] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39326] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39326] [INFO] Finished server process [39326]
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39321] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39321] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39321] [INFO] Finished server process [39321]
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39323] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39323] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39323] [INFO] Finished server process [39323]
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39325] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39325] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39325] [INFO] Finished server process [39325]
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39309] [ERROR] Worker (pid:39326) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39309] [ERROR] Worker (pid:39321) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39309] [ERROR] Worker (pid:39329) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39309] [ERROR] Worker (pid:39325) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39309] [ERROR] Worker (pid:39323) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39320] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39320] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39320] [INFO] Finished server process [39320]
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39324] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39324] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39324] [INFO] Finished server process [39324]
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39327] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39327] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39327] [INFO] Finished server process [39327]
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39328] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39328] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39328] [INFO] Finished server process [39328]
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39322] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39322] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39322] [INFO] Finished server process [39322]
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39309] [ERROR] Worker (pid:39320) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39309] [ERROR] Worker (pid:39327) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39309] [ERROR] Worker (pid:39324) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39309] [ERROR] Worker (pid:39322) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39309] [ERROR] Worker (pid:39328) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [39309] [INFO] Shutting down: Master
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [57858] [INFO] Starting gunicorn 23.0.0
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [57858] [INFO] Listening at: http://127.0.0.1:6002 (57858)
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [57858] [INFO] Using worker: uvicorn.workers.UvicornWorker
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [57869] [INFO] Booting worker with pid: 57869
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [57870] [INFO] Booting worker with pid: 57870
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [57871] [INFO] Booting worker with pid: 57871
+[31m3|Pymodule | [39m[2025-08-06 15:24:32 +0000] [57872] [INFO] Booting worker with pid: 57872
+[31m3|Pymodule | [39m[2025-08-06 15:24:33 +0000] [57874] [INFO] Booting worker with pid: 57874
+[31m3|Pymodule | [39m[2025-08-06 15:24:33 +0000] [57875] [INFO] Booting worker with pid: 57875
+[31m3|Pymodule | [39m[2025-08-06 15:24:33 +0000] [57876] [INFO] Booting worker with pid: 57876
+[31m3|Pymodule | [39m[2025-08-06 15:24:33 +0000] [57877] [INFO] Booting worker with pid: 57877
+[31m3|Pymodule | [39m[2025-08-06 15:24:33 +0000] [57878] [INFO] Booting worker with pid: 57878
+[31m3|Pymodule | [39m[2025-08-06 15:24:33 +0000] [57879] [INFO] Booting worker with pid: 57879
+[31m3|Pymodule | [39m[2025-08-06 15:24:35 +0000] [57869] [INFO] Started server process [57869]
+[31m3|Pymodule | [39m[2025-08-06 15:24:35 +0000] [57869] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 15:24:35 +0000] [57869] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57871] [INFO] Started server process [57871]
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57871] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57871] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57870] [INFO] Started server process [57870]
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57870] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57870] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57872] [INFO] Started server process [57872]
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57872] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57872] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57876] [INFO] Started server process [57876]
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57876] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57877] [INFO] Started server process [57877]
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57876] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57877] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57877] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57874] [INFO] Started server process [57874]
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57874] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57874] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57878] [INFO] Started server process [57878]
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57878] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57878] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57879] [INFO] Started server process [57879]
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57879] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57879] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57875] [INFO] Started server process [57875]
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57875] [INFO] Waiting for application startup.
+[31m3|Pymodule | [39m[2025-08-06 15:24:36 +0000] [57875] [INFO] Application startup complete.
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57871] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57871] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57858] [INFO] Handling signal: int
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57869] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57869] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57879] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57870] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57879] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57870] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57877] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57877] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57872] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57872] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57874] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57874] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57875] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57875] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57878] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57878] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57876] [INFO] Shutting down
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57871] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57871] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57871] [INFO] Finished server process [57871]
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57876] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57858] [ERROR] Worker (pid:57871) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57869] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57869] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57869] [INFO] Finished server process [57869]
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57870] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57879] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57870] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57870] [INFO] Finished server process [57870]
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57879] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57879] [INFO] Finished server process [57879]
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57877] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57877] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57877] [INFO] Finished server process [57877]
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57872] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57872] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57872] [INFO] Finished server process [57872]
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57858] [ERROR] Worker (pid:57869) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57874] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57874] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57874] [INFO] Finished server process [57874]
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57875] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57875] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57875] [INFO] Finished server process [57875]
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57858] [ERROR] Worker (pid:57870) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57878] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57878] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57878] [INFO] Finished server process [57878]
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57876] [INFO] Waiting for application shutdown.
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57876] [INFO] Application shutdown complete.
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57876] [INFO] Finished server process [57876]
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57858] [ERROR] Worker (pid:57877) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57858] [ERROR] Worker (pid:57879) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57858] [ERROR] Worker (pid:57872) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57858] [ERROR] Worker (pid:57874) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57858] [ERROR] Worker (pid:57878) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57858] [ERROR] Worker (pid:57875) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57858] [ERROR] Worker (pid:57876) was sent SIGINT!
+[31m3|Pymodule | [39m[2025-08-06 17:01:23 +0000] [57858] [INFO] Shutting down: Master
+
