@@ -15,5 +15,6 @@ pyproj
 reportlab
 requests
 pybind11
-"uvicorn[standard]" gunicorn
+gunicorn
 dotenv
+boto3
