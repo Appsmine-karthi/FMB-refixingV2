@@ -482,8 +482,9 @@ func Extractdata(id string, memberId string) string {
 
 	log.Printf("Processing extracted data")
 	res.Line3 = Algs.RemoveFloatingLines(res.Line3)
-
-	res.Line1 = Algs.RemoveArrows(res.Line1)
+	fmt.Println("Line1:: ", res.Line1)
+	res.Line1 = Algs.RemoveArrows(res.Line1)	
+	fmt.Println("Line1:: ", res.Line1)
 
 	
 

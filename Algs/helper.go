@@ -488,6 +488,32 @@ func pointKey(p []float32) string {
 	return fmt.Sprintf("%.1f,%.1f", p[0], p[1])
 }
 
+func is_valid_triangle(p1, p2, p3 []float32) bool {
+	xmin, ymin := p1[0], p1[1]
+	xmax, ymax := p1[0], p1[1]
+
+	points := [][]float32{p2, p3}
+	for _, pt := range points {
+		if pt[0] < xmin {
+			xmin = pt[0]
+		}
+		if pt[0] > xmax {
+			xmax = pt[0]
+		}
+		if pt[1] < ymin {
+			ymin = pt[1]
+		}
+		if pt[1] > ymax {
+			ymax = pt[1]
+		}
+	}
+
+	length := xmax - xmin
+	width := ymax - ymin
+
+	return length <= 50 && width <= 50
+}
+
 func RemoveArrows(lines [][][]float32) [][][]float32 {
 	type Point [2]float32
 	pointToLines := make(map[Point][]int)
@@ -535,34 +561,25 @@ func RemoveArrows(lines [][][]float32) [][][]float32 {
 						}
 					}
 					if valid {
-						removed[i] = true
-						removed[j] = true
-						removed[k] = true
+						// Extract the three unique points
+						var trianglePoints [][]float32
+						for point := range points {
+							trianglePoints = append(trianglePoints, []float32{point[0], point[1]})
+						}
+						
+						// Only remove if the triangle area is greater than 1
+						if len(trianglePoints) == 3 && is_valid_triangle(trianglePoints[0], trianglePoints[1], trianglePoints[2]) {
+							removed[i] = true
+							removed[j] = true
+							removed[k] = true
+						}
 					}
 				}
 			}
 		}
 	}
 
-	changed := true
-	for changed {
-		changed = false
-		removedPoints := make(map[Point]bool)
-		for idx := range removed {
-			removedPoints[toPoint(lines[idx][0])] = true
-			removedPoints[toPoint(lines[idx][1])] = true
-		}
 
-		for i, line := range lines {
-			if removed[i] {
-				continue
-			}
-			if removedPoints[toPoint(line[0])] || removedPoints[toPoint(line[1])] {
-				removed[i] = true
-				changed = true
-			}
-		}
-	}
 
 	var filtered [][][]float32
 	for i, line := range lines {

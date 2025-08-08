@@ -34,7 +34,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(mess
 logger = logging.getLogger(__name__)
 
 def SvgToD(geometry_data):
-    logger.info('Called SvgToD')
+    # logger.info('Called SvgToD')
     try:
         if not geometry_data:
             return ""
@@ -100,8 +100,7 @@ def ExtractLandLines(drawings, canvas_height):
                 if(drawing["dashes"] == "[ 30 10 1 3 1 3 1 10 ] 1"):
                     line1_.append(crd)
                 else:
-                    if(1 not in crd[0] and 1 not in crd[1]):
-                        line1.append(crd)
+                    line1.append(crd)
 
 
         to_remove_line1 = [
@@ -121,13 +120,15 @@ def ExtractLandLines(drawings, canvas_height):
             if line in line3:
                 line3.remove(line)
 
+        print(line3)
+
         return {"line3":line3,"line1":line1,"line1_":line1_}
     except Exception as e:
         logger.error(f'Error in ExtractLandLines: {e}')
         raise
 
 def CheckDot(count):
-    logger.info('Called CheckDot')
+    # logger.info('Called CheckDot')
     try:
         if(count[0][1] == count[3][2]):
             return True
@@ -137,7 +138,7 @@ def CheckDot(count):
         raise
 
 def PathHasDot(path):
-    logger.info('Called PathHasDot')
+    # logger.info('Called PathHasDot')
     try:
         count = []
         for i in range(len(path)):
@@ -261,7 +262,7 @@ def lines_to_ring(lines):
         logger.error(f'Error in lines_to_ring: {e}')
         raise
 def MakeSvgImage(d):
-    logger.info('Called MakeSvgImage')
+    # logger.info('Called MakeSvgImage')
     try:
         # Parse the path
         path = parse_path(d)
