@@ -482,15 +482,17 @@ func Extractdata(id string, memberId string) string {
 
 	log.Printf("Processing extracted data")
 	res.Line3 = Algs.RemoveFloatingLines(res.Line3)
-	fmt.Println("Line1:: ", res.Line1)
-	res.Line1 = Algs.RemoveArrows(res.Line1)	
-	fmt.Println("Line1:: ", res.Line1)
+	res.Line3 = Algs.RemoveOuterRectangle(res.Line3)
+	res.Line1 = Algs.RemoveArrows(res.Line1)
+	res.Line1 = Algs.RemoveIsolatedLines(res.Line1)
 
-	
 
-	// log.Printf("\n\n\n--------------------------------")
-	// fmt.Println(res.Line1)
-	// log.Printf("--------------------------------\n\n\n")
+	// lineStr, err := json.Marshal(res)
+	// response, err = Algs.Pycess(Algs.PyParam{
+	// 	Mod: "DrawReference",
+	// 	Arg: []any{string(lineStr)},
+	// })
+
 
 	Algs.OffsetToOrigin(&res)
 
@@ -544,8 +546,6 @@ func Extractdata(id string, memberId string) string {
 			counter++
 		}
 	}
-
-
 
 	log.Printf("Getting subdivision data")
 	str, err := json.Marshal([]any{CoordBlue, res.Line1, res.Line3, res.Xmax - res.Xmin, res.Ymax - res.Ymin})
@@ -913,3 +913,4 @@ func UpdateFromKml(content string) (string, error) {
 	log.Printf("UpdateFromKml completed successfully")
 	return response, nil
 }
+
