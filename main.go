@@ -65,13 +65,15 @@ func loggingMiddleware(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 	})
 }
-
+var ServerPort string
 func loadEnv() {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
 		os.Exit(1)
 	}
+
+	ServerPort = ":"+os.Getenv("GO_SERVER_PORT")
 
 	Events.LoadEnv()
 }
@@ -235,8 +237,8 @@ func main() {
 	})
 	
 	handler := corsMiddleware(loggingMiddleware(mux))
-	fmt.Println("Server started at :5001")
-	err := http.ListenAndServe(":5001", handler)
+	fmt.Println("Server started at "+ServerPort)
+	err := http.ListenAndServe(ServerPort, handler)
 	if err != nil {
 		fmt.Println("Server error:", err)
 	}
