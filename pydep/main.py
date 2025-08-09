@@ -28,7 +28,7 @@ S3_REGION      = os.getenv('AWS_REGION')
 BUCKET_NAME    = os.getenv('AWS_S3_BUCKET')
 
 
-ocr_url = "http://localhost:6001/ocr"
+ocr_url = os.getenv('OCR_SERVER')
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
 logger = logging.getLogger(__name__)
