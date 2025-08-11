@@ -341,7 +341,7 @@ def ExtractPdf(PdfName):
         for i in textD["b"]:
             img, height = MakeSvgImage(SvgToD(i["items"]))
             kl += 1
-            if height > 20:
+            if height > 30:
                 continue
             if not polygon.contains(Point(i["rect"][0], i["rect"][1])):
                 continue
