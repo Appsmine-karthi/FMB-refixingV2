@@ -920,8 +920,8 @@ def get_utm_coordinates(crd):
 def updateFromKml(content):
     logger.info('Called updateFromKml')
     try:
-        with open("data.json", "w") as f:
-            f.write(content)
+        # with open("data.json", "w") as f:
+        #     f.write(content)
         content = json.loads(content)
 
         data = {
@@ -973,6 +973,7 @@ def updateFromKml(content):
             data["coordinates"][value] = [get_utm_coordinates(key),"main",["notmodified","notmodified"]]
 
         for i in content.get("Line3", []):
+            print(i)
             a = stoneIndex.get(tuple(i["coordinates"][0]), "")
             b = stoneIndex.get(tuple(i["coordinates"][1]), "")
 

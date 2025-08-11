@@ -410,7 +410,7 @@ func Extractdata(id string, memberId string) string {
 			}
 			_, _ = doPost(sreeraguUrl, payload)
 
-			return `{"success": false, "Error": "Failed to get A0 FMB", "message": Failed to get A0 FMB ,"error": ` + fmt.Sprintf("%v", a0["error"]) + `"}`
+			return `{"success": false, "Error": "Failed to get A0 FMB", "message": Failed to get A0 FMB ,"error": "` + fmt.Sprintf("%v", a0["error"]) + `"}`
 		}
 
 		log.Printf("A0 data retrieved successfully, updating status")
@@ -431,7 +431,7 @@ func Extractdata(id string, memberId string) string {
 		err = downloadFile(pdfUrl, Localfilename)
 		if err != nil {
 			log.Printf("Error in downloadFile: %v", err)
-			return `{"success": false, "Error": "Failed to download file", "message": Failed to download file","error": ` + err.Error() + `"}`
+			return `{"success": false, "Error": "Failed to download file", "message": Failed to download file","error": "` + err.Error() + `"}`
 		}
 		defer os.Remove(Localfilename)
 
@@ -439,7 +439,7 @@ func Extractdata(id string, memberId string) string {
 		uploaded := UploadToS3(S3filename, Localfilename)
 		if !uploaded {
 			log.Printf("Error in UploadToS3: %s", S3filename)
-			return `{"success": false, "Error": "Failed to upload file", "message": Failed to upload file","error": ` + err.Error() + `"}`
+			return `{"success": false, "Error": "Failed to upload file", "message": Failed to upload file","error": "` + err.Error() + `"}`
 		}
 		log.Printf("PDF uploaded to S3 successfully")
 	}
@@ -460,7 +460,7 @@ func Extractdata(id string, memberId string) string {
 			"surveyStatusAlert": LandSurveyError,
 		}
 		_, _ = doPost(sreeraguUrl, payload)
-		return `{"success": false, "Error": "ExtractPdf", "message": "` + LandSurveyError + `,"error": ` + err.Error() + `"}`
+		return `{"success": false, "Error": "ExtractPdf", "message": "` + LandSurveyError + `","error": "` + err.Error() + `"}`
 	}
 
 	log.Printf("PDF extraction completed, unmarshaling response")
@@ -477,7 +477,7 @@ func Extractdata(id string, memberId string) string {
 			"surveyStatusAlert": LandSurveyError,
 		}
 		_, _ = doPost(sreeraguUrl, payload)
-		return `{"success": false, "Error": "ExtractPdf unmarshal", "message": "` + LandSurveyError + `,"error": ` + err.Error() + `"}`
+		return `{"success": false, "Error": "ExtractPdf unmarshal", "message": "` + LandSurveyError + `","error": "` + err.Error() + `"}`
 	}
 
 	log.Printf("Processing extracted data")
@@ -560,7 +560,7 @@ func Extractdata(id string, memberId string) string {
 			"surveyStatusAlert": LandSurveyError,
 		}
 		_, _ = doPost(sreeraguUrl, payload)
-		return `{"success": false, "Error": "getSubdiv marshal", "message": "` + LandSurveyError + `,"error": ` + err.Error() + `"}`
+		return `{"success": false, "Error": "getSubdiv marshal", "message": "` + LandSurveyError + `","error": "` + err.Error() + `"}`
 	}
 	
 	response, err = Algs.Pycess(Algs.PyParam{
@@ -578,7 +578,7 @@ func Extractdata(id string, memberId string) string {
 			"surveyStatusAlert": LandSurveyError,
 		}
 		_, _ = doPost(sreeraguUrl, payload)
-		return `{"success": false, "Error": "getSubdiv", "message": "` + LandSurveyError + `,"error": ` + err.Error() + `"}`
+		return `{"success": false, "Error": "getSubdiv", "message": "` + LandSurveyError + `","error": "` + err.Error() + `"}`
 	}
 
 	var subdivResult map[string][][][]float32
@@ -594,7 +594,7 @@ func Extractdata(id string, memberId string) string {
 			"surveyStatusAlert": LandSurveyError,
 		}
 		_, _ = doPost(sreeraguUrl, payload)
-		return `{"success": false, "Error": "getSubdiv unmarshal", "message": "` + LandSurveyError + `,"error": ` + err.Error() + `"}`
+		return `{"success": false, "Error": "getSubdiv unmarshal", "message": "` + LandSurveyError + `","error": "` + err.Error() + `"}`
 	}
 
 	log.Printf("Processing subdivision results")
@@ -711,7 +711,7 @@ func Extractdata(id string, memberId string) string {
 			"downloadDocument" : s3Url + S3filename,
 		}
 		_, _ = doPost(sreeraguUrl, payload)
-		return `{"success": false, "Error": "shrink_or_expand_points", "message": "` + LandSurveyError + `,"error": ` + err.Error() + `"}`
+		return `{"success": false, "Error": "shrink_or_expand_points", "message": "` + LandSurveyError + `","error": "` + err.Error() + `"}`
 	}
 
 	log.Printf("Waiting for Raja data")
@@ -727,7 +727,7 @@ func Extractdata(id string, memberId string) string {
 			"surveyStatusAlert": LandSurveyError,
 		}
 		_, _ = doPost(sreeraguUrl, payload)
-		return `{"success": false, "Error": "rajaRes", "message": "` + LandSurveyError + `,"error": ` + rajaRes.err.Error() + `"}`
+		return `{"success": false, "Error": "rajaRes", "message": "` + LandSurveyError + `","error": "` + rajaRes.err.Error() + `"}`
 	}
 	raja := rajaRes.result
 	log.Printf("Raja data received successfully")
