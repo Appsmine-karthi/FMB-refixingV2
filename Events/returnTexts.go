@@ -7,6 +7,6 @@ var LandSurveyError = "There is a slight delay in generating the map for the loc
 var FailedToEtract = "Unable to extract the lines for the given FMB."
 
 var HowtoLink = "https://youtu.be/nvG1N5g1Bqg?si=0f9jHdwjqY4i85ud"
-var HowtoText = "A user guide video has been provided on how to use the Mobile Land Survey you have selected.\nIf needed, click 'Yes', watch the video, and then start using it."
+var HowtoText = "A user guide video has been provided on how to use the Mobile Land Survey you have selected.\nIf needed, click 'Yes', watch the video, and then start using it.\n\nநீங்கள் தேர்வு செய்துள்ள மொபைல் லேண்ட் சர்வே பயன்படுத்தும் விதம் குறித்து ஒரு வழிகாட்டி வீடியோ கொடுக்கப்பட்டுள்ளது. தேவைப்பட்டால் ‘ஆம்’ என்பதை கிளிக் செய்து, அந்த வீடியோவை பார்த்துவிட்டு பயன்படுத்துங்கள்."
 
 var PdfGenError = "Having a problem in generating the pdf. Please try again later."
