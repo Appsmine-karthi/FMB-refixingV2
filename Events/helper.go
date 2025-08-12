@@ -342,11 +342,11 @@ func Extractdata(id string, memberId string) string {
 	}()
 
 	PdfName := strings.ReplaceAll(details["district"]+details["taluk"]+details["village"]+details["survey_no"]+".pdf"," ","_")
+	JsonName := strings.ReplaceAll(details["district"]+details["taluk"]+details["village"]+details["survey_no"]+".json"," ","_")
 	Localfilename := strings.ReplaceAll(inputDir+PdfName, " ", "_")
 	S3filename := strings.ReplaceAll(s3pdfDir+PdfName, " ", "_")
-
-	Localjsonname := strings.ReplaceAll(outputDir+PdfName, " ", "_")
-	S3jsonname := strings.ReplaceAll(s3jsonDir+PdfName, " ", "_")
+	S3jsonname := strings.ReplaceAll(s3jsonDir+JsonName, " ", "_")
+	Localjsonname := strings.ReplaceAll(outputDir+JsonName, " ", "_")
 	
 	log.Printf("Local filename: %s", Localfilename)
 	log.Printf("S3 filename: %s", S3filename)
@@ -357,6 +357,7 @@ func Extractdata(id string, memberId string) string {
 		S3jsonname,
 		Localjsonname,
 	)
+	fmt.Println("jsonURL", S3jsonname)
 	if(cachedJSON == false){
 		isJsonInS3 = false
 	}
@@ -1036,7 +1037,7 @@ func UpdateFromKml(content string) (string, error) {
 
 	UploadToS3(S3jsonname, Localjsonname)
 	os.Remove(Localjsonname)
-	// fmt.Println("S3jsonname", S3jsonname)
+	fmt.Println("S3jsonname", S3jsonname)
 	log.Printf("UpdateFromKml completed successfully")
 	return response, nil
 }

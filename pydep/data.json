@@ -1,1 +1,666 @@
-{"Line1":[{"coordinates":[[77.9529612743,11.2609240997],[77.9542218458,11.2610504406]],"color":"#8d00bd","type":"SUBDIVISON LINE"},{"coordinates":[[77.9542110987,11.261451061],[77.9536128188,11.261462399]],"color":"#8d00bd","type":"SUBDIVISON LINE"},{"coordinates":[[77.9536128188,11.261462399],[77.9530395463,11.2614656073]],"color":"#8d00bd","type":"SUBDIVISON LINE"},{"coordinates":[[77.9536128188,11.261462399],[77.9536322445,11.2620051033]],"color":"#8d00bd","type":"SUBDIVISON LINE"}],"Line2":[{"coordinates":[[77.9541997188,11.2620160348],[77.9542110987,11.261451061]],"color":"#bfff00","type":"BOUNDARY LINE"},{"coordinates":[[77.9542110987,11.261451061],[77.9542218458,11.2610504406]],"color":"#bfff00","type":"BOUNDARY LINE"},{"coordinates":[[77.9542218458,11.2610504406],[77.9542374721,11.2605727568]],"color":"#bfff00","type":"BOUNDARY LINE"},{"coordinates":[[77.9542374721,11.2605727568],[77.953212967,11.2602772901]],"color":"#bfff00","type":"BOUNDARY LINE"},{"coordinates":[[77.953212967,11.2602772901],[77.9531034931,11.2603043686]],"color":"#bfff00","type":"BOUNDARY LINE"},{"coordinates":[[77.9531034931,11.2603043686],[77.9529612743,11.2609240997]],"color":"#bfff00","type":"BOUNDARY LINE"},{"coordinates":[[77.9529612743,11.2609240997],[77.9529405269,11.2610195057]],"color":"#bfff00","type":"BOUNDARY LINE"},{"coordinates":[[77.9529405269,11.2610195057],[77.9530395463,11.2614656073]],"color":"#bfff00","type":"BOUNDARY LINE"},{"coordinates":[[77.9530395463,11.2614656073],[77.9530471691,11.2614999306]],"color":"#bfff00","type":"BOUNDARY LINE"},{"coordinates":[[77.9530471691,11.2614999306],[77.9529647975,11.2617172272]],"color":"#bfff00","type":"BOUNDARY LINE"},{"coordinates":[[77.9529647975,11.2617172272],[77.9529961583,11.2619947636]],"color":"#bfff00","type":"BOUNDARY LINE"},{"coordinates":[[77.9536322445,11.2620051033],[77.9541997188,11.2620160348]],"color":"#bfff00","type":"BOUNDARY LINE"},{"coordinates":[[77.9529961583,11.2619947636],[77.9530693321,11.2619992908]],"color":"#bfff00","type":"BOUNDARY LINE"},{"coordinates":[[77.9530693321,11.2619992908],[77.9536322445,11.2620051033]],"color":"#bfff00","type":"BOUNDARY LINE"}],"Line3":[{"coordinates":[[77.9529961583,11.2619947636],[77.9531034931,11.2603043686]],"color":"#414141","type":"BASE LINE"},{"coordinates":[[77.9531034931,11.2603043686],[77.9542374721,11.2605727568]],"color":"#414141","type":"BASE LINE"},{"coordinates":[[77.9541997188,11.2620160348],[77.9531034931,11.2603043686]],"color":"#414141","type":"BASE LINE"}],"Text1":[{"coordinates":[77.9542445531,11.2617677005],"label":"62,2","type":"DIMENSION"},{"coordinates":[77.9542614363,11.2612170665],"label":"44,8","type":"DIMENSION"},{"coordinates":[77.9542708727,11.2607828005],"label":"52,6","type":"DIMENSION"},{"coordinates":[77.9537095231,11.2603747546],"label":"116,4","type":"DIMENSION"},{"coordinates":[77.9531080394,11.2602604656],"label":"12,4","type":"DIMENSION"},{"coordinates":[77.9530246615,11.2605916122],"label":"70,4","type":"DIMENSION"},{"coordinates":[77.952950421,11.260925508],"label":"10,6","type":"DIMENSION"},{"coordinates":[77.9529685813,11.26121686],"label":"51,4","type":"DIMENSION"},{"coordinates":[77.95308,11.2614656503],"label":"3,8","type":"DIMENSION"},{"coordinates":[77.952995956,11.2615789568],"label":"25,8","type":"DIMENSION"},{"coordinates":[77.9529679212,11.2618686542],"label":"31,4","type":"DIMENSION"},{"coordinates":[77.9538876487,11.2620267746],"label":"62,0","type":"DIMENSION"},{"coordinates":[77.9529923859,11.2620059953],"label":"8,0","type":"DIMENSION"},{"coordinates":[77.9533104158,11.2620185533],"label":"61,8","type":"DIMENSION"},{"coordinates":[77.9535756407,11.2609970411],"label":"139,0","type":"DIMENSION"},{"coordinates":[77.9538770473,11.2614664671],"label":"65,0","type":"DIMENSION"},{"coordinates":[77.9532990025,11.2614754477],"label":"62,4","type":"DIMENSION"},{"coordinates":[77.9536135172,11.2617100203],"label":"60,4","type":"DIMENSION"},{"coordinates":[77.9530997441,11.2610517442],"label":"187,8","type":"DIMENSION"},{"coordinates":[77.95362157,11.260443932],"label":"127,6","type":"DIMENSION"},{"coordinates":[77.9536957042,11.2611561818],"label":"224,2","type":"DIMENSION"}],"Text2":[{"coordinates":[77.95419344321402,11.26201545019297],"label":"D","type":"STONE NUMBER"},{"coordinates":[77.9542335878041,11.26056982319134],"label":"C","type":"STONE NUMBER"},{"coordinates":[77.953212967,11.2602772901],"label":"4","type":"STONE NUMBER"},{"coordinates":[77.95309616426536,11.26030112248833],"label":"B","type":"STONE NUMBER"},{"coordinates":[77.9529612743,11.2609240997],"label":"10","type":"STONE NUMBER"},{"coordinates":[77.9529405269,11.2610195057],"label":"3","type":"STONE NUMBER"},{"coordinates":[77.9530395463,11.2614656073],"label":"2","type":"STONE NUMBER"},{"coordinates":[77.9530471691,11.2614999306],"label":"11","type":"STONE NUMBER"},{"coordinates":[77.9529647975,11.2617172272],"label":"1","type":"STONE NUMBER"},{"coordinates":[77.9529961583,11.2619947636],"label":"A","type":"STONE NUMBER"},{"coordinates":[77.9530693321,11.2619992908],"label":"523","type":"STONE NUMBER"},{"coordinates":[77.9536322445,11.2620051033],"label":"521","type":"STONE NUMBER"},{"coordinates":[77.9536128188,11.261462399],"label":"522","type":"STONE NUMBER"},{"coordinates":[77.9542110987,11.261451061],"label":"12","type":"STONE NUMBER"},{"coordinates":[77.9542218458,11.2610504406],"label":"13","type":"STONE NUMBER"}],"Text3":[{"coordinates":[77.9532189296,11.2618073666],"label":"1A","type":"SUBDIVISION AREA"},{"coordinates":[77.9532184687,11.2617622077],"label":"0.96","type":"SUBDIVISION AREA"},{"coordinates":[77.9533015938,11.2611847002],"label":"2","type":"SUBDIVISION AREA"},{"coordinates":[77.9532836579,11.2611460897],"label":"1.72","type":"SUBDIVISION AREA"},{"coordinates":[77.9538607383,11.261800983],"label":"1B","type":"SUBDIVISION AREA"},{"coordinates":[77.9538602773,11.2617558242],"label":"0.97","type":"SUBDIVISION AREA"},{"coordinates":[77.9536904373,11.2608288647],"label":"3","type":"SUBDIVISION AREA"},{"coordinates":[77.9536757018,11.2607838479],"label":"2.05","type":"SUBDIVISION AREA"}],"id":"0198847c-2d93-7948-afb5-8cb223c63d4b","memberId":"0197e5b5-7ce0-7bf3-87d1-f1d50963bc9c","district":"\"\"","village":"\"\"","taluk":"\"\"","survey_no":"\"\""}
+{
+    "Line1": [
+        {
+            "coordinates": [
+                [
+                    77.953,
+                    11.261
+                ],
+                [
+                    77.954,
+                    11.261
+                ]
+            ],
+            "color": "#8d00bd",
+            "type": "SUBDIVISON LINE"
+        },
+        {
+            "coordinates": [
+                [
+                    77.954,
+                    11.261
+                ],
+                [
+                    77.954,
+                    11.261
+                ]
+            ],
+            "color": "#8d00bd",
+            "type": "SUBDIVISON LINE"
+        },
+        {
+            "coordinates": [
+                [
+                    77.954,
+                    11.261
+                ],
+                [
+                    77.953,
+                    11.261
+                ]
+            ],
+            "color": "#8d00bd",
+            "type": "SUBDIVISON LINE"
+        },
+        {
+            "coordinates": [
+                [
+                    77.954,
+                    11.261
+                ],
+                [
+                    77.954,
+                    11.262
+                ]
+            ],
+            "color": "#8d00bd",
+            "type": "SUBDIVISON LINE"
+        }
+    ],
+    "Line2": [
+        {
+            "coordinates": [
+                [
+                    77.954,
+                    11.262
+                ],
+                [
+                    77.954,
+                    11.261
+                ]
+            ],
+            "color": "#bfff00",
+            "type": "BOUNDARY LINE"
+        },
+        {
+            "coordinates": [
+                [
+                    77.954,
+                    11.261
+                ],
+                [
+                    77.954,
+                    11.261
+                ]
+            ],
+            "color": "#bfff00",
+            "type": "BOUNDARY LINE"
+        },
+        {
+            "coordinates": [
+                [
+                    77.954,
+                    11.261
+                ],
+                [
+                    77.954,
+                    11.261
+                ]
+            ],
+            "color": "#bfff00",
+            "type": "BOUNDARY LINE"
+        },
+        {
+            "coordinates": [
+                [
+                    77.954,
+                    11.261
+                ],
+                [
+                    77.953,
+                    11.26
+                ]
+            ],
+            "color": "#bfff00",
+            "type": "BOUNDARY LINE"
+        },
+        {
+            "coordinates": [
+                [
+                    77.953,
+                    11.26
+                ],
+                [
+                    77.953,
+                    11.26
+                ]
+            ],
+            "color": "#bfff00",
+            "type": "BOUNDARY LINE"
+        },
+        {
+            "coordinates": [
+                [
+                    77.953,
+                    11.26
+                ],
+                [
+                    77.953,
+                    11.261
+                ]
+            ],
+            "color": "#bfff00",
+            "type": "BOUNDARY LINE"
+        },
+        {
+            "coordinates": [
+                [
+                    77.953,
+                    11.261
+                ],
+                [
+                    77.953,
+                    11.261
+                ]
+            ],
+            "color": "#bfff00",
+            "type": "BOUNDARY LINE"
+        },
+        {
+            "coordinates": [
+                [
+                    77.953,
+                    11.261
+                ],
+                [
+                    77.953,
+                    11.261
+                ]
+            ],
+            "color": "#bfff00",
+            "type": "BOUNDARY LINE"
+        },
+        {
+            "coordinates": [
+                [
+                    77.953,
+                    11.261
+                ],
+                [
+                    77.953,
+                    11.261
+                ]
+            ],
+            "color": "#bfff00",
+            "type": "BOUNDARY LINE"
+        },
+        {
+            "coordinates": [
+                [
+                    77.953,
+                    11.261
+                ],
+                [
+                    77.953,
+                    11.262
+                ]
+            ],
+            "color": "#bfff00",
+            "type": "BOUNDARY LINE"
+        },
+        {
+            "coordinates": [
+                [
+                    77.953,
+                    11.262
+                ],
+                [
+                    77.953,
+                    11.262
+                ]
+            ],
+            "color": "#bfff00",
+            "type": "BOUNDARY LINE"
+        },
+        {
+            "coordinates": [
+                [
+                    77.954,
+                    11.262
+                ],
+                [
+                    77.954,
+                    11.262
+                ]
+            ],
+            "color": "#bfff00",
+            "type": "BOUNDARY LINE"
+        },
+        {
+            "coordinates": [
+                [
+                    77.953,
+                    11.262
+                ],
+                [
+                    77.953,
+                    11.262
+                ]
+            ],
+            "color": "#bfff00",
+            "type": "BOUNDARY LINE"
+        },
+        {
+            "coordinates": [
+                [
+                    77.953,
+                    11.262
+                ],
+                [
+                    77.954,
+                    11.262
+                ]
+            ],
+            "color": "#bfff00",
+            "type": "BOUNDARY LINE"
+        }
+    ],
+    "Line3": [
+        {
+            "coordinates": [
+                [
+                    77.953,
+                    11.262
+                ],
+                [
+                    77.953,
+                    11.26
+                ]
+            ],
+            "color": "#414141",
+            "type": "BASE LINE"
+        },
+        {
+            "coordinates": [
+                [
+                    77.953,
+                    11.26
+                ],
+                [
+                    77.954,
+                    11.261
+                ]
+            ],
+            "color": "#414141",
+            "type": "BASE LINE"
+        },
+        {
+            "coordinates": [
+                [
+                    77.954,
+                    11.262
+                ],
+                [
+                    77.953,
+                    11.26
+                ]
+            ],
+            "color": "#414141",
+            "type": "BASE LINE"
+        }
+    ],
+    "Text1": [
+        {
+            "coordinates": [
+                77.954,
+                11.262
+            ],
+            "label": "62,2",
+            "type": "DIMENSION"
+        },
+        {
+            "coordinates": [
+                77.954,
+                11.261
+            ],
+            "label": "44,8",
+            "type": "DIMENSION"
+        },
+        {
+            "coordinates": [
+                77.954,
+                11.261
+            ],
+            "label": "52,6",
+            "type": "DIMENSION"
+        },
+        {
+            "coordinates": [
+                77.954,
+                11.26
+            ],
+            "label": "116,4",
+            "type": "DIMENSION"
+        },
+        {
+            "coordinates": [
+                77.953,
+                11.26
+            ],
+            "label": "12,4",
+            "type": "DIMENSION"
+        },
+        {
+            "coordinates": [
+                77.953,
+                11.261
+            ],
+            "label": "70,4",
+            "type": "DIMENSION"
+        },
+        {
+            "coordinates": [
+                77.953,
+                11.261
+            ],
+            "label": "10,6",
+            "type": "DIMENSION"
+        },
+        {
+            "coordinates": [
+                77.953,
+                11.261
+            ],
+            "label": "51,4",
+            "type": "DIMENSION"
+        },
+        {
+            "coordinates": [
+                77.953,
+                11.261
+            ],
+            "label": "3,8",
+            "type": "DIMENSION"
+        },
+        {
+            "coordinates": [
+                77.953,
+                11.262
+            ],
+            "label": "25,8",
+            "type": "DIMENSION"
+        },
+        {
+            "coordinates": [
+                77.953,
+                11.262
+            ],
+            "label": "31,4",
+            "type": "DIMENSION"
+        },
+        {
+            "coordinates": [
+                77.954,
+                11.262
+            ],
+            "label": "62,0",
+            "type": "DIMENSION"
+        },
+        {
+            "coordinates": [
+                77.953,
+                11.262
+            ],
+            "label": "8,0",
+            "type": "DIMENSION"
+        },
+        {
+            "coordinates": [
+                77.953,
+                11.262
+            ],
+            "label": "61,8",
+            "type": "DIMENSION"
+        },
+        {
+            "coordinates": [
+                77.954,
+                11.261
+            ],
+            "label": "139,0",
+            "type": "DIMENSION"
+        },
+        {
+            "coordinates": [
+                77.954,
+                11.261
+            ],
+            "label": "65,0",
+            "type": "DIMENSION"
+        },
+        {
+            "coordinates": [
+                77.953,
+                11.261
+            ],
+            "label": "62,4",
+            "type": "DIMENSION"
+        },
+        {
+            "coordinates": [
+                77.954,
+                11.262
+            ],
+            "label": "60,4",
+            "type": "DIMENSION"
+        },
+        {
+            "coordinates": [
+                77.953,
+                11.261
+            ],
+            "label": "187,8",
+            "type": "DIMENSION"
+        },
+        {
+            "coordinates": [
+                77.954,
+                11.26
+            ],
+            "label": "127,6",
+            "type": "DIMENSION"
+        },
+        {
+            "coordinates": [
+                77.954,
+                11.261
+            ],
+            "label": "224,2",
+            "type": "DIMENSION"
+        }
+    ],
+    "Text2": [
+        {
+            "coordinates": [
+                77.954,
+                11.262
+            ],
+            "label": "D",
+            "type": "STONE NUMBER"
+        },
+        {
+            "coordinates": [
+                77.954,
+                11.261
+            ],
+            "label": "C",
+            "type": "STONE NUMBER"
+        },
+        {
+            "coordinates": [
+                77.953,
+                11.26
+            ],
+            "label": "4",
+            "type": "STONE NUMBER"
+        },
+        {
+            "coordinates": [
+                77.953,
+                11.26
+            ],
+            "label": "B",
+            "type": "STONE NUMBER"
+        },
+        {
+            "coordinates": [
+                77.953,
+                11.261
+            ],
+            "label": "10",
+            "type": "STONE NUMBER"
+        },
+        {
+            "coordinates": [
+                77.953,
+                11.261
+            ],
+            "label": "3",
+            "type": "STONE NUMBER"
+        },
+        {
+            "coordinates": [
+                77.953,
+                11.261
+            ],
+            "label": "2",
+            "type": "STONE NUMBER"
+        },
+        {
+            "coordinates": [
+                77.953,
+                11.261
+            ],
+            "label": "11",
+            "type": "STONE NUMBER"
+        },
+        {
+            "coordinates": [
+                77.953,
+                11.262
+            ],
+            "label": "1",
+            "type": "STONE NUMBER"
+        },
+        {
+            "coordinates": [
+                77.953,
+                11.262
+            ],
+            "label": "A",
+            "type": "STONE NUMBER"
+        },
+        {
+            "coordinates": [
+                77.953,
+                11.262
+            ],
+            "label": "523",
+            "type": "STONE NUMBER"
+        },
+        {
+            "coordinates": [
+                77.954,
+                11.262
+            ],
+            "label": "521",
+            "type": "STONE NUMBER"
+        },
+        {
+            "coordinates": [
+                77.954,
+                11.261
+            ],
+            "label": "522",
+            "type": "STONE NUMBER"
+        },
+        {
+            "coordinates": [
+                77.954,
+                11.261
+            ],
+            "label": "12",
+            "type": "STONE NUMBER"
+        },
+        {
+            "coordinates": [
+                77.954,
+                11.261
+            ],
+            "label": "13",
+            "type": "STONE NUMBER"
+        }
+    ],
+    "Text3": [
+        {
+            "coordinates": [
+                77.953,
+                11.262
+            ],
+            "label": "1A",
+            "type": "SUBDIVISION AREA"
+        },
+        {
+            "coordinates": [
+                77.953,
+                11.262
+            ],
+            "label": "0.96",
+            "type": "SUBDIVISION AREA"
+        },
+        {
+            "coordinates": [
+                77.953,
+                11.261
+            ],
+            "label": "2",
+            "type": "SUBDIVISION AREA"
+        },
+        {
+            "coordinates": [
+                77.953,
+                11.261
+            ],
+            "label": "1.72",
+            "type": "SUBDIVISION AREA"
+        },
+        {
+            "coordinates": [
+                77.954,
+                11.262
+            ],
+            "label": "1B",
+            "type": "SUBDIVISION AREA"
+        },
+        {
+            "coordinates": [
+                77.954,
+                11.262
+            ],
+            "label": "0.97",
+            "type": "SUBDIVISION AREA"
+        },
+        {
+            "coordinates": [
+                77.954,
+                11.261
+            ],
+            "label": "3",
+            "type": "SUBDIVISION AREA"
+        },
+        {
+            "coordinates": [
+                77.954,
+                11.261
+            ],
+            "label": "2.05",
+            "type": "SUBDIVISION AREA"
+        }
+    ],
+    "id": "01989dcf-d7cc-712c-ae3b-252c014cb4c7",
+    "memberId": "0197e5b5-7ce0-7bf3-87d1-f1d50963bc9c",
+    "district": "COIMBATORE",
+    "village": "Saravanampatty.",
+    "taluk": "Coimbatore_North",
+    "survey_no": "259"
+}

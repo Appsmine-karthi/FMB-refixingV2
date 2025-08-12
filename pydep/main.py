@@ -920,8 +920,8 @@ def get_utm_coordinates(crd):
 def updateFromKml(content):
     logger.info('Called updateFromKml')
     try:
-        # with open("data.json", "w") as f:
-        #     f.write(content)
+        with open("data.json", "w") as f:
+            f.write(content)
         content = json.loads(content)
 
         data = {
@@ -1005,13 +1005,14 @@ def updateFromKml(content):
         data["srt_coordinetes"] = sorted(list(data["coordinates"].keys()), key=custom_sort_key)
 
         updateArea(data)
+        with open("data_.json", "w") as f:
+            f.write(json.dumps(data))
         return json.dumps(data)
     except Exception as e:
         logger.error(f'Error in updateFromKml: {e}')
         raise
 
 from m import DrawReference_
-
 def DrawReference(data):
     DrawReference_(data)
     return "done"

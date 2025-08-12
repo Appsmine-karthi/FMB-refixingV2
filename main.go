@@ -235,6 +235,8 @@ func main() {
 		w.Header().Set("Content-Type", "application/json")
 		w.Write([]byte(dataStr))
 	})
+
+	mux.Handle("/kmlGUI/", http.StripPrefix("/kmlGUI/", http.FileServer(http.Dir("kmlHTML"))))
 	
 	handler := corsMiddleware(loggingMiddleware(mux))
 	fmt.Println("Server started at "+ServerPort)
