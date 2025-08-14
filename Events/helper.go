@@ -8,7 +8,7 @@ import (
 	"log"
 	"mypropertyqr-landsurvey/Algs"
 	"net/http"
-	"os"
+	"os" 
 	"strings"
 	"strconv"
 	"path/filepath"
@@ -265,8 +265,8 @@ func getRaja(latitude string, longitude string) (string, error) {
 	return string(jsonBytes), nil
 }
 
-func getA0(payload map[string]string) (map[string]interface{}, error) {
-	url := a0Url + payload["district"] + "/" + payload["taluk"] + "/" + payload["village"] + "/" + payload["survey_no"]
+func getA0(district string, taluk string, village string, surveyNo string) (map[string]interface{}, error) {
+	url := a0Url + district + "/" + taluk + "/" + village + "/" + surveyNo
 	log.Printf("Getting A0 data from: %s", url)
 
 	// return nil, fmt.Errorf("manual error thrown in getNithish")
@@ -281,51 +281,50 @@ func getA0(payload map[string]string) (map[string]interface{}, error) {
 	return res, nil
 }
 
-func Extractdata(id string, memberId string) string {
+func Extractdata(id string, memberId string, district string, village string, taluk string, noOfSubdivision string, surveyNo string, latitude string, longitude string) map[string]interface{} {
 
 	log.Printf("\n\n\n\n--------------------------------")
 	log.Printf("Starting Extractdata for id: %s, memberId: %s", id, memberId)
 	
-	details, err := getNithish(id, memberId)
-	if err != nil {
-		log.Printf("Failed to get Nithish data: %v", err)
-		payload := map[string]interface{}{
-			"id":                id,
-			"memberId":          memberId,
-			"surveyStatus":      "Failed to Extract",
-			"surveyStatusCode":  0,
-			"remarks":           "Failed to get Id details",
-			"surveyStatusAlert": "",
-		}
-		_, _ = doPost(sreeraguUrl, payload)
+	// details, err := getNithish(id, memberId)
+	// if err != nil {
+	// 	log.Printf("Failed to get Nithish data: %v", err)
+	// 	payload := map[string]interface{}{
+	// 		"id":                id,
+	// 		"memberId":          memberId,
+	// 		"surveyStatus":      "Failed to Extract",
+	// 		"surveyStatusCode":  0,
+	// 		"remarks":           "Failed to get Id details",
+	// 		"surveyStatusAlert": "",
+	// 	}
+	// 	_, _ = doPost(sreeraguUrl, payload)
 
-		errorResponse := map[string]interface{}{
-			"success": false,
-			"Error":   "Failed to download file",
-			"message": "Failed to Extract",
-			"error":   err.Error(),
-		}
-		responseBytes, _ := json.Marshal(errorResponse)
-		return string(responseBytes)
+	// 	errorResponse := map[string]interface{}{
+	// 		"success": false,
+	// 		"Error":   "Failed to download file",
+	// 		"message": "Failed to Extract",
+	// 		"error":   err.Error(),
+	// 	}
+	// 	responseBytes, _ := json.Marshal(errorResponse)
+	// 	return string(responseBytes)
+	// }
+
+	StatusPayload := map[string]interface{}{
+		"surveyStatus":      "Ready to Survey",
+		"surveyStatusCode":  2,
+		"remarks":           "completed rotation",
+		"surveyStatusAlert": "ready",
 	}
 
-	log.Printf("Retrieved details: %+v", details)
-
-	noOfSubdivision, _ := strconv.Atoi(details["noOfSubdivision"])
-	if noOfSubdivision > 100 {
-		log.Printf("Number of subdivisions (%d) exceeds limit of 25", noOfSubdivision)
-		payload := map[string]interface{}{
-			"id":                id,
-			"memberId":          memberId,
-			"surveyStatus":      "Processing",
-			"surveyStatusCode":  1,
-			"remarks":           fmt.Sprintf("noOfSubdivision null or 0 or >%d", noOfSubdivision),
-			"surveyStatusAlert": MoreSurvey,
-		}
-		_, _ = doPost(sreeraguUrl, payload)
-
-		resultJSON, _ := json.Marshal(payload)
-		return string(resultJSON)
+	NoSubdiv, _ := strconv.Atoi(noOfSubdivision)
+	if NoSubdiv > 100 {
+		log.Printf("Number of subdivisions (%d) exceeds limit of 25", NoSubdiv)
+		StatusPayload["surveyStatus"] = "Processing"
+		StatusPayload["surveyStatusCode"] = 1
+		StatusPayload["remarks"] = fmt.Sprintf("noOfSubdivision null or 0 or >%d", NoSubdiv)
+		StatusPayload["surveyStatusAlert"] = MoreSurvey
+		StatusPayload["success"] = true
+		return StatusPayload
 	}
 
 	log.Printf("Starting concurrent Raja data retrieval")
@@ -334,15 +333,15 @@ func Extractdata(id string, memberId string) string {
 		err    error
 	})
 	go func() {
-		result, err := getRaja(details["latitude"], details["longitude"])
+		result, err := getRaja(latitude, longitude)
 		rajaCh <- struct {
 			result string
 			err    error
 		}{result, err}
 	}()
 
-	PdfName := strings.ReplaceAll(details["district"]+details["taluk"]+details["village"]+details["survey_no"]+".pdf"," ","_")
-	JsonName := strings.ReplaceAll(details["district"]+details["taluk"]+details["village"]+details["survey_no"]+".json"," ","_")
+	PdfName := strings.ReplaceAll(district+taluk+village+surveyNo+".pdf"," ","_")
+	JsonName := strings.ReplaceAll(district+taluk+village+surveyNo+".json"," ","_")
 	Localfilename := strings.ReplaceAll(inputDir+PdfName, " ", "_")
 	S3filename := strings.ReplaceAll(s3pdfDir+PdfName, " ", "_")
 	S3jsonname := strings.ReplaceAll(s3jsonDir+JsonName, " ", "_")
@@ -371,17 +370,19 @@ func Extractdata(id string, memberId string) string {
 		if err == nil{
 			log.Printf("Successfully read JSON file, removing local copy")
 			os.Remove(Localjsonname)
-			payload := map[string]interface{}{
-				"id":                id,
-				"memberId":          memberId,
-				"surveyStatus":      "Ready to Survey",
-				"surveyStatusCode":  2,
-				"remarks":           "completed rotation",
-				"surveyStatusAlert": "ready",
-				"downloadDocument" : s3Url + S3filename,
+
+			var resjson map[string]interface{}
+			err = json.Unmarshal(data, &resjson)
+			if err != nil {
+				log.Printf("Error unmarshaling JSON: %v", err)
+				return resjson
 			}
-			_, _ = doPost(sreeraguUrl, payload)
-			return string(data)
+			resjson["surveyStatus"] = "Ready to Survey"
+			resjson["surveyStatusCode"] = 2
+			resjson["remarks"] = "completed rotation"
+			resjson["surveyStatusAlert"] = "ready"
+			resjson["downloadDocument"] = s3Url + S3filename
+			return resjson
 		}
 	}
 
@@ -393,60 +394,33 @@ func Extractdata(id string, memberId string) string {
 	
 	if !isPdfInS3 {
 		log.Printf("PDF not in S3, fetching from A0")
-		a0, err := getA0(details)
+		a0, err := getA0(district,village,taluk,surveyNo)
 		if err != nil {
 			log.Printf("Error in getA0: %v", err)
-			payload := map[string]interface{}{
-				"id":                id,
-				"memberId":          memberId,
-				"surveyStatus":      "Failed to Extract",
-				"surveyStatusCode":  0,
-				"surveyStatusAlert": FailedToEtract,
-				"remarks":           "Failed to get A0 FMB",
-			}
-			_, _ = doPost(sreeraguUrl, payload)
-			errorResponse := map[string]interface{}{
-				"success": false,
-				"Error":   "Failed to get A0 FMB",
-				"message": FailedToEtract,
-				"error":   err.Error(),
-			}
-			responseBytes, _ := json.Marshal(errorResponse)
-			return string(responseBytes)
+			StatusPayload["surveyStatus"] = "Failed to Extract"
+			StatusPayload["surveyStatusCode"] = 0
+			StatusPayload["remarks"] = "Failed to get A0 FMB"
+			StatusPayload["surveyStatusAlert"] = FailedToEtract
+			StatusPayload["success"] = false
+			return StatusPayload
 		}
 		if a0["message"] != "File uploaded successfully" {
 			log.Printf("A0 response indicates failure: %v", a0["error"])
-			payload := map[string]interface{}{
-				"id":                id,
-				"memberId":          memberId,
-				"surveyStatus":      "Failed to Extract",
-				"surveyStatusCode":  0,
-				"surveyStatusAlert": FailedToEtract,
-				"remarks":           "Failed to get A0 FMB: " + fmt.Sprintf("%v", a0["error"]),
-			}
-			_, _ = doPost(sreeraguUrl, payload)
-
-			errorResponse := map[string]interface{}{
-				"success": false,
-				"Error":   "Failed to get A0 FMB",
-				"message": FailedToEtract,
-				"error":   fmt.Sprintf("%v", a0["error"]),
-			}
-			responseBytes, _ := json.Marshal(errorResponse)
-			return string(responseBytes)
+			StatusPayload["surveyStatus"] = "Failed to Extract"
+			StatusPayload["surveyStatusCode"] = 0
+			StatusPayload["surveyStatusAlert"] = FailedToEtract
+			StatusPayload["remarks"] = "Failed to get A0 FMB: " + fmt.Sprintf("%v", a0["error"])
+			StatusPayload["success"] = false
+			return StatusPayload
 		}
 
 		log.Printf("A0 data retrieved successfully, updating status")
-		payload := map[string]interface{}{
-			"id":                id,
-			"memberId":          memberId,
-			"surveyStatus":      "Processing",
-			"surveyStatusCode":  1,
-			"remarks":           "completed pdf extraction",
-			"downloadDocument" : s3Url + S3filename,
-			"surveyStatusAlert": LandSurveyError,
-		}
-		_, _ = doPost(sreeraguUrl, payload)
+		StatusPayload["surveyStatus"] = "Processing"
+		StatusPayload["surveyStatusCode"] = 1
+		StatusPayload["remarks"] = "completed pdf extraction"
+		StatusPayload["downloadDocument"] = s3Url + S3filename
+		StatusPayload["surveyStatusAlert"] = LandSurveyError
+		StatusPayload["success"] = true
 
 		pdfUrl := a0["data"].([]any)[0].(string)
 		log.Printf("Downloading PDF from: %s", pdfUrl)
@@ -454,14 +428,8 @@ func Extractdata(id string, memberId string) string {
 		err = downloadFile(pdfUrl, Localfilename)
 		if err != nil {
 			log.Printf("Error in downloadFile: %v", err)
-			errorResponse := map[string]interface{}{
-				"success": false,
-				"Error":   "Failed to download file",
-				"message": "Failed to download file",
-				"error":   err.Error(),
-			}
-			responseBytes, _ := json.Marshal(errorResponse)
-			return string(responseBytes)
+			StatusPayload["success"] = false
+			return StatusPayload
 		}
 		defer os.Remove(Localfilename)
 
@@ -469,14 +437,8 @@ func Extractdata(id string, memberId string) string {
 		uploaded := UploadToS3(S3filename, Localfilename)
 		if !uploaded {
 			log.Printf("Error in UploadToS3: %s", S3filename)
-			errorResponse := map[string]interface{}{
-				"success": false,
-				"Error":   "Failed to upload file",
-				"message": "Failed to upload file",
-				"error":   err.Error(),
-			}
-			responseBytes, _ := json.Marshal(errorResponse)
-			return string(responseBytes)
+			StatusPayload["success"] = false
+			return StatusPayload
 		}
 		log.Printf("PDF uploaded to S3 successfully")
 	}
@@ -488,23 +450,13 @@ func Extractdata(id string, memberId string) string {
 	})
 	if err != nil || response[0] == '!'{
 		log.Printf("Error in ExtractPdf Pycess: %v", err)
-		payload := map[string]interface{}{
-			"id":                id,
-			"memberId":          memberId,
-			"surveyStatus":      "Processing",
-			"surveyStatusCode":  1,
-			"remarks":           "failed to extract pdf (pycess)",
-			"surveyStatusAlert": LandSurveyError,
-		}
-		_, _ = doPost(sreeraguUrl, payload)
-		errorResponse := map[string]interface{}{
-			"success": false,
-			"Error":   "ExtractPdf",
-			"message": LandSurveyError,
-			"error":   err.Error(),
-		}
-		responseBytes, _ := json.Marshal(errorResponse)
-		return string(responseBytes)
+
+		StatusPayload["surveyStatus"] = "Processing"
+		StatusPayload["surveyStatusCode"] = 1
+		StatusPayload["remarks"] = "failed to process pdf (pycess)"
+		StatusPayload["surveyStatusAlert"] = LandSurveyError
+		StatusPayload["success"] = false
+		return StatusPayload
 	}
 
 	log.Printf("PDF extraction completed, unmarshaling response")
@@ -512,23 +464,13 @@ func Extractdata(id string, memberId string) string {
 	err = json.Unmarshal([]byte(response), &res)
 	if err != nil || response[0] == '!'{
 		log.Printf("Error unmarshaling PyRes: %v", err)
-		payload := map[string]interface{}{
-			"id":                id,
-			"memberId":          memberId,
-			"surveyStatus":      "Processing",
-			"surveyStatusCode":  1,
-			"remarks":           "failed to extract pdf (unmarshal)",
-			"surveyStatusAlert": LandSurveyError,
-		}
-		_, _ = doPost(sreeraguUrl, payload)
-		errorResponse := map[string]interface{}{
-			"success": false,
-			"Error":   "ExtractPdf unmarshal",
-			"message": LandSurveyError,
-			"error":   err.Error(),
-		}
-		responseBytes, _ := json.Marshal(errorResponse)
-		return string(responseBytes)
+
+		StatusPayload["surveyStatus"] = "Processing"
+		StatusPayload["surveyStatusCode"] = 1
+		StatusPayload["remarks"] = "failed to process pdf (unmarshal)"
+		StatusPayload["surveyStatusAlert"] = LandSurveyError
+		StatusPayload["success"] = false
+		return StatusPayload
 	}
 
 	log.Printf("Processing extracted data")
@@ -602,23 +544,12 @@ func Extractdata(id string, memberId string) string {
 	str, err := json.Marshal([]any{CoordBlue, res.Line1, res.Line3, res.Xmax - res.Xmin, res.Ymax - res.Ymin})
 	if err != nil {
 		log.Printf("Error marshaling Line1 to JSON: %v", err)
-		payload := map[string]interface{}{
-			"id":                id,
-			"memberId":          memberId,
-			"surveyStatus":      "Processing",
-			"surveyStatusCode":  1,
-			"remarks":           "failed to get subdiv (marshal)",
-			"surveyStatusAlert": LandSurveyError,
-		}
-		_, _ = doPost(sreeraguUrl, payload)
-		errorResponse := map[string]interface{}{
-			"success": false,
-			"Error":   "getSubdiv marshal",
-			"message": LandSurveyError,
-			"error":   err.Error(),
-		}
-		responseBytes, _ := json.Marshal(errorResponse)
-		return string(responseBytes)
+		StatusPayload["surveyStatus"] = "Processing"
+		StatusPayload["surveyStatusCode"] = 1
+		StatusPayload["remarks"] = "failed to get subdiv (marshal)"
+		StatusPayload["surveyStatusAlert"] = LandSurveyError
+		StatusPayload["success"] = false
+		return StatusPayload
 	}
 	
 	response, err = Algs.Pycess(Algs.PyParam{
@@ -627,46 +558,24 @@ func Extractdata(id string, memberId string) string {
 	})
 	if err != nil || response[0] == '!'{
 		log.Printf("Error in getSubdiv Pycess: %v", err)
-		payload := map[string]interface{}{
-			"id":                id,
-			"memberId":          memberId,
-			"surveyStatus":      "Processing",
-			"surveyStatusCode":  1,
-			"remarks":           "failed to get subdiv (pycess)",
-			"surveyStatusAlert": LandSurveyError,
-		}
-		_, _ = doPost(sreeraguUrl, payload)
-		errorResponse := map[string]interface{}{
-			"success": false,
-			"Error":   "getSubdiv",
-			"message": LandSurveyError,
-			"error":   err.Error(),
-		}
-		responseBytes, _ := json.Marshal(errorResponse)
-		return string(responseBytes)
+		StatusPayload["surveyStatus"] = "Processing"
+		StatusPayload["surveyStatusCode"] = 1
+		StatusPayload["remarks"] = "failed to get subdiv (pycess)"
+		StatusPayload["surveyStatusAlert"] = LandSurveyError
+		StatusPayload["success"] = false
+		return StatusPayload
 	}
 
 	var subdivResult map[string][][][]float32
 	err = json.Unmarshal([]byte(response), &subdivResult)
 	if err != nil {
 		log.Printf("Error unmarshaling subdiv JSON: %v", err)
-		payload := map[string]interface{}{
-			"id":                id,
-			"memberId":          memberId,
-			"surveyStatus":      "Processing",
-			"surveyStatusCode":  1,
-			"remarks":           "failed to get subdiv (unmarshal)",
-			"surveyStatusAlert": LandSurveyError,
-		}
-		_, _ = doPost(sreeraguUrl, payload)
-		errorResponse := map[string]interface{}{
-			"success": false,
-			"Error":   "getSubdiv unmarshal",
-			"message": LandSurveyError,
-			"error":   err.Error(),
-		}
-		responseBytes, _ := json.Marshal(errorResponse)
-		return string(responseBytes)
+		StatusPayload["surveyStatus"] = "Processing"
+		StatusPayload["surveyStatusCode"] = 1
+		StatusPayload["remarks"] = "failed to get subdiv (unmarshal)"
+		StatusPayload["surveyStatusAlert"] = LandSurveyError
+		StatusPayload["success"] = false
+		return StatusPayload
 	}
 
 	log.Printf("Processing subdivision results")
@@ -761,7 +670,7 @@ func Extractdata(id string, memberId string) string {
 	}
 
 	log.Printf("Marshaling final data structure")
-	data, err := json.Marshal(map[string]any{"lines": lines, "subdivision_list": subdiv_list, "coordinates": coordinates, "Scale": res.Scale, "district": details["district"], "taluk": details["taluk"], "village": details["village"], "survey_no": details["survey_no"]})
+	data, err := json.Marshal(map[string]any{"lines": lines, "subdivision_list": subdiv_list, "coordinates": coordinates, "Scale": res.Scale, "district": district, "taluk": taluk, "village": village, "survey_no": surveyNo})
 	if err != nil {
 		log.Printf("Error marshaling lines: %v", err)
 	}
@@ -773,47 +682,27 @@ func Extractdata(id string, memberId string) string {
 	})
 	if err != nil || response[0] == '!'{
 		log.Printf("Error in shrink_or_expand_points: %v", err)
-		payload := map[string]interface{}{
-			"id":                id,
-			"memberId":          memberId,
-			"surveyStatus":      "Processing",
-			"surveyStatusCode":  1,
-			"remarks":           "failed to shrink or expand points",
-			"surveyStatusAlert": LandSurveyError,
-			"downloadDocument" : s3Url + S3filename,
-		}
-		_, _ = doPost(sreeraguUrl, payload)
-		errorResponse := map[string]interface{}{
-			"success": false,
-			"Error":   "shrink_or_expand_points",
-			"message": LandSurveyError,
-			"error":   err.Error(),
-		}
-		responseBytes, _ := json.Marshal(errorResponse)
-		return string(responseBytes)
+		StatusPayload["id"] = id
+		StatusPayload["memberId"] = memberId
+		StatusPayload["surveyStatus"] = "Processing"
+		StatusPayload["surveyStatusCode"] = 1
+		StatusPayload["remarks"] = "failed to shrink or expand points"
+		StatusPayload["surveyStatusAlert"] = LandSurveyError
+		StatusPayload["downloadDocument"] = s3Url + S3filename
+		return StatusPayload
 	}
 
 	log.Printf("Waiting for Raja data")
 	rajaRes := <-rajaCh
 	if rajaRes.err != nil {
 		log.Printf("Error in rajaRes: %v", rajaRes.err)
-		payload := map[string]interface{}{
-			"id":                id,
-			"memberId":          memberId,
-			"surveyStatus":      "Processing",
-			"surveyStatusCode":  1,
-			"remarks":           "failed to get world coordinates",
-			"surveyStatusAlert": LandSurveyError,
-		}
-		_, _ = doPost(sreeraguUrl, payload)
-		errorResponse := map[string]interface{}{
-			"success": false,
-			"Error":   "rajaRes",
-			"message": LandSurveyError,
-			"error":   rajaRes.err.Error(),
-		}
-		responseBytes, _ := json.Marshal(errorResponse)
-		return string(responseBytes)
+		StatusPayload["id"] = id
+		StatusPayload["memberId"] = memberId
+		StatusPayload["surveyStatus"] = "Processing"
+		StatusPayload["surveyStatusCode"] = 1
+		StatusPayload["remarks"] = "failed to get world coordinates"
+		StatusPayload["surveyStatusAlert"] = LandSurveyError
+		return StatusPayload
 	}
 	raja := rajaRes.result
 	log.Printf("Raja data received successfully")
@@ -825,36 +714,23 @@ func Extractdata(id string, memberId string) string {
 	})
 	if err != nil || response[0] == '!'{
 		log.Printf("Error in rotate: %v", err)
-		payload := map[string]interface{}{
-			"id":                id,
-			"memberId":          memberId,
-			"surveyStatus":      "Processing",
-			"surveyStatusCode":  1,
-			"remarks":           "failed to rotate (pycess)",
-			"surveyStatusAlert": LandSurveyError,
-		}
-		_, _ = doPost(sreeraguUrl, payload)
-		errorResponse := map[string]interface{}{
-			"success": false,
-			"Error":   "rotate",
-			"message": LandSurveyError,
-			"error":   err.Error(),
-		}
-		responseBytes, _ := json.Marshal(errorResponse)
-		return string(responseBytes)
+		StatusPayload["id"] = id
+		StatusPayload["memberId"] = memberId
+		StatusPayload["surveyStatus"] = "Processing"
+		StatusPayload["surveyStatusCode"] = 1
+		StatusPayload["remarks"] = "failed to rotate (pycess)"
+		StatusPayload["surveyStatusAlert"] = LandSurveyError
+		return StatusPayload
 	}
  
 	log.Printf("Processing completed successfully, updating final status")
-	payload := map[string]interface{}{
-		"id":                id,
-		"memberId":          memberId,
-		"surveyStatus":      "Ready to Survey",
-		"surveyStatusCode":  2,
-		"remarks":           "completed rotation",
-		"surveyStatusAlert": "ready",
-		"downloadDocument" : s3Url + S3filename,
-	}
-	_, _ = doPost(sreeraguUrl, payload)
+	StatusPayload["id"] = id
+	StatusPayload["memberId"] = memberId
+	StatusPayload["surveyStatus"] = "Ready to Survey"
+	StatusPayload["surveyStatusCode"] = 2
+	StatusPayload["remarks"] = "completed rotation"
+	StatusPayload["surveyStatusAlert"] = "ready"
+	StatusPayload["downloadDocument"] = s3Url + S3filename
 
 	log.Printf("Writing final JSON to file")
 	dataToWrite := []byte(response)
@@ -869,7 +745,7 @@ func Extractdata(id string, memberId string) string {
 	}
 	
 	log.Printf("Extractdata completed successfully for id: %s", id)
-	return response
+	return StatusPayload
 }
 
 func GetPdf(id string, memberId string, data string) string {
