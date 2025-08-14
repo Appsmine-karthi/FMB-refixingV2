@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# ====== CONFIGURATION ======
+INTERVAL=0.1  # Sampling interval in seconds
+LOGDIR="./10_requests_Async"
+mkdir -p "$LOGDIR"
+
+# ====== PROCESS NAMES ======
+APP1="./main"   # or just "my_go_binary" if already running
+APP2="pymodule.py"
+APP3="OCR.py"
+
+# ====== GET PIDs ======
+PID1=$(pidof -s "$APP1")
+PID2=$(pidof -s python3 "$APP2" || pidof -s python "$APP2")
+PID3=$(pidof -s python3 "$APP3" || pidof -s python "$APP3")
+
+if [[ -z "$PID1" || -z "$PID2" || -z "$PID3" ]]; then
+    echo "Error: One or more processes not running."
+    echo "PID1=$PID1 PID2=$PID2 PID3=$PID3"
+    exit 1
+fi
+
+echo "Monitoring processes:"
+echo "  $APP1 (PID: $PID1)"
+echo "  $APP2 (PID: $PID2)"
+echo "  $APP3 (PID: $PID3)"
+echo "Logging to $LOGDIR"
+
+# ====== WRITE HEADERS ======
+echo "timestamp,cpu%,mem%" > "$LOGDIR/go_binary.csv"
+echo "timestamp,cpu%,mem%" > "$LOGDIR/pymodule.csv"
+echo "timestamp,cpu%,mem%" > "$LOGDIR/ocr.csv"
+
+# ====== MONITOR LOOP ======
+while kill -0 $PID1 2>/dev/null || kill -0 $PID2 2>/dev/null || kill -0 $PID3 2>/dev/null; do
+    TS=$(date '+%Y-%m-%d %H:%M:%S.%3N')
+
+    if kill -0 $PID1 2>/dev/null; then
+        echo "$TS,$(ps -p $PID1 -o %cpu,%mem --no-headers)" >> "$LOGDIR/go_binary.csv"
+    fi
+    if kill -0 $PID2 2>/dev/null; then
+        echo "$TS,$(ps -p $PID2 -o %cpu,%mem --no-headers)" >> "$LOGDIR/pymodule.csv"
+    fi
+    if kill -0 $PID3 2>/dev/null; then
+        echo "$TS,$(ps -p $PID3 -o %cpu,%mem --no-headers)" >> "$LOGDIR/ocr.csv"
+    fi
+
+    sleep $INTERVAL
+done
+
+echo "Monitoring complete. Logs saved in $LOGDIR"

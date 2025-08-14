@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -66,6 +67,35 @@ func loggingMiddleware(next http.Handler) http.Handler {
 	})
 }
 
+func timeoutMiddleware(timeout time.Duration) func(http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			ctx, cancel := context.WithTimeout(r.Context(), timeout)
+			defer cancel()
+			
+			r = r.WithContext(ctx)
+			
+			// Create a channel to signal when the request is done
+			done := make(chan bool, 1)
+			
+			go func() {
+				next.ServeHTTP(w, r)
+				done <- true
+			}()
+			
+			select {
+			case <-done:
+				// Request completed successfully
+			case <-ctx.Done():
+				// Request timed out
+				if !w.Written() {
+					http.Error(w, "Request timeout", http.StatusRequestTimeout)
+				}
+			}
+		})
+	}
+}
+
 func loadEnv() {
 	err := godotenv.Load()
 	if err != nil {
@@ -129,7 +159,9 @@ func main() {
 		dataStr, err := json.Marshal(body)
 		if err != nil {
 			fmt.Println("Error marshalling data:", err)
-		} 
+			http.Error(w, "Failed to marshal JSON", http.StatusInternalServerError)
+			return
+		}
 		
 
 		id, _ := body["id"].(string)
@@ -234,9 +266,27 @@ func main() {
 		w.Write([]byte(dataStr))
 	})
 	
-	handler := corsMiddleware(loggingMiddleware(mux))
+	// Apply middleware with timeout
+	handler := corsMiddleware(loggingMiddleware(timeoutMiddleware(120*time.Second)(mux)))
+	
+	// Configure server with better connection handling
+	server := &http.Server{
+		Addr:         ":5001",
+		Handler:      handler,
+		ReadTimeout:  30 * time.Second,
+		WriteTimeout: 30 * time.Second,
+		IdleTimeout:  60 * time.Second,
+		MaxHeaderBytes: 1 << 20, // 1MB
+	}
+	
 	fmt.Println("Server started at :5001")
-	err := http.ListenAndServe(":5001", handler)
+	fmt.Println("Configured with:")
+	fmt.Println("- Read timeout: 30s")
+	fmt.Println("- Write timeout: 30s") 
+	fmt.Println("- Idle timeout: 60s")
+	fmt.Println("- Request timeout: 120s")
+	
+	err := server.ListenAndServe()
 	if err != nil {
 		fmt.Println("Server error:", err)
 	}
