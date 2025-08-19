@@ -1,0 +1,27 @@
+LOGO = /home/developers/PRODUCTION/FMB-refixingV2/pydep/logo.png
+LOGO_ICON = /home/developers/PRODUCTION/FMB-refixingV2/pydep/pdfLogo.png
+
+PDF_TEMP = /home/developers/PRODUCTION/FMB-refixingV2/pdfTemp/
+INPUT_TEMP = /home/developers/PRODUCTION/FMB-refixingV2/inputs/
+OUTPUT_TEMP = /home/developers/PRODUCTION/FMB-refixingV2/outputs/
+
+NITHISH_URL = https://prod-api.sreeragu.com/api/v2/MobileSurvey/getById
+A0_URL = https://a0-fmb.mypropertyqr.in/rurals/
+SURVEY_PREDICT = https://survey.mypropertyqr.in/village/
+SREERAGU_URL = https://prod-api.sreeragu.com/api/v2/MobileSurvey/update
+
+S3_DOMAIN = https://mypropertyproduction.s3.amazonaws.com
+S3_JSON_DIR = prod/inputs/
+S3_PDF_DIR = prod/outputs/
+S3_SAT_PDF_DIR = prod/satPdf/
+
+AWS_ACCESS_KEY = AKIAQWO5JSUXRPDZJGZP
+AWS_SECRET_KEY = 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
+S3_REGION      = us-east-1
+BUCKET_NAME    = mypropertyproduction
+
+PYTHON_SERVER = http://localhost:6012/process
+OCR_SERVER = http://localhost:6011/ocr
+
+CACHED_JSON = true
+CACHED_PDF = true

@@ -28,13 +28,13 @@ S3_REGION      = os.getenv('AWS_REGION')
 BUCKET_NAME    = os.getenv('AWS_S3_BUCKET')
 
 
-ocr_url = "http://localhost:6001/ocr"
+ocr_url = os.getenv('OCR_SERVER')
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
 logger = logging.getLogger(__name__)
 
 def SvgToD(geometry_data):
-    logger.info('Called SvgToD')
+    # logger.info('Called SvgToD')
     try:
         if not geometry_data:
             return ""
@@ -90,7 +90,7 @@ def ExtractLandLines(drawings, canvas_height):
         line1_ = []
         for drawing in drawings:
             temp = drawing["items"]
-            if(drawing.get("color","") == (0.0, 0.0, 1.0)):
+            if(drawing.get("color","") != (0.0, 0.0, 0.0)):
                 continue
             if(drawing["width"] == 3.0 or drawing["width"] == 2.0):
                 crd = [[temp[0][1][0],canvas_height - temp[0][1][1]], [temp[0][2][0],canvas_height - temp[0][2][1]]]
@@ -100,26 +100,25 @@ def ExtractLandLines(drawings, canvas_height):
                 if(drawing["dashes"] == "[ 30 10 1 3 1 3 1 10 ] 1"):
                     line1_.append(crd)
                 else:
-                    if(1 not in crd[0] and 1 not in crd[1]):
-                        line1.append(crd)
+                    line1.append(crd)
 
+        # to_remove = [
+        #     [[2382.0, 0.0], [2382.0, 3369.0]],
+        #     [[14.0, 14.0], [2369.0, 14.0]],
+        #     [[2369.0, 14.0], [2369.0, 3356.0]],
+        #     [[2369.0, 3356.0], [14.0, 3356.0]],
+        #     [[14.0, 3356.0], [14.0, 14.0]],
+        #     [[28.0, 3342.0], [28.0, 28.0]],
+        #     [[28.0, 28.0], [2355.0, 28.0]],
+        #     [[2355.0, 28.0], [2355.0, 3342.0]],
+        #     [[2355.0, 3342.0], [28.0, 3342.0]]
+        # ]
 
-        to_remove_line1 = [
-            [[2382.0, 0.0], [2382.0, 3369.0]]
-        ]
-        for line in to_remove_line1:
-            if line in line1:
-                line1.remove(line)
-
-        to_remove_line3 = [
-            [[14.0, 14.0], [2369.0, 14.0]],
-            [[2369.0, 14.0], [2369.0, 3356.0]],
-            [[2369.0, 3356.0], [14.0, 3356.0]],
-            [[14.0, 3356.0], [14.0, 14.0]]
-        ]
-        for line in to_remove_line3:
-            if line in line3:
-                line3.remove(line)
+        # for line in to_remove:
+        #     if line in line1:
+        #         line1.remove(line)
+        #     if line in line3:
+        #         line3.remove(line)
 
         return {"line3":line3,"line1":line1,"line1_":line1_}
     except Exception as e:
@@ -127,7 +126,7 @@ def ExtractLandLines(drawings, canvas_height):
         raise
 
 def CheckDot(count):
-    logger.info('Called CheckDot')
+    # logger.info('Called CheckDot')
     try:
         if(count[0][1] == count[3][2]):
             return True
@@ -137,7 +136,7 @@ def CheckDot(count):
         raise
 
 def PathHasDot(path):
-    logger.info('Called PathHasDot')
+    # logger.info('Called PathHasDot')
     try:
         count = []
         for i in range(len(path)):
@@ -260,8 +259,10 @@ def lines_to_ring(lines):
     except Exception as e:
         logger.error(f'Error in lines_to_ring: {e}')
         raise
+
 def MakeSvgImage(d):
-    logger.info('Called MakeSvgImage')
+    global bInd
+    # logger.info('Called MakeSvgImage')
     try:
         # Parse the path
         path = parse_path(d)
@@ -300,7 +301,9 @@ def MakeSvgImage(d):
         logger.error(f'Error in MakeSvgImage: {e}')
         raise
 
+kl=0
 def ExtractPdf(PdfName):
+    global kl
     logger.info('Called ExtractPdf')
     try:
         DownloadFile(S3Domain+ "/fmb_refixing/" + S3PdfDir + PdfName, inputsDir + PdfName)
@@ -333,16 +336,16 @@ def ExtractPdf(PdfName):
         outer_polygon = remove_floating_lines(rtn["line3"])
         outer_polygon = lines_to_ring(outer_polygon)
         polygon = Polygon(outer_polygon)
+
+
         for i in textD["b"]:
             img, height = MakeSvgImage(SvgToD(i["items"]))
-            if height > 8:
-                # print("height")
+            kl += 1
+            if height > 30:
                 continue
             if not polygon.contains(Point(i["rect"][0], i["rect"][1])):
-                # print("pol")
                 continue
             if not polygon.contains(Point(i["rect"][2], i["rect"][3])):
-                # print("pol2")
                 continue
             _, img_encoded = cv2.imencode('.png', img)
             img_bytes = img_encoded.tobytes()
@@ -356,9 +359,6 @@ def ExtractPdf(PdfName):
 
             if text == "":
                 continue
-            # print(text)
-            # cv2.imshow("img",img)
-            # cv2.waitKey(0)
             bbox = i["rect"]
             rtn["b"].append({"text": text, "bbox": [bbox[0], canvas_height - bbox[1], bbox[2], canvas_height - bbox[3]]})
             # print(rtn["line1"])
@@ -973,6 +973,7 @@ def updateFromKml(content):
             data["coordinates"][value] = [get_utm_coordinates(key),"main",["notmodified","notmodified"]]
 
         for i in content.get("Line3", []):
+            print(i)
             a = stoneIndex.get(tuple(i["coordinates"][0]), "")
             b = stoneIndex.get(tuple(i["coordinates"][1]), "")
 
@@ -1004,10 +1005,17 @@ def updateFromKml(content):
         data["srt_coordinetes"] = sorted(list(data["coordinates"].keys()), key=custom_sort_key)
 
         updateArea(data)
+        with open("data_.json", "w") as f:
+            f.write(json.dumps(data))
         return json.dumps(data)
     except Exception as e:
         logger.error(f'Error in updateFromKml: {e}')
         raise
+
+from m import DrawReference_
+def DrawReference(data):
+    DrawReference_(data)
+    return "done"
 
 if __name__ == "__main__":
     f = ExtractPdf("/home/ubuntu/mypropertyqr-landsurvey/inputs/NAMAKKALKumarapalayamKokkarayanpettai88.pdf")

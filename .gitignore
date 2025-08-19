@@ -4,3 +4,9 @@ vnev/
 inputs/
 outputs/
 pdfTemp/
+pydep/__pycache__/
+__pycache__/
+pydep/data.json
+pydep/customFloodFill.cpython*
+pydep/flipMatch.cpython*
+main

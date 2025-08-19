@@ -488,6 +488,36 @@ func pointKey(p []float32) string {
 	return fmt.Sprintf("%.1f,%.1f", p[0], p[1])
 }
 
+func is_valid_triangle(p1, p2, p3 []float32) bool {
+	xmin, ymin := p1[0], p1[1]
+	xmax, ymax := p1[0], p1[1]
+
+	points := [][]float32{p2, p3}
+	for _, pt := range points {
+		if pt[0] < xmin {
+			xmin = pt[0]
+		}
+		if pt[0] > xmax {
+			xmax = pt[0]
+		}
+		if pt[1] < ymin {
+			ymin = pt[1]
+		}
+		if pt[1] > ymax {
+			ymax = pt[1]
+		}
+	}
+
+	length := xmax - xmin
+	width := ymax - ymin
+
+	// fmt.Println("arrow, L=",length)
+	// fmt.Println("arrow, W=",width)
+	// fmt.Println("\n")
+
+	return length <= 50 && width <= 50
+}
+
 func RemoveArrows(lines [][][]float32) [][][]float32 {
 	type Point [2]float32
 	pointToLines := make(map[Point][]int)
@@ -535,34 +565,25 @@ func RemoveArrows(lines [][][]float32) [][][]float32 {
 						}
 					}
 					if valid {
-						removed[i] = true
-						removed[j] = true
-						removed[k] = true
+						// Extract the three unique points
+						var trianglePoints [][]float32
+						for point := range points {
+							trianglePoints = append(trianglePoints, []float32{point[0], point[1]})
+						}
+						
+						// Only remove if the triangle area is greater than 1
+						if len(trianglePoints) == 3 && is_valid_triangle(trianglePoints[0], trianglePoints[1], trianglePoints[2]) {
+							removed[i] = true
+							removed[j] = true
+							removed[k] = true
+						}
 					}
 				}
 			}
 		}
 	}
 
-	changed := true
-	for changed {
-		changed = false
-		removedPoints := make(map[Point]bool)
-		for idx := range removed {
-			removedPoints[toPoint(lines[idx][0])] = true
-			removedPoints[toPoint(lines[idx][1])] = true
-		}
 
-		for i, line := range lines {
-			if removed[i] {
-				continue
-			}
-			if removedPoints[toPoint(line[0])] || removedPoints[toPoint(line[1])] {
-				removed[i] = true
-				changed = true
-			}
-		}
-	}
 
 	var filtered [][][]float32
 	for i, line := range lines {
@@ -572,3 +593,125 @@ func RemoveArrows(lines [][][]float32) [][][]float32 {
 	}
 	return filtered
 }
+
+func RemoveUnrelated(lines [][][]float32) [][][]float32 {
+	if len(lines) <= 1 {
+		return lines
+	}
+
+	// Helper function to check if a point lies on a line segment
+	pointOnLine := func(point []float32, line [][]float32) bool {
+		const eps = 0.001
+		x, y := point[0], point[1]
+		x1, y1 := line[0][0], line[0][1]
+		x2, y2 := line[1][0], line[1][1]
+
+		// Check if point is exactly one of the endpoints
+		if (math.Abs(float64(x-x1)) < eps && math.Abs(float64(y-y1)) < eps) ||
+		   (math.Abs(float64(x-x2)) < eps && math.Abs(float64(y-y2)) < eps) {
+			return true
+		}
+
+		// Check if point lies on the line segment
+		// First check if point is collinear with the line
+		crossProduct := (y-y1)*(x2-x1) - (x-x1)*(y2-y1)
+		if math.Abs(float64(crossProduct)) > eps {
+			return false // Not collinear
+		}
+
+		// Check if point is within the line segment bounds
+		minX, maxX := x1, x2
+		if minX > maxX {
+			minX, maxX = maxX, minX
+		}
+		minY, maxY := y1, y2
+		if minY > maxY {
+			minY, maxY = maxY, minY
+		}
+
+		return x >= minX-float32(eps) && x <= maxX+float32(eps) && 
+		       y >= minY-float32(eps) && y <= maxY+float32(eps)
+	}
+
+	var filtered [][][]float32
+
+	for i, currentLine := range lines {
+		startPoint := currentLine[0]
+		endPoint := currentLine[1]
+		
+		startOnOtherLine := false
+		endOnOtherLine := false
+
+		// Check if both endpoints lie on any other line
+		for j, otherLine := range lines {
+			if i == j {
+				continue // Skip the same line
+			}
+
+			if !startOnOtherLine && pointOnLine(startPoint, otherLine) {
+				startOnOtherLine = true
+			}
+			if !endOnOtherLine && pointOnLine(endPoint, otherLine) {
+				endOnOtherLine = true
+			}
+
+			// Early exit if both points are found on other lines
+			if startOnOtherLine && endOnOtherLine {
+				break
+			}
+		}
+
+		// Keep the line only if both endpoints lie on other lines
+		if startOnOtherLine && endOnOtherLine {
+			filtered = append(filtered, currentLine)
+		}
+	}
+
+	return filtered
+}
+
+func RemoveOuterRectangle(lines [][][]float32) [][][]float32 {
+	if len(lines) == 0 {
+		return lines
+	}
+
+	xmin, ymin, xmax, ymax := GetBoundingBox(lines)
+	const eps = 0.001
+	
+	isApprox := func(a, b float32) bool {
+		return math.Abs(float64(a-b)) < eps
+	}
+	
+	isOnBoundary := func(line [][]float32) bool {
+		x1, y1 := line[0][0], line[0][1]
+		x2, y2 := line[1][0], line[1][1]
+		
+		if isApprox(x1, xmin) && isApprox(x2, xmin) {
+			return true
+		}
+		
+		if isApprox(x1, xmax) && isApprox(x2, xmax) {
+			return true
+		}
+		
+		if isApprox(y1, ymax) && isApprox(y2, ymax) {
+			return true
+		}
+		
+		if isApprox(y1, ymin) && isApprox(y2, ymin) {
+			return true
+		}
+		
+		return false
+	}
+	
+	var filtered [][][]float32
+	for _, line := range lines {
+		if !isOnBoundary(line) {
+			filtered = append(filtered, line)
+		}
+	}
+	
+	return filtered
+}
+

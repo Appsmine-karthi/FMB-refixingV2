@@ -216,7 +216,7 @@ func downloadFile(url string, path string) error {
 
 func getNithish(id string, memberId string) (map[string]string, error) {
 	log.Printf("Getting Nithish data for id: %s, memberId: %s", id, memberId)
-	
+
 	res, err := doPost(nithishUrl,
 		map[string]interface{}{"id": id, "memberId": memberId})
 	if err != nil {
@@ -268,6 +268,8 @@ func getRaja(latitude string, longitude string) (string, error) {
 func getA0(payload map[string]string) (map[string]interface{}, error) {
 	url := a0Url + payload["district"] + "/" + payload["taluk"] + "/" + payload["village"] + "/" + payload["survey_no"]
 	log.Printf("Getting A0 data from: %s", url)
+
+	// return nil, fmt.Errorf("manual error thrown in getNithish")
 	
 	res, err := doGet(url)
 	if err != nil {
@@ -297,8 +299,14 @@ func Extractdata(id string, memberId string) string {
 		}
 		_, _ = doPost(sreeraguUrl, payload)
 
-		resultJSON, _ := json.Marshal(payload)
-		return string(resultJSON)
+		errorResponse := map[string]interface{}{
+			"success": false,
+			"Error":   "Failed to download file",
+			"message": "Failed to Extract",
+			"error":   err.Error(),
+		}
+		responseBytes, _ := json.Marshal(errorResponse)
+		return string(responseBytes)
 	}
 
 	log.Printf("Retrieved details: %+v", details)
@@ -334,11 +342,11 @@ func Extractdata(id string, memberId string) string {
 	}()
 
 	PdfName := strings.ReplaceAll(details["district"]+details["taluk"]+details["village"]+details["survey_no"]+".pdf"," ","_")
+	JsonName := strings.ReplaceAll(details["district"]+details["taluk"]+details["village"]+details["survey_no"]+".json"," ","_")
 	Localfilename := strings.ReplaceAll(inputDir+PdfName, " ", "_")
 	S3filename := strings.ReplaceAll(s3pdfDir+PdfName, " ", "_")
-
-	Localjsonname := strings.ReplaceAll(outputDir+PdfName, " ", "_")
-	S3jsonname := strings.ReplaceAll(s3jsonDir+PdfName, " ", "_")
+	S3jsonname := strings.ReplaceAll(s3jsonDir+JsonName, " ", "_")
+	Localjsonname := strings.ReplaceAll(outputDir+JsonName, " ", "_")
 	
 	log.Printf("Local filename: %s", Localfilename)
 	log.Printf("S3 filename: %s", S3filename)
@@ -349,6 +357,7 @@ func Extractdata(id string, memberId string) string {
 		S3jsonname,
 		Localjsonname,
 	)
+	fmt.Println("jsonURL", S3jsonname)
 	if(cachedJSON == false){
 		isJsonInS3 = false
 	}
@@ -392,11 +401,18 @@ func Extractdata(id string, memberId string) string {
 				"memberId":          memberId,
 				"surveyStatus":      "Failed to Extract",
 				"surveyStatusCode":  0,
+				"surveyStatusAlert": FailedToEtract,
 				"remarks":           "Failed to get A0 FMB",
-				"surveyStatusAlert": "",
 			}
 			_, _ = doPost(sreeraguUrl, payload)
-			return `{"success": false, "Error": "Failed to get A0 FMB", "message": "` + LandSurveyError + `,error: ` + err.Error() + `"}`
+			errorResponse := map[string]interface{}{
+				"success": false,
+				"Error":   "Failed to get A0 FMB",
+				"message": FailedToEtract,
+				"error":   err.Error(),
+			}
+			responseBytes, _ := json.Marshal(errorResponse)
+			return string(responseBytes)
 		}
 		if a0["message"] != "File uploaded successfully" {
 			log.Printf("A0 response indicates failure: %v", a0["error"])
@@ -405,12 +421,19 @@ func Extractdata(id string, memberId string) string {
 				"memberId":          memberId,
 				"surveyStatus":      "Failed to Extract",
 				"surveyStatusCode":  0,
+				"surveyStatusAlert": FailedToEtract,
 				"remarks":           "Failed to get A0 FMB: " + fmt.Sprintf("%v", a0["error"]),
-				"surveyStatusAlert": "",
 			}
 			_, _ = doPost(sreeraguUrl, payload)
 
-			return `{"success": false, "Error": "Failed to get A0 FMB", "message": Failed to get A0 FMB ,"error": ` + fmt.Sprintf("%v", a0["error"]) + `"}`
+			errorResponse := map[string]interface{}{
+				"success": false,
+				"Error":   "Failed to get A0 FMB",
+				"message": FailedToEtract,
+				"error":   fmt.Sprintf("%v", a0["error"]),
+			}
+			responseBytes, _ := json.Marshal(errorResponse)
+			return string(responseBytes)
 		}
 
 		log.Printf("A0 data retrieved successfully, updating status")
@@ -431,7 +454,14 @@ func Extractdata(id string, memberId string) string {
 		err = downloadFile(pdfUrl, Localfilename)
 		if err != nil {
 			log.Printf("Error in downloadFile: %v", err)
-			return `{"success": false, "Error": "Failed to download file", "message": Failed to download file","error": ` + err.Error() + `"}`
+			errorResponse := map[string]interface{}{
+				"success": false,
+				"Error":   "Failed to download file",
+				"message": "Failed to download file",
+				"error":   err.Error(),
+			}
+			responseBytes, _ := json.Marshal(errorResponse)
+			return string(responseBytes)
 		}
 		defer os.Remove(Localfilename)
 
@@ -439,7 +469,14 @@ func Extractdata(id string, memberId string) string {
 		uploaded := UploadToS3(S3filename, Localfilename)
 		if !uploaded {
 			log.Printf("Error in UploadToS3: %s", S3filename)
-			return `{"success": false, "Error": "Failed to upload file", "message": Failed to upload file","error": ` + err.Error() + `"}`
+			errorResponse := map[string]interface{}{
+				"success": false,
+				"Error":   "Failed to upload file",
+				"message": "Failed to upload file",
+				"error":   err.Error(),
+			}
+			responseBytes, _ := json.Marshal(errorResponse)
+			return string(responseBytes)
 		}
 		log.Printf("PDF uploaded to S3 successfully")
 	}
@@ -460,7 +497,14 @@ func Extractdata(id string, memberId string) string {
 			"surveyStatusAlert": LandSurveyError,
 		}
 		_, _ = doPost(sreeraguUrl, payload)
-		return `{"success": false, "Error": "ExtractPdf", "message": "` + LandSurveyError + `,"error": ` + err.Error() + `"}`
+		errorResponse := map[string]interface{}{
+			"success": false,
+			"Error":   "ExtractPdf",
+			"message": LandSurveyError,
+			"error":   err.Error(),
+		}
+		responseBytes, _ := json.Marshal(errorResponse)
+		return string(responseBytes)
 	}
 
 	log.Printf("PDF extraction completed, unmarshaling response")
@@ -477,19 +521,29 @@ func Extractdata(id string, memberId string) string {
 			"surveyStatusAlert": LandSurveyError,
 		}
 		_, _ = doPost(sreeraguUrl, payload)
-		return `{"success": false, "Error": "ExtractPdf unmarshal", "message": "` + LandSurveyError + `,"error": ` + err.Error() + `"}`
+		errorResponse := map[string]interface{}{
+			"success": false,
+			"Error":   "ExtractPdf unmarshal",
+			"message": LandSurveyError,
+			"error":   err.Error(),
+		}
+		responseBytes, _ := json.Marshal(errorResponse)
+		return string(responseBytes)
 	}
 
 	log.Printf("Processing extracted data")
 	res.Line3 = Algs.RemoveFloatingLines(res.Line3)
-
+	res.Line3 = Algs.RemoveOuterRectangle(res.Line3)
 	res.Line1 = Algs.RemoveArrows(res.Line1)
+	res.Line1 = Algs.RemoveIsolatedLines(res.Line1)
 
-	
 
-	// log.Printf("\n\n\n--------------------------------")
-	// fmt.Println(res.Line1)
-	// log.Printf("--------------------------------\n\n\n")
+	// lineStr, err := json.Marshal(res)
+	// response, err = Algs.Pycess(Algs.PyParam{
+	// 	Mod: "DrawReference",
+	// 	Arg: []any{string(lineStr)},
+	// })
+
 
 	Algs.OffsetToOrigin(&res)
 
@@ -544,8 +598,6 @@ func Extractdata(id string, memberId string) string {
 		}
 	}
 
-
-
 	log.Printf("Getting subdivision data")
 	str, err := json.Marshal([]any{CoordBlue, res.Line1, res.Line3, res.Xmax - res.Xmin, res.Ymax - res.Ymin})
 	if err != nil {
@@ -559,7 +611,14 @@ func Extractdata(id string, memberId string) string {
 			"surveyStatusAlert": LandSurveyError,
 		}
 		_, _ = doPost(sreeraguUrl, payload)
-		return `{"success": false, "Error": "getSubdiv marshal", "message": "` + LandSurveyError + `,"error": ` + err.Error() + `"}`
+		errorResponse := map[string]interface{}{
+			"success": false,
+			"Error":   "getSubdiv marshal",
+			"message": LandSurveyError,
+			"error":   err.Error(),
+		}
+		responseBytes, _ := json.Marshal(errorResponse)
+		return string(responseBytes)
 	}
 	
 	response, err = Algs.Pycess(Algs.PyParam{
@@ -577,7 +636,14 @@ func Extractdata(id string, memberId string) string {
 			"surveyStatusAlert": LandSurveyError,
 		}
 		_, _ = doPost(sreeraguUrl, payload)
-		return `{"success": false, "Error": "getSubdiv", "message": "` + LandSurveyError + `,"error": ` + err.Error() + `"}`
+		errorResponse := map[string]interface{}{
+			"success": false,
+			"Error":   "getSubdiv",
+			"message": LandSurveyError,
+			"error":   err.Error(),
+		}
+		responseBytes, _ := json.Marshal(errorResponse)
+		return string(responseBytes)
 	}
 
 	var subdivResult map[string][][][]float32
@@ -593,7 +659,14 @@ func Extractdata(id string, memberId string) string {
 			"surveyStatusAlert": LandSurveyError,
 		}
 		_, _ = doPost(sreeraguUrl, payload)
-		return `{"success": false, "Error": "getSubdiv unmarshal", "message": "` + LandSurveyError + `,"error": ` + err.Error() + `"}`
+		errorResponse := map[string]interface{}{
+			"success": false,
+			"Error":   "getSubdiv unmarshal",
+			"message": LandSurveyError,
+			"error":   err.Error(),
+		}
+		responseBytes, _ := json.Marshal(errorResponse)
+		return string(responseBytes)
 	}
 
 	log.Printf("Processing subdivision results")
@@ -710,7 +783,14 @@ func Extractdata(id string, memberId string) string {
 			"downloadDocument" : s3Url + S3filename,
 		}
 		_, _ = doPost(sreeraguUrl, payload)
-		return `{"success": false, "Error": "shrink_or_expand_points", "message": "` + LandSurveyError + `,"error": ` + err.Error() + `"}`
+		errorResponse := map[string]interface{}{
+			"success": false,
+			"Error":   "shrink_or_expand_points",
+			"message": LandSurveyError,
+			"error":   err.Error(),
+		}
+		responseBytes, _ := json.Marshal(errorResponse)
+		return string(responseBytes)
 	}
 
 	log.Printf("Waiting for Raja data")
@@ -726,7 +806,14 @@ func Extractdata(id string, memberId string) string {
 			"surveyStatusAlert": LandSurveyError,
 		}
 		_, _ = doPost(sreeraguUrl, payload)
-		return `{"success": false, "Error": "rajaRes", "message": "` + LandSurveyError + `,"error": ` + rajaRes.err.Error() + `"}`
+		errorResponse := map[string]interface{}{
+			"success": false,
+			"Error":   "rajaRes",
+			"message": LandSurveyError,
+			"error":   rajaRes.err.Error(),
+		}
+		responseBytes, _ := json.Marshal(errorResponse)
+		return string(responseBytes)
 	}
 	raja := rajaRes.result
 	log.Printf("Raja data received successfully")
@@ -747,7 +834,14 @@ func Extractdata(id string, memberId string) string {
 			"surveyStatusAlert": LandSurveyError,
 		}
 		_, _ = doPost(sreeraguUrl, payload)
-		return `{"success": false, "Error": "rotate", "message": "` + LandSurveyError + `","error": "` + err.Error() + `"}`
+		errorResponse := map[string]interface{}{
+			"success": false,
+			"Error":   "rotate",
+			"message": LandSurveyError,
+			"error":   err.Error(),
+		}
+		responseBytes, _ := json.Marshal(errorResponse)
+		return string(responseBytes)
 	}
  
 	log.Printf("Processing completed successfully, updating final status")
@@ -787,7 +881,14 @@ func GetPdf(id string, memberId string, data string) string {
 	})
 	if err != nil {
 		log.Printf("Error in getPDF: %v", err)
-		return `{"success": false, "Error": "getPDF", "message": "We are facing some technical issues, please try again or contact support","error": "` + err.Error() + `"}`
+		errorResponse := map[string]interface{}{
+			"success": false,
+			"Error":   "getPDF",
+			"message": "We are facing some technical issues, please try again or contact support",
+			"error":   err.Error(),
+		}
+		responseBytes, _ := json.Marshal(errorResponse)
+		return string(responseBytes)
 	}
 
 	if response[0] == '!'{
@@ -801,7 +902,14 @@ func GetPdf(id string, memberId string, data string) string {
 			"surveyStatusAlert": PdfGenError,
 		}
 		_, _ = doPost(sreeraguUrl, payload)
-		return `{"success": false, "Error": "getPDF", "message": "We are facing some technical issues, please try again or contact support","error": "` + response + `"}`
+		errorResponse := map[string]interface{}{
+			"success": false,
+			"Error":   "getPDF",
+			"message": "We are facing some technical issues, please try again or contact support",
+			"error":   response,
+		}
+		responseBytes, _ := json.Marshal(errorResponse)
+		return string(responseBytes)
 	}
 	
 	payload := map[string]interface{}{
@@ -827,7 +935,14 @@ func GetRotatedCoords(content string) string {
 	})
 	if err != nil || response[0] == '!' {
 		log.Printf("Error in getRotatedCoords: %v", err)
-		return `{"success": false, "Error": "getRotatedCoords", "message": "We are facing some technical issues, please try again later","error": "` + err.Error() + `"}`
+		errorResponse := map[string]interface{}{
+			"success": false,
+			"Error":   "getRotatedCoords",
+			"message": "We are facing some technical issues, please try again later",
+			"error":   err.Error(),
+		}
+		responseBytes, _ := json.Marshal(errorResponse)
+		return string(responseBytes)
 	}
 	
 	log.Printf("GetRotatedCoords completed successfully")
@@ -843,7 +958,14 @@ func UpdateData(content string) string {
 	})
 	if err != nil {
 		log.Printf("Error in updateData: %v", err)
-		return `{"success": false, "Error": "updateData", "message": "We are facing some technical issues, please try again later","error": "` + err.Error() + `"}`
+		errorResponse := map[string]interface{}{
+			"success": false,
+			"Error":   "updateData",
+			"message": "We are facing some technical issues, please try again later",
+			"error":   err.Error(),
+		}
+		responseBytes, _ := json.Marshal(errorResponse)
+		return string(responseBytes)
 	}
 	
 	log.Printf("UpdateData completed successfully")
@@ -859,7 +981,14 @@ func Selectand_rotate_coords(content string) string {
 	})
 	if err != nil || response[0] == '!' {
 		log.Printf("Error in selectand_rotate_coords: %v", err)
-		return `{"success": false, "Error": "selectand_rotate_coords", "message": "We are facing some technical issues, please try again later","error": "` + err.Error() + `"}`
+		errorResponse := map[string]interface{}{
+			"success": false,
+			"Error":   "selectand_rotate_coords",
+			"message": "We are facing some technical issues, please try again later",
+			"error":   err.Error(),
+		}
+		responseBytes, _ := json.Marshal(errorResponse)
+		return string(responseBytes)
 	}
 	
 	log.Printf("Selectand_rotate_coords completed successfully")
@@ -908,7 +1037,8 @@ func UpdateFromKml(content string) (string, error) {
 
 	UploadToS3(S3jsonname, Localjsonname)
 	os.Remove(Localjsonname)
-	// fmt.Println("S3jsonname", S3jsonname)
+	fmt.Println("S3jsonname", S3jsonname)
 	log.Printf("UpdateFromKml completed successfully")
 	return response, nil
 }
+
