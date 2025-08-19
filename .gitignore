@@ -6,4 +6,6 @@ outputs/
 pdfTemp/
 pydep/__pycache__/
 __pycache__/
+pydep/flipMatch.cpython*
 pydep/data.json
+pydep/data_.json
