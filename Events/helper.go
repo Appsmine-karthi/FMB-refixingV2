@@ -748,8 +748,15 @@ func Extractdata(id string, memberId string, district string, village string, ta
 	return StatusPayload
 }
 
-func GetPdf(id string, memberId string, data string) string {
+func GetPdf(id string, memberId string, data string) map[string]interface{} {
 	log.Printf("Starting GetPdf for id: %s, memberId: %s", id, memberId)
+
+	StatusPayload := map[string]interface{}{
+		"surveyStatus":      "Ready to Survey",
+		"surveyStatusCode":  2,
+		"remarks":           "completed rotation",
+		"surveyStatusAlert": "ready",
+	}
 	
 	response, err := Algs.Pycess(Algs.PyParam{
 		Mod: "getPDF",
@@ -763,43 +770,29 @@ func GetPdf(id string, memberId string, data string) string {
 			"message": "We are facing some technical issues, please try again or contact support",
 			"error":   err.Error(),
 		}
-		responseBytes, _ := json.Marshal(errorResponse)
-		return string(responseBytes)
+		return errorResponse
 	}
 
 	if response[0] == '!'{
 		log.Printf("PDF generation failed: %s", response)
-		payload := map[string]interface{}{
-			"id":                id,
-			"memberId":          memberId,
-			"surveyStatus":      "Processing",
-			"surveyStatusCode":  1,
-			"remarks":           response,
-			"surveyStatusAlert": PdfGenError,
-		}
-		_, _ = doPost(sreeraguUrl, payload)
-		errorResponse := map[string]interface{}{
-			"success": false,
-			"Error":   "getPDF",
-			"message": "We are facing some technical issues, please try again or contact support",
-			"error":   response,
-		}
-		responseBytes, _ := json.Marshal(errorResponse)
-		return string(responseBytes)
+		StatusPayload["id"] = id
+		StatusPayload["memberId"] = memberId
+		StatusPayload["surveyStatus"] = "Processing"
+		StatusPayload["surveyStatusCode"] = 1
+		StatusPayload["remarks"] = response
+		StatusPayload["surveyStatusAlert"] = PdfGenError
+		StatusPayload["success"] = false
+		return StatusPayload
 	}
 	
-	payload := map[string]interface{}{
-		"id":                id,
-		"memberId":          memberId,
-        "editedPDF": response,
-        "surveyStatus": "Completed",
-        "surveyStatusCode": 3,
-        "remarks": "downloaded pdf",
-	}
-	_, _ = doPost(sreeraguUrl, payload)
-
-	log.Printf("GetPdf completed successfully for id: %s", id)
-	return response
+	StatusPayload["id"] = id
+	StatusPayload["memberId"] = memberId
+	StatusPayload["surveyStatus"] = "Completed"
+	StatusPayload["surveyStatusCode"] = 3
+	StatusPayload["remarks"] = "downloaded pdf"
+	StatusPayload["success"] = true
+	StatusPayload["editedPDF"] = response
+	return StatusPayload
 }
 
 func GetRotatedCoords(content string) string {

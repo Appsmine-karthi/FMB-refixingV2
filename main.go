@@ -19,8 +19,8 @@ import (
 // RabbitMQ configuration
 const (
 	RABBITMQ_URL = "amqp://developers:0FOPH594q8oEG@148.113.9.180:5672"
-	REQUEST_QUEUE = "ms_extradata"
-	RESPONSE_QUEUE = "ms_extradata_res"
+	REQUEST_QUEUE = "ms_getpdf"
+	RESPONSE_QUEUE = "ms_getpdf_res"
 )
 
 // RabbitMQ connection and channel
@@ -161,18 +161,9 @@ func processMessage(msg amqp.Delivery) {
 	// Extract data from request (similar to your existing /extractdata endpoint)
 	id, _ := requestData["id"].(string)
 	memberId, _ := requestData["memberId"].(string)
-	
-	var dataMap map[string]interface{}
-	err = json.Unmarshal([]byte(requestData["data"].(string)), &dataMap)	
-	district, _ := dataMap["district"].(string)
-	village, _ := dataMap["village"].(string)
-	taluk, _ := dataMap["taluk"].(string)
-	noOfSubdivision, _ := dataMap["noOfSubdivision"].(string)
-	surveyNo, _ := dataMap["survey_no"].(string)
-	latitude, _ := dataMap["latitude"].(string)
-	longitude, _ := dataMap["longitude"].(string)
+	data, _ := requestData["data"].(string)
 
-	dataStr := Events.Extractdata(id, memberId, district, village, taluk, noOfSubdivision, surveyNo, latitude, longitude)
+	dataStr := Events.GetPdf(id, memberId, data)
 		
 	// Create response in the desired format
 	response := map[string]interface{}{
@@ -301,32 +292,32 @@ func main() {
 	// 	json.NewEncoder(w).Encode(data)
 	// })
 
-	mux.HandleFunc("/getPDF", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != http.MethodPost {
-			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-			return
-		}
-		var body map[string]interface{}
-		err := json.NewDecoder(r.Body).Decode(&body)
-		if err != nil {
-			http.Error(w, "Invalid JSON", http.StatusBadRequest)
-			return
-		}
+	// mux.HandleFunc("/getPDF", func(w http.ResponseWriter, r *http.Request) {
+	// 	if r.Method != http.MethodPost {
+	// 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+	// 		return
+	// 	}
+	// 	var body map[string]interface{}
+	// 	err := json.NewDecoder(r.Body).Decode(&body)
+	// 	if err != nil {
+	// 		http.Error(w, "Invalid JSON", http.StatusBadRequest)
+	// 		return
+	// 	}
 
-		dataStr, err := json.Marshal(body)
-		if err != nil {
-			fmt.Println("Error marshalling data:", err)
-		} 
+	// 	dataStr, err := json.Marshal(body)
+	// 	if err != nil {
+	// 		fmt.Println("Error marshalling data:", err)
+	// 	} 
 		
 
-		id, _ := body["id"].(string)
-		memberId, _ := body["memberId"].(string)
+	// 	id, _ := body["id"].(string)
+	// 	memberId, _ := body["memberId"].(string)
 		
-		response := Events.GetPdf(id, memberId, string(dataStr))
+	// 	response := Events.GetPdf(id, memberId, string(dataStr))
 
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(response)
-	})
+	// 	w.Header().Set("Content-Type", "application/json")
+	// 	json.NewEncoder(w).Encode(response)
+	// })
 	
 	mux.HandleFunc("/getrotated_coords", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
