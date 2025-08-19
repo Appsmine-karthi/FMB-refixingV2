@@ -1,19 +1,19 @@
-LOGO = /home/developers/PRODUCTION/FMB-refixingV2/pydep/logo.png
-LOGO_ICON = /home/developers/PRODUCTION/FMB-refixingV2/pydep/pdfLogo.png
+LOGO = /home/anand/bench/FMB-refixingV2/pydep/logo.png
+LOGO_ICON = /home/anand/bench/FMB-refixingV2/pydep/pdfLogo.png
 
-PDF_TEMP = /home/developers/PRODUCTION/FMB-refixingV2/pdfTemp/
-INPUT_TEMP = /home/developers/PRODUCTION/FMB-refixingV2/inputs/
-OUTPUT_TEMP = /home/developers/PRODUCTION/FMB-refixingV2/outputs/
+PDF_TEMP = /home/anand/bench/FMB-refixingV2/pdfTemp/
+INPUT_TEMP = /home/anand/bench/FMB-refixingV2/inputs/
+OUTPUT_TEMP = /home/anand/bench/FMB-refixingV2/outputs/
 
-NITHISH_URL = https://prod-api.sreeragu.com/api/v2/MobileSurvey/getById
+NITHISH_URL = https://dev-api.sreeragu.com/api/v2/MobileSurvey/getById
 A0_URL = https://a0-fmb.mypropertyqr.in/rurals/
 SURVEY_PREDICT = https://survey.mypropertyqr.in/village/
-SREERAGU_URL = https://prod-api.sreeragu.com/api/v2/MobileSurvey/update
+SREERAGU_URL = https://dev-api.sreeragu.com/api/v2/MobileSurvey/update
 
 S3_DOMAIN = https://mypropertyproduction.s3.amazonaws.com
-S3_JSON_DIR = prod/inputs/
-S3_PDF_DIR = prod/outputs/
-S3_SAT_PDF_DIR = prod/satPdf/
+S3_JSON_DIR = dev/inputs/
+S3_PDF_DIR = dev/outputs/
+S3_SAT_PDF_DIR = dev/satPdf/
 
 AWS_ACCESS_KEY = AKIAQWO5JSUXRPDZJGZP
 AWS_SECRET_KEY = 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
@@ -22,6 +22,7 @@ BUCKET_NAME    = mypropertyproduction
 
 PYTHON_SERVER = http://localhost:6012/process
 OCR_SERVER = http://localhost:6011/ocr
+GO_SERVER_PORT = 5001
 
-CACHED_JSON = true
+CACHED_JSON = false
 CACHED_PDF = true
