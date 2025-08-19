@@ -5,9 +5,6 @@ svgpathtools
 fastapi
 uvicorn[standard]
 python-multipart
-easyocr
-torch
-torchvision
 shapely
 utm
 PyPDF2

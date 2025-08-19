@@ -1,0 +1,9 @@
+opencv-python
+fastapi
+uvicorn[standard]
+python-multipart
+easyocr
+torch
+torchvision
+requests
+gunicorn

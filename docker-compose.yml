@@ -1,0 +1,45 @@
+
+services:
+  gomodule:
+    build:
+      context: .
+      dockerfile: Dockerfile._go
+    ports:
+      - "${GO_SERVER_PORT}:${GO_SERVER_PORT}"
+    volumes:
+      - .env:/app/.env
+    depends_on:
+      - pymodule
+    command: ["./main"]
+  pymodule:
+    build:
+      context: .
+      dockerfile: Dockerfile._pymodule
+    ports:
+      - "${PYMODULE_SERVER_PORT}:${PYMODULE_SERVER_PORT}"
+    volumes:
+      - .env:/app/.env
+    depends_on:
+      - ocr
+    command: [
+      "gunicorn",
+      "--workers", "12",
+      "--bind", "0.0.0.0:${PYMODULE_SERVER_PORT}",
+      "-k", "uvicorn.workers.UvicornWorker",
+      "pymodule:app"
+    ]
+  ocr:
+    build:
+      context: .
+      dockerfile: Dockerfile._pyocr
+    ports:
+      - "${OCR_SERVER_PORT}:${OCR_SERVER_PORT}"
+    volumes:
+      - .env:/app/.env
+    command: [
+      "gunicorn",
+      "--workers", "6",
+      "--bind", "0.0.0.0:${OCR_SERVER_PORT}",
+      "-k", "uvicorn.workers.UvicornWorker",
+      "OCR:app"
+    ]
